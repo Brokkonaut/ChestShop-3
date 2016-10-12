@@ -1,20 +1,23 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.StringUtil;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import com.Acrobot.ChestShop.Utils.uBlock;
+import static com.Acrobot.Breeze.Utils.MaterialUtil.METADATA;
+import static com.Acrobot.Breeze.Utils.MaterialUtil.SHORT_NAME;
+import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
+
+import java.util.regex.Matcher;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.regex.Matcher;
-
-import static com.Acrobot.Breeze.Utils.MaterialUtil.*;
-import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil.Odd;
+import com.Acrobot.Breeze.Utils.StringUtil;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -57,6 +60,17 @@ public class ItemChecker implements Listener {
 
         String metadata = getMetadata(itemCode);
         String longName = MaterialUtil.getName(item);
+
+        if (longName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+            String longNameShorter = StringUtil.capitalizeFirstLetter(longName);
+            longNameShorter = longNameShorter.replace(" ", "");
+            if (longNameShorter.length() <= (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+                if (isSameItem(longNameShorter + metadata, item)) {
+                    event.setSignLine(ITEM_LINE, longNameShorter + metadata);
+                    return;
+                }
+            }
+        }
 
         if (longName.length() <= (MAXIMUM_SIGN_LETTERS - metadata.length())) {
             if (isSameItem(longName + metadata, item)) {

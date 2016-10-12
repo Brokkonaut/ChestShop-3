@@ -1,13 +1,17 @@
 package com.Acrobot.ChestShop.Listeners.Block.Break;
 
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
-import com.google.common.collect.Lists;
+import static com.Acrobot.Breeze.Utils.BlockUtil.getAttachedBlock;
+import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
+import static com.Acrobot.ChestShop.Permission.ADMIN;
+import static com.Acrobot.ChestShop.Permission.MOD;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
+import static com.Acrobot.ChestShop.UUIDs.NameManager.canUseName;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,25 +22,30 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.material.Directional;
 import org.bukkit.material.PistonBaseMaterial;
 import org.bukkit.metadata.FixedMetadataValue;
-import java.util.*;
 
-import static com.Acrobot.Breeze.Utils.BlockUtil.getAttachedBlock;
-import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
-import static com.Acrobot.ChestShop.Permission.ADMIN;
-import static com.Acrobot.ChestShop.Permission.MOD;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
-import static com.Acrobot.ChestShop.UUIDs.NameManager.canUseName;
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
+import com.google.common.collect.Lists;
 
 /**
  * @author Acrobot
  */
 public class SignBreak implements Listener {
-    private static final BlockFace[] SIGN_CONNECTION_FACES = {BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP};
+    private static final BlockFace[] SIGN_CONNECTION_FACES = { BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP };
     private static final String METADATA_NAME = "shop_destroyer";
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -118,7 +127,6 @@ public class SignBreak implements Listener {
         boolean canBeBroken = true;
 
         for (Sign sign : attachedSigns) {
-            sign.update();
 
             if (!canBeBroken || !ChestShopSign.isValid(sign)) {
                 continue;
@@ -194,7 +202,7 @@ public class SignBreak implements Listener {
         return (block != null && !BlockUtil.isSign(block) ? block : null);
     }
 
-    //Those are fixes for CraftBukkit's piston bug, where piston appears not to be a piston.
+    // Those are fixes for CraftBukkit's piston bug, where piston appears not to be a piston.
     private static BlockFace getPistonDirection(Block block) {
         return block.getState().getData() instanceof PistonBaseMaterial ? ((Directional) block.getState().getData()).getFacing() : null;
     }

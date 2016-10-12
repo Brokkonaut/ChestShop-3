@@ -17,28 +17,32 @@ public class BlockUtil {
     /**
      * Checks if the block is a sign
      *
-     * @param block Block to check
+     * @param block
+     *            Block to check
      * @return Is this block a sign?
      */
     public static boolean isSign(Block block) {
-        return block.getType() == Material.SIGN_POST
-                || block.getType() == Material.WALL_SIGN;
+        Material m = block.getType();
+        return m == Material.SIGN_POST || m == Material.WALL_SIGN;
     }
 
     /**
      * Checks if the block is a chest
      *
-     * @param block Block to check
+     * @param block
+     *            Block to check
      * @return Is this block a chest?
      */
     public static boolean isChest(Block block) {
-        return block.getState() instanceof Chest;
+        Material m = block.getType();
+        return m == Material.CHEST || m == Material.TRAPPED_CHEST;
     }
 
     /**
      * Checks if the InventoryHolder is a chest
      *
-     * @param holder Inventory holder to check
+     * @param holder
+     *            Inventory holder to check
      * @return Is this holder a chest?
      */
     public static boolean isChest(InventoryHolder holder) {
@@ -48,7 +52,8 @@ public class BlockUtil {
     /**
      * Gets the block to which the sign is attached
      *
-     * @param sign Sign which is attached
+     * @param sign
+     *            Sign which is attached
      * @return Block to which the sign is attached
      */
     public static Block getAttachedBlock(Sign sign) {
@@ -58,8 +63,10 @@ public class BlockUtil {
     /**
      * Opens the holder's inventory GUI
      *
-     * @param holder Inventory holder
-     * @param player Player on whose screen the GUI is going to be shown
+     * @param holder
+     *            Inventory holder
+     * @param player
+     *            Player on whose screen the GUI is going to be shown
      * @return Was the opening successful?
      */
     public static boolean openBlockGUI(InventoryHolder holder, Player player) {

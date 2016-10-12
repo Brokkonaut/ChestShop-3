@@ -1,9 +1,12 @@
 package com.Acrobot.Breeze.Utils;
 
-import com.Acrobot.ChestShop.ChestShop;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import info.somethingodd.OddItem.OddItem;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bukkit.CoalType;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -11,12 +14,17 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.*;
+import org.bukkit.material.Coal;
+import org.bukkit.material.Colorable;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.Sapling;
+import org.bukkit.material.SpawnEgg;
+import org.bukkit.material.TexturedMaterial;
+import org.bukkit.material.Tree;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.Acrobot.ChestShop.ChestShop;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 
 /**
  * @author Acrobot
@@ -33,7 +41,8 @@ public class MaterialUtil {
     /**
      * Checks if the itemStack is empty or null
      *
-     * @param item Item to check
+     * @param item
+     *            Item to check
      * @return Is the itemStack empty?
      */
     public static boolean isEmpty(ItemStack item) {
@@ -43,8 +52,10 @@ public class MaterialUtil {
     /**
      * Checks if the itemStacks are equal, ignoring their amount
      *
-     * @param one first itemStack
-     * @param two second itemStack
+     * @param one
+     *            first itemStack
+     * @param two
+     *            second itemStack
      * @return Are they equal?
      */
     public static boolean equals(ItemStack one, ItemStack two) {
@@ -54,7 +65,8 @@ public class MaterialUtil {
     /**
      * Gives you a Material from a String (doesn't have to be fully typed in)
      *
-     * @param name Name of the material
+     * @param name
+     *            Name of the material
      * @return Material found
      */
     public static Material getMaterial(String name) {
@@ -69,6 +81,10 @@ public class MaterialUtil {
         if (material != null) {
             MATERIAL_CACHE.put(formatted, material);
             return material;
+        }
+
+        if (AlternativeItemNames.getItem(name) != null) {
+            return null;
         }
 
         short length = Short.MAX_VALUE;
@@ -90,7 +106,8 @@ public class MaterialUtil {
     /**
      * Returns item's name
      *
-     * @param itemStack ItemStack to name
+     * @param itemStack
+     *            ItemStack to name
      * @return ItemStack's name
      */
     public static String getName(ItemStack itemStack) {
@@ -100,11 +117,19 @@ public class MaterialUtil {
     /**
      * Returns item's name
      *
-     * @param itemStack     ItemStack to name
-     * @param showDataValue Should we also show the data value?
+     * @param itemStack
+     *            ItemStack to name
+     * @param showDataValue
+     *            Should we also show the data value?
      * @return ItemStack's name
      */
     public static String getName(ItemStack itemStack, boolean showDataValue) {
+        if (showDataValue) {
+            String alternativeName = AlternativeItemNames.getName(itemStack);
+            if (alternativeName != null) {
+                return alternativeName;
+            }
+        }
         String dataName = DataValue.name(itemStack);
 
         if (dataName != null && showDataValue) {
@@ -117,7 +142,8 @@ public class MaterialUtil {
     /**
      * Returns item's name, just like on the sign
      *
-     * @param itemStack ItemStack to name
+     * @param itemStack
+     *            ItemStack to name
      * @return ItemStack's name
      */
     public static String getSignName(ItemStack itemStack) {
@@ -142,7 +168,8 @@ public class MaterialUtil {
     /**
      * Gives you an ItemStack from a String
      *
-     * @param itemName Item name
+     * @param itemName
+     *            Item name
      * @return ItemStack
      */
     public static ItemStack getItem(String itemName) {
@@ -156,6 +183,14 @@ public class MaterialUtil {
 
         Material material = getMaterial(split[0]);
         short durability = getDurability(itemName);
+
+        if (material == null) {
+            ItemStack stack1 = AlternativeItemNames.getItem(split[0]);
+            if (stack1 != null) {
+                material = stack1.getType();
+                durability = stack1.getDurability();
+            }
+        }
 
         if (material == null) {
             if (!split[0].contains(" ")) {
@@ -194,7 +229,8 @@ public class MaterialUtil {
     /**
      * Returns the durability from a string
      *
-     * @param itemName Item name
+     * @param itemName
+     *            Item name
      * @return Durability found
      */
     public static short getDurability(String itemName) {
@@ -218,7 +254,8 @@ public class MaterialUtil {
     /**
      * Returns metadata from a string
      *
-     * @param itemName Item name
+     * @param itemName
+     *            Item name
      * @return Metadata found
      */
     public static ItemMeta getMetadata(String itemName) {
@@ -236,8 +273,10 @@ public class MaterialUtil {
         /**
          * Gets the data value from a string
          *
-         * @param type     Data Value string
-         * @param material Material
+         * @param type
+         *            Data Value string
+         * @param material
+         *            Material
          * @return data value
          */
         public static byte get(String type, Material material) {
@@ -277,6 +316,12 @@ public class MaterialUtil {
                 } catch (IllegalArgumentException ex) {
                     return 0;
                 }
+            } else if (materialData instanceof Sapling) {
+                try {
+                    return TreeSpecies.valueOf(type).getData();
+                } catch (IllegalArgumentException ex) {
+                    return 0;
+                }
             } else if (materialData instanceof SpawnEgg) {
                 try {
                     EntityType entityType = EntityType.valueOf(type);
@@ -299,7 +344,8 @@ public class MaterialUtil {
         /**
          * Returns a string with the DataValue
          *
-         * @param itemStack ItemStack to describe
+         * @param itemStack
+         *            ItemStack to describe
          * @return Data value string
          */
         public static String name(ItemStack itemStack) {
@@ -316,8 +362,11 @@ public class MaterialUtil {
 
                 return (color != null ? color.name() : null);
             } else if (data instanceof Tree) {
-                //TreeSpecies specie = TreeSpecies.getByData((byte) (data.getData() & 3)); //This works, but not as intended
+                // TreeSpecies specie = TreeSpecies.getByData((byte) (data.getData() & 3)); //This works, but not as intended
                 TreeSpecies specie = ((Tree) data).getSpecies();
+                return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
+            } else if (data instanceof Sapling) {
+                TreeSpecies specie = ((Sapling) data).getSpecies();
                 return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
             } else if (data instanceof SpawnEgg) {
                 EntityType type = ((SpawnEgg) data).getSpawnedType();
@@ -335,7 +384,8 @@ public class MaterialUtil {
         /**
          * Returns the ItemStack represented by this code
          *
-         * @param code Code representing the item
+         * @param code
+         *            Code representing the item
          * @return Item represented by code
          */
         public static ItemMeta getFromCode(String code) {
@@ -351,7 +401,8 @@ public class MaterialUtil {
         /**
          * Returns the code for this item
          *
-         * @param item Item being represented
+         * @param item
+         *            Item being represented
          * @return Code representing the item
          */
         public static String getItemCode(ItemStack item) {
@@ -365,7 +416,8 @@ public class MaterialUtil {
         /**
          * Returns the item stack from OddItem plugin
          *
-         * @param itemName Item name to parse
+         * @param itemName
+         *            Item name to parse
          * @return itemStack that was parsed
          */
         public static ItemStack getFromString(String itemName) {

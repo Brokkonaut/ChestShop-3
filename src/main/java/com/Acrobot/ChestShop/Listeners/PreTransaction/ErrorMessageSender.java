@@ -2,9 +2,11 @@ package com.Acrobot.ChestShop.Listeners.PreTransaction;
 
 import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,18 +55,22 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.NOT_ENOUGH_ITEMS_TO_SELL;
                 break;
             case NOT_ENOUGH_STOCK_IN_CHEST:
-                String messageOutOfStock = Messages.prefix(NOT_ENOUGH_STOCK_IN_YOUR_SHOP)
-                        .replace("%material", getItemNames(event.getStock()))
-                        .replace("%buyer", event.getClient().getName());
-                sendMessageToOwner(event.getOwner(), messageOutOfStock);
+                if(!Toggle.isIgnoring(event.getOwner())) {
+                    String messageOutOfStock = Messages.prefix(NOT_ENOUGH_STOCK_IN_YOUR_SHOP)
+                            .replace("%material", getItemNames(event.getStock()))
+                            .replace("%buyer", event.getClient().getName());
+                    sendMessageToOwner(event.getOwner(), messageOutOfStock);
+                }
                 message = Messages.NOT_ENOUGH_STOCK;
                 break;
             case CLIENT_DEPOSIT_FAILED:
                 message = Messages.CLIENT_DEPOSIT_FAILED;
                 break;
             case SHOP_DEPOSIT_FAILED:
-                String messageDepositFailed = Messages.prefix(CLIENT_DEPOSIT_FAILED);
-                sendMessageToOwner(event.getOwner(), messageDepositFailed);
+                if(!Toggle.isIgnoring(event.getOwner())) {
+                    String messageDepositFailed = Messages.prefix(CLIENT_DEPOSIT_FAILED);
+                    sendMessageToOwner(event.getOwner(), messageDepositFailed);
+                }
                 message = Messages.SHOP_DEPOSIT_FAILED;
                 break;
             case SHOP_IS_RESTRICTED:

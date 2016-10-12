@@ -1,10 +1,7 @@
 package com.Acrobot.ChestShop.Signs;
 
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Containers.AdminInventory;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.regex.Pattern;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
@@ -13,7 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.regex.Pattern;
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Containers.AdminInventory;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -24,12 +25,7 @@ public class ChestShopSign {
     public static final byte PRICE_LINE = 2;
     public static final byte ITEM_LINE = 3;
 
-    public static final Pattern[] SHOP_SIGN_PATTERN = {
-            Pattern.compile("^?[\\w -.]*$"),
-            Pattern.compile("^[1-9][0-9]*$"),
-            Pattern.compile("(?i)^[\\d.bs(free) :]+$"),
-            Pattern.compile("^[\\w? #:-]+$")
-    };
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]*$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
 
     public static boolean isAdminShop(Inventory ownerInventory) {
         return ownerInventory instanceof AdminInventory;
@@ -56,18 +52,10 @@ public class ChestShopSign {
     }
 
     public static boolean isShopChest(Block chest) {
-        if (!BlockUtil.isChest(chest)) {
-            return false;
-        }
-
-        return uBlock.getConnectedSign((Chest) chest.getState()) != null;
+        return uBlock.getConnectedSign(chest) != null;
     }
 
     public static boolean isShopChest(InventoryHolder holder) {
-        if (!BlockUtil.isChest(holder)) {
-            return false;
-        }
-
         if (holder instanceof DoubleChest) {
             return isShopChest(((DoubleChest) holder).getLocation().getBlock());
         } else if (holder instanceof Chest) {
@@ -78,8 +66,12 @@ public class ChestShopSign {
     }
 
     public static boolean canAccess(Player player, Sign sign) {
-        if (player == null) return false;
-        if (sign == null) return true;
+        if (player == null) {
+            return false;
+        }
+        if (sign == null) {
+            return true;
+        }
 
         return NameManager.canUseName(player, sign.getLine(NAME_LINE));
     }
