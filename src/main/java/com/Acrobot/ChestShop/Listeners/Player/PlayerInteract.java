@@ -52,7 +52,7 @@ import com.Acrobot.ChestShop.Utils.uBlock;
  */
 public class PlayerInteract implements Listener {
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public static void onInteract(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
 

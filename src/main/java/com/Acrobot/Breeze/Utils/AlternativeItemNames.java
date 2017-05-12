@@ -77,8 +77,9 @@ public class AlternativeItemNames {
         addItem(Material.DOUBLE_PLANT, 4, "Rose Bush");
         addItem(Material.DOUBLE_PLANT, 5, "Peony");
 
-        addItem(Material.LONG_GRASS, 0, "Tall Grass");
-        addItem(Material.LONG_GRASS, 1, "Fern");
+        addItem(Material.LONG_GRASS, 0, "Shrub");
+        addItem(Material.LONG_GRASS, 1, "Tall Grass");
+        addItem(Material.LONG_GRASS, 2, "Fern");
 
         addItem(Material.SPONGE, 0, "Sponge");
         addItem(Material.SPONGE, 1, "Wet Sponge");
