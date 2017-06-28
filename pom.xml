@@ -6,7 +6,7 @@
 
     <groupId>com.acrobot.chestshop</groupId>
     <artifactId>chestshop</artifactId>
-    <version>3.8.15-brokko</version>
+    <version>3.8.16-brokko</version>
     <description>Chest-and-sign shop plugin for Bukkit</description>
 
     <scm>

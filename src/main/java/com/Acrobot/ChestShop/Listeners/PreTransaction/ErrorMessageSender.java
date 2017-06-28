@@ -1,12 +1,10 @@
 package com.Acrobot.ChestShop.Listeners.PreTransaction;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.ChestShop.Commands.Toggle;
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import static com.Acrobot.ChestShop.Configuration.Messages.CLIENT_DEPOSIT_FAILED;
+import static com.Acrobot.ChestShop.Configuration.Messages.FULL_SHOP_TO_OWNER;
+import static com.Acrobot.ChestShop.Configuration.Messages.NOT_ENOUGH_STOCK_IN_YOUR_SHOP;
 
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +12,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import static com.Acrobot.ChestShop.Configuration.Messages.CLIENT_DEPOSIT_FAILED;
-import static com.Acrobot.ChestShop.Configuration.Messages.NOT_ENOUGH_STOCK_IN_YOUR_SHOP;
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.ChestShop.Commands.Toggle;
+import com.Acrobot.ChestShop.Configuration.Messages;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 
 /**
  * @author Acrobot
@@ -46,6 +48,11 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.NOT_ENOUGH_MONEY_SHOP;
                 break;
             case NOT_ENOUGH_SPACE_IN_CHEST:
+                if (!Toggle.isIgnoring(event.getOwner())) {
+                    Location loc = event.getSign().getLocation();
+                    String messageFull = Messages.prefix(FULL_SHOP_TO_OWNER).replace("%material", getItemNames(event.getStock())).replace("%buyer", event.getClient().getName()).replace("%location", loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
+                    sendMessageToOwner(event.getOwner(), messageFull);
+                }
                 message = Messages.NOT_ENOUGH_SPACE_IN_CHEST;
                 break;
             case NOT_ENOUGH_SPACE_IN_INVENTORY:
@@ -55,10 +62,9 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.NOT_ENOUGH_ITEMS_TO_SELL;
                 break;
             case NOT_ENOUGH_STOCK_IN_CHEST:
-                if(!Toggle.isIgnoring(event.getOwner())) {
-                    String messageOutOfStock = Messages.prefix(NOT_ENOUGH_STOCK_IN_YOUR_SHOP)
-                            .replace("%material", getItemNames(event.getStock()))
-                            .replace("%buyer", event.getClient().getName());
+                if (!Toggle.isIgnoring(event.getOwner())) {
+                    Location loc = event.getSign().getLocation();
+                    String messageOutOfStock = Messages.prefix(NOT_ENOUGH_STOCK_IN_YOUR_SHOP).replace("%material", getItemNames(event.getStock())).replace("%buyer", event.getClient().getName()).replace("%location", loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
                     sendMessageToOwner(event.getOwner(), messageOutOfStock);
                 }
                 message = Messages.NOT_ENOUGH_STOCK;
@@ -67,7 +73,7 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.CLIENT_DEPOSIT_FAILED;
                 break;
             case SHOP_DEPOSIT_FAILED:
-                if(!Toggle.isIgnoring(event.getOwner())) {
+                if (!Toggle.isIgnoring(event.getOwner())) {
                     String messageDepositFailed = Messages.prefix(CLIENT_DEPOSIT_FAILED);
                     sendMessageToOwner(event.getOwner(), messageDepositFailed);
                 }
@@ -94,7 +100,10 @@ public class ErrorMessageSender implements Listener {
         StringBuilder names = new StringBuilder(50);
 
         for (ItemStack item : items) {
-            names.append(MaterialUtil.getName(item)).append(',').append(' ');
+            if (names.length() > 0) {
+                names.append(',').append(' ');
+            }
+            names.append(MaterialUtil.getName(item));
         }
 
         return names.toString();

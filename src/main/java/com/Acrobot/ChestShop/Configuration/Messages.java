@@ -1,7 +1,8 @@
 package com.Acrobot.ChestShop.Configuration;
 
-import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
 import org.bukkit.ChatColor;
+
+import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
 
 /**
  * @author Acrobot
@@ -32,7 +33,8 @@ public class Messages {
 
     @PrecededBySpace
     public static String NOT_ENOUGH_STOCK = "This shop is out of stock.";
-    public static String NOT_ENOUGH_STOCK_IN_YOUR_SHOP = "Your %material shop is out of stock!";
+    public static String NOT_ENOUGH_STOCK_IN_YOUR_SHOP = "Your %material shop as %location is out of stock!";
+    public static String FULL_SHOP_TO_OWNER = "Your %material shop at %location is full!";
 
     @PrecededBySpace
     public static String YOU_BOUGHT_FROM_SHOP = "You bought %item from %owner for %price.";
