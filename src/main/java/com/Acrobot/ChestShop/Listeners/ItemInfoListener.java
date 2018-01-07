@@ -1,6 +1,11 @@
 package com.Acrobot.ChestShop.Listeners;
 
-import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import static com.Acrobot.Breeze.Utils.NumberUtil.toRoman;
+import static com.Acrobot.Breeze.Utils.NumberUtil.toTime;
+import static com.Acrobot.Breeze.Utils.StringUtil.capitalizeFirstLetter;
+
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -8,14 +13,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.Map;
-
-import static com.Acrobot.Breeze.Utils.NumberUtil.toRoman;
-import static com.Acrobot.Breeze.Utils.NumberUtil.toTime;
-import static com.Acrobot.Breeze.Utils.StringUtil.capitalizeFirstLetter;
+import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 
 /**
  * @author Acrobot
@@ -25,11 +29,27 @@ public class ItemInfoListener implements Listener {
     public static void addEnchantment(ItemInfoEvent event) {
         ItemStack item = event.getItem();
         CommandSender sender = event.getSender();
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta instanceof Repairable) {
+            Repairable repairable = (Repairable) meta;
+            if (repairable.hasRepairCost()) {
+                sender.sendMessage(ChatColor.RED + "Repair Cost: " + repairable.getRepairCost());
+            }
+        }
 
         Map<Enchantment, Integer> enchantments = item.getEnchantments();
-
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
+        }
+
+        if (item instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta ench = (EnchantmentStorageMeta) item;
+            if (ench.hasStoredEnchants()) {
+                for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
+                    sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
+                }
+            }
         }
     }
 
