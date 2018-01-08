@@ -19,12 +19,24 @@ import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 
+import com.Acrobot.Breeze.Utils.EnchantmentNames;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 
 /**
  * @author Acrobot
  */
 public class ItemInfoListener implements Listener {
+    @EventHandler
+    public static void addName(ItemInfoEvent event) {
+        ItemStack item = event.getItem();
+        CommandSender sender = event.getSender();
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta.hasDisplayName()) {
+            sender.sendMessage(ChatColor.DARK_GRAY + "Name: " + meta.getDisplayName());
+        }
+    }
+
     @EventHandler
     public static void addEnchantment(ItemInfoEvent event) {
         ItemStack item = event.getItem();
@@ -40,14 +52,14 @@ public class ItemInfoListener implements Listener {
 
         Map<Enchantment, Integer> enchantments = item.getEnchantments();
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
-            sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
+            sender.sendMessage(ChatColor.DARK_GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
         }
 
         if (meta instanceof EnchantmentStorageMeta) {
             EnchantmentStorageMeta ench = (EnchantmentStorageMeta) meta;
             if (ench.hasStoredEnchants()) {
                 for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
-                    sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
+                    sender.sendMessage(ChatColor.DARK_GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
                 }
             }
         }
