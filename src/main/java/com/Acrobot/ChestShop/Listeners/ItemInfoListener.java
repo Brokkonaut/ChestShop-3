@@ -43,8 +43,8 @@ public class ItemInfoListener implements Listener {
             sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
         }
 
-        if (item instanceof EnchantmentStorageMeta) {
-            EnchantmentStorageMeta ench = (EnchantmentStorageMeta) item;
+        if (meta instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta ench = (EnchantmentStorageMeta) meta;
             if (ench.hasStoredEnchants()) {
                 for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
                     sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(enchantment.getKey().getName(), '_') + ' ' + toRoman(enchantment.getValue()));
