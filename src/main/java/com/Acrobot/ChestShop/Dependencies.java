@@ -1,15 +1,22 @@
 package com.Acrobot.ChestShop;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Listeners.Economy.Plugins.VaultListener;
-import com.Acrobot.ChestShop.Plugins.*;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Listeners.Economy.Plugins.VaultListener;
+import com.Acrobot.ChestShop.Plugins.Deadbolt;
+import com.Acrobot.ChestShop.Plugins.LightweightChestProtection;
+import com.Acrobot.ChestShop.Plugins.Lockette;
+import com.Acrobot.ChestShop.Plugins.ResidenceChestProtection;
+import com.Acrobot.ChestShop.Plugins.SimpleChestLock;
+import com.Acrobot.ChestShop.Plugins.WorldGuardBuilding;
+import com.Acrobot.ChestShop.Plugins.WorldGuardProtection;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 /**
  * @author Acrobot
@@ -41,7 +48,7 @@ public class Dependencies {
         ChestShop.getBukkitLogger().info(plugin + " loaded! Found an economy plugin!");
     }
 
-    private static void initializePlugin(String name, Plugin plugin) { //Really messy, right? But it's short and fast :)
+    private static void initializePlugin(String name, Plugin plugin) { // Really messy, right? But it's short and fast :)
         Dependency dependency;
 
         try {
@@ -53,7 +60,7 @@ public class Dependencies {
         Listener listener = null;
 
         switch (dependency) {
-            //Protection plugins
+            // Protection plugins
             case LWC:
                 listener = new LightweightChestProtection();
                 break;
@@ -68,8 +75,7 @@ public class Dependencies {
                 break;
             case Residence:
                 if (plugin.getDescription().getVersion().startsWith("2")) {
-                    ChestShop.getBukkitLogger().severe("You are using an old version of Residence! " +
-                            "Please update to the newest one, which supports UUIDs: http://ci.drtshock.net/job/Residence/");
+                    ChestShop.getBukkitLogger().severe("You are using an old version of Residence! " + "Please update to the newest one, which supports UUIDs: http://ci.drtshock.net/job/Residence/");
 
                     break;
                 }
@@ -77,7 +83,7 @@ public class Dependencies {
                 listener = new ResidenceChestProtection();
                 break;
 
-            //Terrain protection plugins
+            // Terrain protection plugins
             case WorldGuard:
                 WorldGuardPlugin worldGuard = (WorldGuardPlugin) plugin;
                 boolean inUse = Properties.WORLDGUARD_USE_PROTECTION || Properties.WORLDGUARD_INTEGRATION;
@@ -96,16 +102,7 @@ public class Dependencies {
 
                 break;
 
-            //Other plugins
-            case Heroes:
-                Heroes heroes = Heroes.getHeroes(plugin);
-
-                if (heroes == null) {
-                    return;
-                }
-
-                listener = heroes;
-                break;
+            // Other plugins
             case OddItem:
                 MaterialUtil.Odd.initialize();
                 break;
@@ -120,11 +117,7 @@ public class Dependencies {
     }
 
     private static enum Dependency {
-        LWC,
-        Lockette,
-        Deadbolt,
-        SimpleChestLock,
-        Residence,
+        LWC, Lockette, Deadbolt, SimpleChestLock, Residence,
 
         OddItem,
 
