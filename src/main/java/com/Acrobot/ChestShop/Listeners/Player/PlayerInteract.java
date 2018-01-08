@@ -2,6 +2,7 @@ package com.Acrobot.ChestShop.Listeners.Player;
 
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
+import static com.Acrobot.ChestShop.Configuration.Messages.iteminfo;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
@@ -14,6 +15,7 @@ import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -36,9 +38,11 @@ import com.Acrobot.Breeze.Utils.NumberUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Security;
+import com.Acrobot.ChestShop.Commands.ItemInfo;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
+import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
@@ -86,6 +90,13 @@ public class PlayerInteract implements Listener {
             return;
         }
 
+        if (event.getPlayer().isSneaking()) {
+            if (action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) {
+                showSoldItem(player, sign);
+            }
+            return;
+        }
+
         if (ChestShopSign.canAccess(player, sign)) {
             if (!Properties.ALLOW_SIGN_CHEST_OPEN || player.isSneaking() || player.isInsideVehicle() || player.getGameMode() == GameMode.CREATIVE) {
                 return;
@@ -117,6 +128,29 @@ public class PlayerInteract implements Listener {
 
         TransactionEvent tEvent = new TransactionEvent(pEvent, sign);
         Bukkit.getPluginManager().callEvent(tEvent);
+    }
+
+    private static void showSoldItem(Player player, Sign sign) {
+        String material = sign.getLine(ITEM_LINE);
+        ItemStack item = MaterialUtil.getItem(material);
+
+        if (MaterialUtil.isEmpty(item)) {
+            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+        }
+
+        String durability = ItemInfo.getDurability(item);
+        String metadata = ItemInfo.getMetadata(item);
+
+        player.sendMessage(Messages.prefix(iteminfo));
+        player.sendMessage(ItemInfo.getNameAndID(item) + durability + metadata + ChatColor.WHITE);
+
+        ItemInfoEvent event = new ItemInfoEvent(player, item);
+        int maxdurability = item.getType().getMaxDurability();
+        if (maxdurability > 0) {
+            int remainingDurability = maxdurability - item.getDurability();
+            player.sendMessage(ChatColor.RED + "Durability: " + remainingDurability + "/" + maxdurability);
+        }
+        com.Acrobot.ChestShop.ChestShop.callEvent(event);
     }
 
     private static PreTransactionEvent preparePreTransactionEvent(Sign sign, Player player, Action action) {
