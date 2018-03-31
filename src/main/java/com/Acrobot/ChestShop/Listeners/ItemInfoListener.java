@@ -15,11 +15,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
-import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 
 import com.Acrobot.Breeze.Utils.EnchantmentNames;
+import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 
 /**
@@ -46,7 +48,7 @@ public class ItemInfoListener implements Listener {
         if (meta instanceof Repairable) {
             Repairable repairable = (Repairable) meta;
             if (repairable.hasRepairCost()) {
-                sender.sendMessage(ChatColor.RED + "Repair Cost: " + repairable.getRepairCost());
+                sender.sendMessage(ChatColor.RED + "Additional Repair Cost: " + repairable.getRepairCost());
             }
         }
 
@@ -68,41 +70,48 @@ public class ItemInfoListener implements Listener {
     @EventHandler
     public static void addPotionInfo(ItemInfoEvent event) {
         ItemStack item = event.getItem();
-
-        if (item.getType() != Material.POTION || item.getDurability() == 0) {
+        Material t = item.getType();
+        if (t != Material.POTION && t != Material.SPLASH_POTION && t != Material.LINGERING_POTION) {
             return;
         }
 
-        Potion potion;
-
-        try {
-            potion = Potion.fromItemStack(item);
-        } catch (IllegalArgumentException ex) {
+        ItemMeta meta = item.getItemMeta();
+        if (!(meta instanceof PotionMeta)) {
             return;
         }
+
+        PotionMeta potion = (PotionMeta) meta;
 
         StringBuilder message = new StringBuilder(50);
 
         message.append(ChatColor.GRAY);
 
-        if (potion.getType() == null) {
+        PotionData base = potion.getBasePotionData();
+        if (base == null) {
             return;
         }
 
-        if (potion.isSplash()) {
+        if (base.isExtended()) {
+            message.append("Extended ");
+        }
+        if (t == Material.SPLASH_POTION) {
             message.append("Splash ");
         }
+        if (t == Material.LINGERING_POTION) {
+            message.append("Lingering ");
+        }
 
-        message.append("Potion of ");
-        message.append(capitalizeFirstLetter(potion.getType().name(), '_')).append(' ');
-        message.append(toRoman(potion.getLevel()));
-
+        message.append(PotionNames.getName(base.getType())).append(' ');
+        if (base.isUpgraded()) {
+            message.append("II ");
+        }
         CommandSender sender = event.getSender();
 
         sender.sendMessage(message.toString());
-
-        for (PotionEffect effect : potion.getEffects()) {
-            sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
+        if (potion.hasCustomEffects()) {
+            for (PotionEffect effect : potion.getCustomEffects()) {
+                sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
+            }
         }
     }
 }
