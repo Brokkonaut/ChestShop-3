@@ -28,7 +28,7 @@ public class ItemInfo implements CommandExecutor {
                 return false;
             }
 
-            item = ((HumanEntity) sender).getItemInHand();
+            item = ((HumanEntity) sender).getInventory().getItemInMainHand();
         } else {
             item = MaterialUtil.getItem(StringUtil.joinArray(args));
         }
@@ -57,7 +57,7 @@ public class ItemInfo implements CommandExecutor {
     public static String getNameAndID(ItemStack item) {
         String itemName = MaterialUtil.getName(item);
 
-        return ChatColor.GRAY + itemName + ChatColor.WHITE + "      " + item.getTypeId();
+        return ChatColor.GRAY + itemName + ChatColor.WHITE + "      " + item.getType().name();
     }
 
     public static String getDurability(ItemStack item) {

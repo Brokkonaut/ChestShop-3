@@ -1,20 +1,21 @@
 package com.Acrobot.ChestShop.Listeners.Modules;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_PRICE;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
-import java.io.IOException;
-
-import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_PRICE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 
 /**
  * @author Acrobot
@@ -55,7 +56,7 @@ public class PriceRestrictionModule implements Listener {
             return;
         }
 
-        int itemID = material.getTypeId();
+        String itemID = material.getType().name().toLowerCase();
         int amount = material.getAmount();
 
         if (PriceUtil.hasBuyPrice(event.getSignLine(PRICE_LINE))) {

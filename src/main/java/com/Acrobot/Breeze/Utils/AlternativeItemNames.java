@@ -107,7 +107,7 @@ public class AlternativeItemNames {
     }
 
     private static void addItem(Material material, int data, String name) {
-        String idString = material.getId() + ":" + data;
+        String idString = material.name() + ":" + data;
         if (!itemIdToName.containsKey(idString)) {
             itemIdToName.put(idString, name);
         }
@@ -119,7 +119,7 @@ public class AlternativeItemNames {
         if (stack == null) {
             return null;
         }
-        String idString = stack.getType().getId() + ":" + stack.getData().getData();
+        String idString = stack.getType().name() + ":" + stack.getData().getData();
         return itemIdToName.get(idString);
     }
 

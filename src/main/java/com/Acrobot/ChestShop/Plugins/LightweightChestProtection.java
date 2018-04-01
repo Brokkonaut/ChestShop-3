@@ -99,7 +99,7 @@ public class LightweightChestProtection implements Listener {
             return;
         }
 
-        Protection protection = lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), Protection.Type.PRIVATE, worldName, player.getUniqueId().toString(), "", x, y, z);
+        Protection protection = lwc.getPhysicalDatabase().registerProtection(block.getType(), Protection.Type.PRIVATE, worldName, player.getUniqueId().toString(), "", x, y, z);
 
         if (protection != null) {
             event.setProtected(true);
