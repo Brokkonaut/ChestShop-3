@@ -1,7 +1,5 @@
 package com.Acrobot.Breeze.Utils;
 
-import info.somethingodd.OddItem.OddItem;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -69,7 +67,7 @@ public class MaterialUtil {
      *            Name of the material
      * @return Material found
      */
-    public static Material getMaterial(String name) {
+    private static Material getMaterial(String name) {
         String formatted = name.replaceAll(" |_", "").toUpperCase();
 
         if (MATERIAL_CACHE.containsKey(formatted)) {
@@ -173,11 +171,7 @@ public class MaterialUtil {
      * @return ItemStack
      */
     public static ItemStack getItem(String itemName) {
-        ItemStack itemStack = Odd.getFromString(itemName);
-
-        if (itemStack != null) {
-            return itemStack;
-        }
+        ItemStack itemStack;
 
         String[] split = Iterables.toArray(Splitter.onPattern(":|-|#").trimResults().split(itemName), String.class);
 
@@ -233,7 +227,7 @@ public class MaterialUtil {
      *            Item name
      * @return Durability found
      */
-    public static short getDurability(String itemName) {
+    private static short getDurability(String itemName) {
         Matcher m = DURABILITY.matcher(itemName);
 
         if (!m.find()) {
@@ -258,7 +252,7 @@ public class MaterialUtil {
      *            Item name
      * @return Metadata found
      */
-    public static ItemMeta getMetadata(String itemName) {
+    private static ItemMeta getMetadata(String itemName) {
         Matcher m = METADATA.matcher(itemName);
 
         if (!m.find()) {
@@ -407,38 +401,6 @@ public class MaterialUtil {
          */
         public static String getItemCode(ItemStack item) {
             return ChestShop.getItemDatabase().getItemCode(item);
-        }
-    }
-
-    public static class Odd {
-        private static boolean isInitialized = false;
-
-        /**
-         * Returns the item stack from OddItem plugin
-         *
-         * @param itemName
-         *            Item name to parse
-         * @return itemStack that was parsed
-         */
-        public static ItemStack getFromString(String itemName) {
-            if (!isInitialized) {
-                return null;
-            }
-
-            String name = itemName.replace(':', ';');
-
-            try {
-                return OddItem.getItemStack(name);
-            } catch (Exception ex) {
-                return null;
-            }
-        }
-
-        /**
-         * Lets the class know that it's safe to use the OddItem methods now
-         */
-        public static void initialize() {
-            isInitialized = true;
         }
     }
 }

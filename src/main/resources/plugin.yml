@@ -13,7 +13,7 @@ description: >
              A chest shop for economy plugins.
 
 depend: [Vault]
-softdepend: [LWC, Lockette, Deadbolt, OddItem, WorldGuard, Heroes, SimpleChestLock, Residence]
+softdepend: [LWC, Lockette, Deadbolt, WorldGuard, SimpleChestLock, Residence]
 
 commands:
   iteminfo:

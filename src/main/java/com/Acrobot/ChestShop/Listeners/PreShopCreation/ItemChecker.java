@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil.Odd;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
@@ -30,10 +29,6 @@ public class ItemChecker implements Listener {
     public static void onPreShopCreation(PreShopCreationEvent event) {
         String itemCode = event.getSignLine(ITEM_LINE);
         ItemStack item = MaterialUtil.getItem(itemCode);
-
-        if (Odd.getFromString(itemCode) != null) {
-            return; // The OddItem name is OK
-        }
 
         if (item == null) {
             boolean foundItem = false;

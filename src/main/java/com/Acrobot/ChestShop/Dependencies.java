@@ -6,7 +6,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Listeners.Economy.Plugins.VaultListener;
 import com.Acrobot.ChestShop.Plugins.Deadbolt;
@@ -102,10 +101,6 @@ public class Dependencies {
 
                 break;
 
-            // Other plugins
-            case OddItem:
-                MaterialUtil.Odd.initialize();
-                break;
         }
 
         if (listener != null) {
@@ -119,10 +114,6 @@ public class Dependencies {
     private static enum Dependency {
         LWC, Lockette, Deadbolt, SimpleChestLock, Residence,
 
-        OddItem,
-
         WorldGuard,
-
-        Heroes
     }
 }
