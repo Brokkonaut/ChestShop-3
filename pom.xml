@@ -5,7 +5,7 @@
 
 	<groupId>com.acrobot.chestshop</groupId>
 	<artifactId>chestshop</artifactId>
-	<version>3.8.17-brokko</version>
+	<version>3.8.18-brokko</version>
 	<description>Chest-and-sign shop plugin for Bukkit</description>
 
 	<scm>
@@ -56,14 +56,14 @@
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>
 			<artifactId>ormlite-jdbc</artifactId>
-			<version>4.48</version>
+			<version>5.1</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.0-beta9</version>
+			<version>2.11.0</version>
 			<scope>compile</scope>
 		</dependency>
 
