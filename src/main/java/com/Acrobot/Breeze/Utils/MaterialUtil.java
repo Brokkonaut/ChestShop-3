@@ -9,14 +9,12 @@ import org.bukkit.CoalType;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Coal;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sapling;
-import org.bukkit.material.SpawnEgg;
 import org.bukkit.material.TexturedMaterial;
 import org.bukkit.material.Tree;
 
@@ -316,14 +314,6 @@ public class MaterialUtil {
                 } catch (IllegalArgumentException ex) {
                     return 0;
                 }
-            } else if (materialData instanceof SpawnEgg) {
-                try {
-                    EntityType entityType = EntityType.valueOf(type);
-
-                    return (byte) entityType.getTypeId();
-                } catch (IllegalArgumentException ex) {
-                    return 0;
-                }
             } else if (materialData instanceof Coal) {
                 try {
                     return CoalType.valueOf(type).getData();
@@ -362,9 +352,6 @@ public class MaterialUtil {
             } else if (data instanceof Sapling) {
                 TreeSpecies specie = ((Sapling) data).getSpecies();
                 return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
-            } else if (data instanceof SpawnEgg) {
-                EntityType type = ((SpawnEgg) data).getSpawnedType();
-                return (type != null ? type.name() : null);
             } else if (data instanceof Coal) {
                 CoalType coal = ((Coal) data).getType();
                 return (coal != null && coal != CoalType.COAL ? coal.name() : null);
