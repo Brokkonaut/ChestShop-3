@@ -79,7 +79,7 @@ public class uBlock {
         return null;
     }
 
-    public static Sign findAnyNearbyShopSign(Block block) {
+    private static Sign findAnyNearbyShopSign(Block block) {
         for (BlockFace bf : SHOP_FACES) {
             Block faceBlock = block.getRelative(bf);
 
@@ -106,9 +106,5 @@ public class uBlock {
         }
 
         return null;
-    }
-
-    private static boolean signIsAttachedToBlock(Sign sign, Block block) {
-        return sign.getBlock().equals(block) || BlockUtil.getAttachedBlock(sign).equals(block);
     }
 }
