@@ -104,7 +104,7 @@ public class PlayerInteract implements Listener {
 
             if (!Properties.ALLOW_LEFT_CLICK_DESTROYING || action != LEFT_CLICK_BLOCK) {
                 event.setCancelled(true);
-                showChestGUI(player, block);
+                showChestGUI(player, sign);
             }
 
             return;
@@ -227,15 +227,15 @@ public class PlayerInteract implements Listener {
         return Permission.has(player, Permission.ADMIN) || Permission.has(player, Permission.MOD);
     }
 
-    private static void showChestGUI(Player player, Block signBlock) {
-        Chest chest = uBlock.findConnectedChest(signBlock);
+    private static void showChestGUI(Player player, Sign sign) {
+        Chest chest = uBlock.findConnectedChest(sign);
 
         if (chest == null) {
             player.sendMessage(Messages.prefix(Messages.NO_CHEST_DETECTED));
             return;
         }
 
-        if (!canOpenOtherShops(player) && !Security.canAccess(player, signBlock)) {
+        if (!canOpenOtherShops(player) && !Security.canAccess(player, sign.getBlock())) {
             return;
         }
 

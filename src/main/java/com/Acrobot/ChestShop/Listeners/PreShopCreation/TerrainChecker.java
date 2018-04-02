@@ -41,7 +41,7 @@ public class TerrainChecker implements Listener {
             return;
         }
 
-        Chest connectedChest = uBlock.findConnectedChest(event.getSign().getBlock());
+        Chest connectedChest = uBlock.findConnectedChest(event.getSign());
         Location chestLocation = (connectedChest != null ? connectedChest.getLocation() : null);
 
         BuildPermissionEvent bEvent = new BuildPermissionEvent(player, chestLocation, event.getSign().getLocation());

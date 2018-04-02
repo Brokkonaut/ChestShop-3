@@ -29,7 +29,7 @@ public class ChestChecker implements Listener {
             return;
         }
 
-        Chest connectedChest = uBlock.findConnectedChest(event.getSign().getBlock());
+        Chest connectedChest = uBlock.findConnectedChest(event.getSign());
 
         if (connectedChest == null) {
             event.setOutcome(NO_CHEST);

@@ -162,7 +162,7 @@ public class SignBreak implements Listener {
         Chest connectedChest = null;
 
         if (!ChestShopSign.isAdminShop(sign)) {
-            connectedChest = uBlock.findConnectedChest(sign.getBlock());
+            connectedChest = uBlock.findConnectedChest(sign);
         }
 
         Event event = new ShopDestroyedEvent(player, sign, connectedChest);
