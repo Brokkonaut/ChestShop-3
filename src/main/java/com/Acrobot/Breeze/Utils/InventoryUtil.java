@@ -28,7 +28,7 @@ public class InventoryUtil {
             return Integer.MAX_VALUE;
         }
 
-        HashMap<Integer, ? extends ItemStack> items = inventory.all(item);
+        HashMap<Integer, ? extends ItemStack> items = inventory.all(item.getType());
         int itemAmount = 0;
 
         for (ItemStack iStack : items.values()) {
