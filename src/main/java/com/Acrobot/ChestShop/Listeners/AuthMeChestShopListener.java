@@ -8,11 +8,11 @@ import org.bukkit.event.Listener;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome;
 
-import fr.xephi.authme.api.NewAPI;
+import fr.xephi.authme.api.v3.AuthMeApi;
 
 public class AuthMeChestShopListener implements Listener {
 
-    NewAPI AuthMeAPI = NewAPI.getInstance();
+    AuthMeApi AuthMeAPI = AuthMeApi.getInstance();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPreTransaction(PreTransactionEvent event) {
