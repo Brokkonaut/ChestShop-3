@@ -275,55 +275,53 @@ public class MaterialUtil {
             if (material == null || material.getData() == null) {
                 return 0;
             }
-            try {
-                type = type.toUpperCase().replace(" ", "_");
 
-                MaterialData materialData = material.getNewData((byte) 0);
+            type = type.toUpperCase().replace(" ", "_");
 
-                if (materialData instanceof TexturedMaterial) {
-                    TexturedMaterial texturedMaterial = (TexturedMaterial) materialData;
+            MaterialData materialData = material.getNewData((byte) 0);
 
-                    for (Material mat : texturedMaterial.getTextures()) {
-                        if (mat.name().startsWith(type) && !mat.equals(material)) {
-                            return (byte) texturedMaterial.getTextures().indexOf(mat);
-                        }
-                    }
-                } else if (materialData instanceof Colorable) {
-                    DyeColor color;
+            if (materialData instanceof TexturedMaterial) {
+                TexturedMaterial texturedMaterial = (TexturedMaterial) materialData;
 
-                    try {
-                        color = DyeColor.valueOf(type);
-                    } catch (IllegalArgumentException exception) {
-                        return 0;
-                    }
-
-                    if (material == Material.INK_SACK) {
-                        return color.getDyeData();
-                    }
-
-                    return color.getWoolData();
-                } else if (materialData instanceof Tree) {
-                    try {
-                        return TreeSpecies.valueOf(type).getData();
-                    } catch (IllegalArgumentException ex) {
-                        return 0;
-                    }
-                } else if (materialData instanceof Sapling) {
-                    try {
-                        return TreeSpecies.valueOf(type).getData();
-                    } catch (IllegalArgumentException ex) {
-                        return 0;
-                    }
-                } else if (materialData instanceof Coal) {
-                    try {
-                        return CoalType.valueOf(type).getData();
-                    } catch (IllegalArgumentException ex) {
-                        return 0;
+                for (Material mat : texturedMaterial.getTextures()) {
+                    if (mat.name().startsWith(type) && !mat.equals(material)) {
+                        return (byte) texturedMaterial.getTextures().indexOf(mat);
                     }
                 }
-            } catch (Throwable t) {
-                return 0; // catch all for old bukkit version
+            } else if (materialData instanceof Colorable) {
+                DyeColor color;
+
+                try {
+                    color = DyeColor.valueOf(type);
+                } catch (IllegalArgumentException exception) {
+                    return 0;
+                }
+
+                if (material == Material.INK_SACK) {
+                    return color.getDyeData();
+                }
+
+                return color.getWoolData();
+            } else if (materialData instanceof Tree) {
+                try {
+                    return TreeSpecies.valueOf(type).getData();
+                } catch (IllegalArgumentException ex) {
+                    return 0;
+                }
+            } else if (materialData instanceof Sapling) {
+                try {
+                    return TreeSpecies.valueOf(type).getData();
+                } catch (IllegalArgumentException ex) {
+                    return 0;
+                }
+            } else if (materialData instanceof Coal) {
+                try {
+                    return CoalType.valueOf(type).getData();
+                } catch (IllegalArgumentException ex) {
+                    return 0;
+                }
             }
+
             return 0;
         }
 
@@ -335,34 +333,30 @@ public class MaterialUtil {
          * @return Data value string
          */
         public static String name(ItemStack itemStack) {
-            try {
-                MaterialData data = itemStack.getData();
+            MaterialData data = itemStack.getData();
 
-                if (data == null) {
-                    return null;
-                }
+            if (data == null) {
+                return null;
+            }
 
-                if (data instanceof TexturedMaterial) {
-                    return ((TexturedMaterial) data).getMaterial().name();
-                } else if (data instanceof Colorable) {
-                    DyeColor color = ((Colorable) data).getColor();
+            if (data instanceof TexturedMaterial) {
+                return ((TexturedMaterial) data).getMaterial().name();
+            } else if (data instanceof Colorable) {
+                DyeColor color = ((Colorable) data).getColor();
 
-                    return (color != null ? color.name() : null);
-                } else if (data instanceof Tree) {
-                    // TreeSpecies specie = TreeSpecies.getByData((byte) (data.getData() & 3)); //This works, but not as intended
-                    TreeSpecies specie = ((Tree) data).getSpecies();
-                    return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
-                } else if (data instanceof Sapling) {
-                    TreeSpecies specie = ((Sapling) data).getSpecies();
-                    return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
-                } else if (data instanceof Coal) {
-                    CoalType coal = ((Coal) data).getType();
-                    return (coal != null && coal != CoalType.COAL ? coal.name() : null);
-                } else {
-                    return null;
-                }
-            } catch (Throwable t) {
-                return null; // catch all for old bukkit version
+                return (color != null ? color.name() : null);
+            } else if (data instanceof Tree) {
+                // TreeSpecies specie = TreeSpecies.getByData((byte) (data.getData() & 3)); //This works, but not as intended
+                TreeSpecies specie = ((Tree) data).getSpecies();
+                return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
+            } else if (data instanceof Sapling) {
+                TreeSpecies specie = ((Sapling) data).getSpecies();
+                return (specie != null && specie != TreeSpecies.GENERIC ? specie.name() : null);
+            } else if (data instanceof Coal) {
+                CoalType coal = ((Coal) data).getType();
+                return (coal != null && coal != CoalType.COAL ? coal.name() : null);
+            } else {
+                return null;
             }
         }
     }
