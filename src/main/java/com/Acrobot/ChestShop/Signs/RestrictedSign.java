@@ -22,7 +22,7 @@ import static com.Acrobot.ChestShop.Permission.ADMIN;
  * @author Acrobot
  */
 public class RestrictedSign implements Listener {
-    private static final BlockFace[] SIGN_CONNECTION_FACES = {BlockFace.SELF, BlockFace.UP, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH};
+    private static final BlockFace[] SIGN_CONNECTION_FACES = { BlockFace.SELF, BlockFace.UP, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
 
     @EventHandler(ignoreCancelled = true)
     public static void onBlockDestroy(BlockBreakEvent event) {
@@ -110,7 +110,7 @@ public class RestrictedSign implements Listener {
             }
         }
 
-        return null; //No sign found
+        return null; // No sign found
     }
 
     public static boolean isRestrictedShop(Sign sign) {

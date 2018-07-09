@@ -46,7 +46,8 @@ public class PreShopCreationEvent extends Event {
     /**
      * Sets the event's outcome
      *
-     * @param outcome Outcome
+     * @param outcome
+     *            Outcome
      */
     public void setOutcome(CreationOutcome outcome) {
         this.outcome = outcome;
@@ -55,7 +56,8 @@ public class PreShopCreationEvent extends Event {
     /**
      * Sets the shop's creator
      *
-     * @param creator Shop's creator
+     * @param creator
+     *            Shop's creator
      */
     public void setCreator(Player creator) {
         this.creator = creator;
@@ -64,7 +66,8 @@ public class PreShopCreationEvent extends Event {
     /**
      * Sets the sign attached to the shop
      *
-     * @param sign Shop sign
+     * @param sign
+     *            Shop sign
      */
     public void setSign(Sign sign) {
         this.sign = sign;
@@ -73,7 +76,8 @@ public class PreShopCreationEvent extends Event {
     /**
      * Sets the text on the sign
      *
-     * @param signLines Text to set
+     * @param signLines
+     *            Text to set
      */
     public void setSignLines(String[] signLines) {
         this.signLines = signLines;
@@ -82,8 +86,10 @@ public class PreShopCreationEvent extends Event {
     /**
      * Sets one of the lines on the sign
      *
-     * @param line Line number to set (0-3)
-     * @param text Text to set
+     * @param line
+     *            Line number to set (0-3)
+     * @param text
+     *            Text to set
      */
     public void setSignLine(byte line, String text) {
         this.signLines[line] = text;
@@ -110,7 +116,8 @@ public class PreShopCreationEvent extends Event {
     /**
      * Returns the text on the sign
      *
-     * @param line Line number (0-3)
+     * @param line
+     *            Line number (0-3)
      * @return Text on the sign
      */
     public String getSignLine(byte line) {
@@ -138,17 +145,13 @@ public class PreShopCreationEvent extends Event {
      * Possible outcomes
      */
     public static enum CreationOutcome {
-        INVALID_ITEM,
-        INVALID_PRICE,
-        INVALID_QUANTITY,
+        INVALID_ITEM, INVALID_PRICE, INVALID_QUANTITY,
 
         SELL_PRICE_HIGHER_THAN_BUY_PRICE,
 
         NO_CHEST,
 
-        NO_PERMISSION,
-        NO_PERMISSION_FOR_TERRAIN,
-        NO_PERMISSION_FOR_CHEST,
+        NO_PERMISSION, NO_PERMISSION_FOR_TERRAIN, NO_PERMISSION_FOR_CHEST,
 
         NOT_ENOUGH_MONEY,
 

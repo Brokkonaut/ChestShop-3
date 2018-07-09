@@ -12,7 +12,8 @@ public class Base62 {
     /**
      * Encodes a number to Base62 string
      *
-     * @param number Number to encode
+     * @param number
+     *            Number to encode
      * @return Encoded number
      */
     public static String encode(int number) {
@@ -32,11 +33,11 @@ public class Base62 {
         return code.reverse().toString();
     }
 
-
     /**
      * Decodes a Base62 string
      *
-     * @param code Code to decode
+     * @param code
+     *            Code to decode
      * @return Decoded code
      */
     public static int decode(String code) {
@@ -49,6 +50,5 @@ public class Base62 {
 
         return number;
     }
-
 
 }

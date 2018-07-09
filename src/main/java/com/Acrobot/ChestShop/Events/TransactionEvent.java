@@ -126,7 +126,6 @@ public class TransactionEvent extends Event {
      * Possible transaction types
      */
     public enum TransactionType {
-        BUY,
-        SELL
+        BUY, SELL
     }
 }

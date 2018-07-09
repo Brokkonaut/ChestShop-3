@@ -21,7 +21,6 @@ public class Table {
 
     private final String CREATE;
 
-
     public Table(Database database, String name) {
         this.database = database;
         this.name = name;
@@ -38,7 +37,8 @@ public class Table {
     /**
      * Executes a select statement
      *
-     * @param criteria Criteria to select
+     * @param criteria
+     *            Criteria to select
      * @return RowSet of results
      * @throws SQLException
      */
@@ -78,9 +78,11 @@ public class Table {
     /**
      * Gets the first row from the given statement
      *
-     * @param criteria Criteria for the statement, "SELECT * FROM table_name WHERE ......."
+     * @param criteria
+     *            Criteria for the statement, "SELECT * FROM table_name WHERE ......."
      * @return First row of the result set
-     * @throws SQLException exception
+     * @throws SQLException
+     *             exception
      */
     public Row getRow(String criteria) throws SQLException {
         RowSet rs = select(criteria);
@@ -90,9 +92,11 @@ public class Table {
     /**
      * Gets all rows from the given statement
      *
-     * @param criteria Criteria for the statement, "SELECT * FROM table_name WHERE ......."
+     * @param criteria
+     *            Criteria for the statement, "SELECT * FROM table_name WHERE ......."
      * @return Result set
-     * @throws SQLException exception
+     * @throws SQLException
+     *             exception
      */
     public RowSet getRows(String criteria) throws SQLException {
         return select(criteria);
@@ -102,7 +106,8 @@ public class Table {
      * Gets all the rows of this table
      *
      * @return All rows of this table
-     * @throws SQLException exception
+     * @throws SQLException
+     *             exception
      */
     public RowSet getRows() throws SQLException {
         return getRows(null);
@@ -111,8 +116,10 @@ public class Table {
     /**
      * Inserts a row into the table
      *
-     * @param row Row to insert
-     * @throws SQLException exception
+     * @param row
+     *            Row to insert
+     * @throws SQLException
+     *             exception
      */
     public void insertRow(Row row) throws SQLException {
         insertRow(row, null);
@@ -121,9 +128,12 @@ public class Table {
     /**
      * Inserts a row into the table
      *
-     * @param row       Row to insert
-     * @param condition If the conditions are present, the row is updated when the conditions are met
-     * @throws SQLException exception
+     * @param row
+     *            Row to insert
+     * @param condition
+     *            If the conditions are present, the row is updated when the conditions are met
+     * @throws SQLException
+     *             exception
      */
     public void insertRow(Row row, String condition) throws SQLException {
         String statement;
@@ -148,8 +158,10 @@ public class Table {
     /**
      * Inserts a row into the table
      *
-     * @param statement Row to insert
-     * @throws SQLException exception
+     * @param statement
+     *            Row to insert
+     * @throws SQLException
+     *             exception
      */
     public void insertRow(String statement) throws SQLException {
         insertRow(statement, null);
@@ -158,9 +170,12 @@ public class Table {
     /**
      * Inserts a row into the table
      *
-     * @param statement Row to insert
-     * @param condition If the conditions are present, the row is updated when the conditions are met
-     * @throws SQLException exception
+     * @param statement
+     *            Row to insert
+     * @param condition
+     *            If the conditions are present, the row is updated when the conditions are met
+     * @throws SQLException
+     *             exception
      */
     public void insertRow(String statement, String condition) throws SQLException {
         if (condition == null || condition.isEmpty()) {
@@ -181,7 +196,8 @@ public class Table {
     /**
      * Creates a table with given fields. If the table already exists, nothing happens
      *
-     * @param fields Fields of the table
+     * @param fields
+     *            Fields of the table
      */
     public void create(String fields) throws SQLException {
         String statement = String.format(CREATE, fields);

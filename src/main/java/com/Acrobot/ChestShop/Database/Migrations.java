@@ -16,7 +16,8 @@ public class Migrations {
     /**
      * Migrates a database from the given version
      *
-     * @param currentVersion Current version of the database
+     * @param currentVersion
+     *            Current version of the database
      * @return Current database version
      */
     public static int migrate(int currentVersion) {
@@ -36,7 +37,7 @@ public class Migrations {
 
             case 2:
             default:
-                //do nothing
+                // do nothing
         }
 
         return currentVersion;

@@ -45,7 +45,8 @@ public class CurrencyFormatEvent extends Event {
     /**
      * Sets the currency formatting
      *
-     * @param formattedAmount Formatted amount
+     * @param formattedAmount
+     *            Formatted amount
      */
     public void setFormattedAmount(String formattedAmount) {
         this.formattedAmount = formattedAmount;

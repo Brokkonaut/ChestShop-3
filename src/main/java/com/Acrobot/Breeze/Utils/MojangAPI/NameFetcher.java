@@ -27,8 +27,8 @@ public class NameFetcher implements Callable<Map<UUID, String>> {
     public Map<UUID, String> call() throws Exception {
         Map<UUID, String> uuidStringMap = new HashMap<UUID, String>();
 
-        for (UUID uuid: uuids) {
-            HttpURLConnection connection = (HttpURLConnection) new URL(PROFILE_URL+uuid.toString().replace("-", "")).openConnection();
+        for (UUID uuid : uuids) {
+            HttpURLConnection connection = (HttpURLConnection) new URL(PROFILE_URL + uuid.toString().replace("-", "")).openConnection();
             JSONObject response = (JSONObject) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
 
             String name = (String) response.get("name");

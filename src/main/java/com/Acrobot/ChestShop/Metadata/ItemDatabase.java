@@ -38,7 +38,8 @@ public class ItemDatabase {
     /**
      * Gets the item code for this item
      *
-     * @param item Item
+     * @param item
+     *            Item
      * @return Item code for this item
      */
     public String getItemCode(ItemStack item) {
@@ -73,7 +74,8 @@ public class ItemDatabase {
     /**
      * Gets an ItemStack from a item code
      *
-     * @param code Item code
+     * @param code
+     *            Item code
      * @return ItemStack represented by this code
      */
     public ItemStack getFromCode(String code) {

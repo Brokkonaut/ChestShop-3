@@ -18,13 +18,13 @@ public class PriceChecker implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public static void onPreShopCreation(PreShopCreationEvent event) {
         String line = event.getSignLine(PRICE_LINE).toUpperCase();
-        line = line.replaceAll("(\\.\\d*?[1-9])0+", "$1"); //remove trailing zeroes
+        line = line.replaceAll("(\\.\\d*?[1-9])0+", "$1"); // remove trailing zeroes
 
         String[] part = line.split(":");
 
         if (part.length > 1 && (isInvalid(part[0]) ^ isInvalid(part[1]))) {
             line = line.replace(':', ' ');
-            part = new String[]{line};
+            part = new String[] { line };
         }
 
         if (part[0].split(" ").length > 2) {
@@ -62,7 +62,7 @@ public class PriceChecker implements Listener {
     }
 
     private static boolean isInvalid(String part) {
-        char characters[] = {'B', 'S'};
+        char characters[] = { 'B', 'S' };
 
         for (char character : characters) {
             if (part.contains(Character.toString(character))) {

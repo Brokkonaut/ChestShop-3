@@ -8,6 +8,7 @@ import java.util.UUID;
  * Data Transfer Object for Player objects
  *
  * Since Bukkit API is not thread-safe, this should work
+ * 
  * @author Andrzej Pomirski
  */
 public class PlayerDTO {

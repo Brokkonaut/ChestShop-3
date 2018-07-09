@@ -64,7 +64,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the price of the items
      *
-     * @param price Price of the items
+     * @param price
+     *            Price of the items
      */
     public void setPrice(double price) {
         this.price = price;
@@ -73,7 +74,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the stock
      *
-     * @param stock Stock
+     * @param stock
+     *            Stock
      */
     public void setStock(ItemStack... stock) {
         items = stock;
@@ -103,7 +105,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the shop's owner
      *
-     * @param owner Shop owner
+     * @param owner
+     *            Shop owner
      */
     public void setOwner(OfflinePlayer owner) {
         this.owner = owner;
@@ -119,7 +122,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the owner's inventory
      *
-     * @param ownerInventory Onwer's inventory
+     * @param ownerInventory
+     *            Onwer's inventory
      */
     public void setOwnerInventory(Inventory ownerInventory) {
         this.ownerInventory = ownerInventory;
@@ -128,7 +132,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the client's inventory
      *
-     * @param clientInventory Client's inventory
+     * @param clientInventory
+     *            Client's inventory
      */
     public void setClientInventory(Inventory clientInventory) {
         this.clientInventory = clientInventory;
@@ -165,7 +170,8 @@ public class PreTransactionEvent extends Event {
     /**
      * Sets the outcome of the transaction
      *
-     * @param reason Transction's outcome
+     * @param reason
+     *            Transction's outcome
      */
     public void setCancelled(TransactionOutcome reason) {
         transactionOutcome = reason;
@@ -180,30 +186,23 @@ public class PreTransactionEvent extends Event {
     }
 
     public enum TransactionOutcome {
-        SHOP_DOES_NOT_BUY_THIS_ITEM,
-        SHOP_DOES_NOT_SELL_THIS_ITEM,
+        SHOP_DOES_NOT_BUY_THIS_ITEM, SHOP_DOES_NOT_SELL_THIS_ITEM,
 
         CLIENT_DOES_NOT_HAVE_PERMISSION,
 
-        CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY,
-        SHOP_DOES_NOT_HAVE_ENOUGH_MONEY,
+        CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY, SHOP_DOES_NOT_HAVE_ENOUGH_MONEY,
 
-        CLIENT_DEPOSIT_FAILED,
-        SHOP_DEPOSIT_FAILED,
+        CLIENT_DEPOSIT_FAILED, SHOP_DEPOSIT_FAILED,
 
-        NOT_ENOUGH_SPACE_IN_CHEST,
-        NOT_ENOUGH_SPACE_IN_INVENTORY,
+        NOT_ENOUGH_SPACE_IN_CHEST, NOT_ENOUGH_SPACE_IN_INVENTORY,
 
-        NOT_ENOUGH_STOCK_IN_CHEST,
-        NOT_ENOUGH_STOCK_IN_INVENTORY,
+        NOT_ENOUGH_STOCK_IN_CHEST, NOT_ENOUGH_STOCK_IN_INVENTORY,
 
         INVALID_SHOP,
 
-        SPAM_CLICKING_PROTECTION,
-        CREATIVE_MODE_PROTECTION,
-        SHOP_IS_RESTRICTED,
+        SPAM_CLICKING_PROTECTION, CREATIVE_MODE_PROTECTION, SHOP_IS_RESTRICTED,
 
-        OTHER, //For plugin use!
+        OTHER, // For plugin use!
 
         TRANSACTION_SUCCESFUL
     }

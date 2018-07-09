@@ -76,9 +76,7 @@ public class Give implements CommandExecutor {
         item.setAmount(quantity);
         InventoryUtil.add(item, receiver.getInventory());
 
-        sender.sendMessage(Messages.prefix(Messages.ITEM_GIVEN
-                .replace("%item", MaterialUtil.getName(item))
-                .replace("%player", receiver.getName())));
+        sender.sendMessage(Messages.prefix(Messages.ITEM_GIVEN.replace("%item", MaterialUtil.getName(item)).replace("%player", receiver.getName())));
 
         return true;
     }

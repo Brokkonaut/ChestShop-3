@@ -5,6 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Mapping for enchanted items
+ * 
  * @author Andrzej Pomirski
  */
 @DatabaseTable(tableName = "items")
@@ -18,7 +19,7 @@ public class Item {
     private String base64ItemCode;
 
     public Item() {
-        //empty constructor
+        // empty constructor
     }
 
     public Item(String base64ItemCode) {

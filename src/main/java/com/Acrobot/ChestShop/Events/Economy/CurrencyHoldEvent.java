@@ -42,7 +42,8 @@ public class CurrencyHoldEvent extends Event {
     /**
      * Sets if the account can hold the amount of currency
      *
-     * @param canHold Can the account hold the currency?
+     * @param canHold
+     *            Can the account hold the currency?
      */
     public void canHold(boolean canHold) {
         this.canHold = canHold;
@@ -66,7 +67,8 @@ public class CurrencyHoldEvent extends Event {
     /**
      * Sets the amount of currency to check
      *
-     * @param amount Amount to check
+     * @param amount
+     *            Amount to check
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
@@ -75,7 +77,8 @@ public class CurrencyHoldEvent extends Event {
     /**
      * Sets the amount of currency to check
      *
-     * @param amount Amount to check
+     * @param amount
+     *            Amount to check
      * @deprecated Use {@link #setAmount(java.math.BigDecimal)} if possible
      */
     public void setAmount(double amount) {
@@ -99,7 +102,8 @@ public class CurrencyHoldEvent extends Event {
     /**
      * Sets the account name
      *
-     * @param account Account name
+     * @param account
+     *            Account name
      */
     public void setAccount(UUID account) {
         this.account = account;

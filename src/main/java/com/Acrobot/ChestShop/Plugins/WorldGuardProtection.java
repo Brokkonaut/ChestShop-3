@@ -45,8 +45,6 @@ public class WorldGuardProtection implements Listener {
     }
 
     private boolean canAccess(LocalPlayer player, Block block, ApplicableRegionSet set) {
-        return worldGuard.getGlobalRegionManager().hasBypass(player, block.getWorld())
-                || set.testState(player, DefaultFlag.BUILD)
-                || set.testState(player, DefaultFlag.CHEST_ACCESS);
+        return worldGuard.getGlobalRegionManager().hasBypass(player, block.getWorld()) || set.testState(player, DefaultFlag.BUILD) || set.testState(player, DefaultFlag.CHEST_ACCESS);
     }
 }

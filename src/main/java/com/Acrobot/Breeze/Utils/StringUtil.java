@@ -15,12 +15,14 @@ public class StringUtil {
     /**
      * Capitalizes every first letter of a word
      *
-     * @param string    String to reformat
-     * @param separator Word separator
+     * @param string
+     *            String to reformat
+     * @param separator
+     *            Word separator
      * @return Reformatted string
      */
     public static String capitalizeFirstLetter(String string, char separator) {
-        char[] separators = new char[]{separator};
+        char[] separators = new char[] { separator };
 
         return WordUtils.capitalizeFully(string, separators).replace(String.valueOf(separator), " ");
     }
@@ -28,7 +30,8 @@ public class StringUtil {
     /**
      * Capitalizes every first letter of a word
      *
-     * @param string String to reformat
+     * @param string
+     *            String to reformat
      * @return Reformatted string
      * @see com.Acrobot.Breeze.Utils.StringUtil#capitalizeFirstLetter(String, char)
      */
@@ -39,7 +42,8 @@ public class StringUtil {
     /**
      * Joins a String array
      *
-     * @param array array to join
+     * @param array
+     *            array to join
      * @return Joined array
      */
     public static String joinArray(String[] array) {
@@ -49,7 +53,8 @@ public class StringUtil {
     /**
      * Joins an iterable
      *
-     * @param array Iterable
+     * @param array
+     *            Iterable
      * @return Joined iterable
      */
     public static String joinArray(Iterable<?> array) {
@@ -58,7 +63,9 @@ public class StringUtil {
 
     /**
      * Strips colour codes from a string
-     * @param string String to strip
+     * 
+     * @param string
+     *            String to strip
      * @return Stripped string
      */
     public static String stripColourCodes(String string) {
@@ -67,7 +74,9 @@ public class StringUtil {
 
     /**
      * Stips colour codes from an array of strings
-     * @param strings Strings to strip the codes from
+     * 
+     * @param strings
+     *            Strings to strip the codes from
      * @return Stripped strings
      */
     public static String[] stripColourCodes(String[] strings) {

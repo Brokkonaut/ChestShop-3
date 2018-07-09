@@ -30,14 +30,16 @@ public class ShopDestroyedEvent extends Event {
     /**
      * @return Shop's destroyer
      */
-    @Nullable public Player getDestroyer() {
+    @Nullable
+    public Player getDestroyer() {
         return destroyer;
     }
 
     /**
      * @return Shop's chest
      */
-    @Nullable public Chest getChest() {
+    @Nullable
+    public Chest getChest() {
         return chest;
     }
 

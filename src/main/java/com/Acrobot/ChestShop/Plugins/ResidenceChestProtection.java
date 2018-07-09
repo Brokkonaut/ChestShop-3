@@ -29,7 +29,7 @@ public class ResidenceChestProtection implements Listener {
 
         if (area != null) {
             if (!area.allowAction(player.getName(), FlagManager.CONTAINER) && !Residence.getInstance().isAdminMode(player)) {
-                //Doesn't have permissions to that chest.
+                // Doesn't have permissions to that chest.
                 event.setResult(Event.Result.DENY);
             }
         }

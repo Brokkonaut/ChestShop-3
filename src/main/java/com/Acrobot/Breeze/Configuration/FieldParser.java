@@ -11,7 +11,8 @@ public class FieldParser {
     /**
      * Parses a field into a YAML-compatible string
      *
-     * @param field Field to parse
+     * @param field
+     *            Field to parse
      * @return Parsed field
      */
     public static String parse(Field field) {

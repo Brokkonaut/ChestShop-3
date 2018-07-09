@@ -15,8 +15,10 @@ public class InventoryUtil {
     /**
      * Returns the amount of the item inside the inventory
      *
-     * @param item      Item to check
-     * @param inventory inventory
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
      * @return amount of the item
      */
     public static int getAmount(ItemStack item, Inventory inventory) {
@@ -45,7 +47,8 @@ public class InventoryUtil {
     /**
      * Tells if the inventory is empty
      *
-     * @param inventory inventory
+     * @param inventory
+     *            inventory
      * @return Is the inventory empty?
      */
     public static boolean isEmpty(Inventory inventory) {
@@ -61,8 +64,10 @@ public class InventoryUtil {
     /**
      * Checks if the inventory has stock of this type
      *
-     * @param items     items
-     * @param inventory inventory
+     * @param items
+     *            items
+     * @param inventory
+     *            inventory
      * @return Does the inventory contain stock of this type?
      */
     public static boolean hasItems(ItemStack[] items, Inventory inventory) {
@@ -78,8 +83,10 @@ public class InventoryUtil {
     /**
      * Checks if the item fits the inventory
      *
-     * @param item      Item to check
-     * @param inventory inventory
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
      * @return Does item fit inside inventory?
      */
     public static boolean fits(ItemStack item, Inventory inventory) {
@@ -113,9 +120,12 @@ public class InventoryUtil {
      * Adds an item to the inventory with given maximum stack size
      * (it currently uses a custom method of adding items, because Bukkit hasn't fixed it for a year now - not even kidding)
      *
-     * @param item         Item to add
-     * @param inventory    Inventory
-     * @param maxStackSize Maximum item's stack size
+     * @param item
+     *            Item to add
+     * @param inventory
+     *            Inventory
+     * @param maxStackSize
+     *            Maximum item's stack size
      * @return Number of leftover items
      */
     public static int add(ItemStack item, Inventory inventory, int maxStackSize) {
@@ -155,8 +165,10 @@ public class InventoryUtil {
     /**
      * Adds an item to the inventor
      *
-     * @param item      Item to add
-     * @param inventory Inventory
+     * @param item
+     *            Item to add
+     * @param inventory
+     *            Inventory
      * @return Number of leftover items
      */
     public static int add(ItemStack item, Inventory inventory) {
@@ -166,8 +178,10 @@ public class InventoryUtil {
     /**
      * Removes an item from the inventory
      *
-     * @param item      Item to remove
-     * @param inventory Inventory
+     * @param item
+     *            Item to remove
+     * @param inventory
+     *            Inventory
      * @return Number of items that couldn't be removed
      */
     public static int remove(ItemStack item, Inventory inventory) {
@@ -179,7 +193,8 @@ public class InventoryUtil {
     /**
      * If items in arguments are similar, this function merges them into stacks of the same type
      *
-     * @param items Items to merge
+     * @param items
+     *            Items to merge
      * @return Merged stack array
      */
     public static ItemStack[] mergeSimilarStacks(ItemStack... items) {
@@ -189,8 +204,7 @@ public class InventoryUtil {
 
         List<ItemStack> itemList = new LinkedList<ItemStack>();
 
-        Iterating:
-        for (ItemStack item : items) {
+        Iterating: for (ItemStack item : items) {
             for (ItemStack iStack : itemList) {
                 if (MaterialUtil.equals(item, iStack)) {
                     iStack.setAmount(iStack.getAmount() + item.getAmount());
@@ -207,7 +221,8 @@ public class InventoryUtil {
     /**
      * Counts the amount of items in ItemStacks
      *
-     * @param items ItemStacks of items to count
+     * @param items
+     *            ItemStacks of items to count
      * @return How many items are there?
      */
     public static int countItems(ItemStack... items) {
@@ -223,7 +238,8 @@ public class InventoryUtil {
     /**
      * Counts leftovers from a map
      *
-     * @param items Leftovers
+     * @param items
+     *            Leftovers
      * @return Number of leftovers
      */
     public static int countItems(Map<Integer, ?> items) {

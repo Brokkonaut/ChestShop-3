@@ -11,7 +11,8 @@ public class LocationUtil {
     /**
      * Returns a string representing the location
      *
-     * @param location Location represented
+     * @param location
+     *            Location represented
      * @return Representation of the location
      */
     public static String locationToString(Location location) {

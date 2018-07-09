@@ -50,7 +50,8 @@ public class CurrencyAddEvent extends Event {
     /**
      * Sets the amount of currency transferred
      *
-     * @param amount Amount to transfer
+     * @param amount
+     *            Amount to transfer
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
@@ -59,7 +60,8 @@ public class CurrencyAddEvent extends Event {
     /**
      * Sets the amount of currency transferred
      *
-     * @param amount Amount to transfer
+     * @param amount
+     *            Amount to transfer
      * @deprecated Use {@link #setAmount(java.math.BigDecimal)} if possible
      */
     public void setAmount(double amount) {
@@ -76,7 +78,8 @@ public class CurrencyAddEvent extends Event {
     /**
      * Set if the money was added to the account
      *
-     * @param added Was the money added?
+     * @param added
+     *            Was the money added?
      */
     public void setAdded(boolean added) {
         this.added = added;

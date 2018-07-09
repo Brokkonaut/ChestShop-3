@@ -151,11 +151,16 @@ public class Updater {
     /**
      * Initialize the updater.
      *
-     * @param plugin   The plugin that is checking for an update.
-     * @param id       The dev.bukkit.org id of the project.
-     * @param file     The file that the plugin is running from, get this by doing this.getFile() from within your main class.
-     * @param type     Specify the type of update this will be. See {@link UpdateType}
-     * @param announce True if the program should announce the progress of new updates in console.
+     * @param plugin
+     *            The plugin that is checking for an update.
+     * @param id
+     *            The dev.bukkit.org id of the project.
+     * @param file
+     *            The file that the plugin is running from, get this by doing this.getFile() from within your main class.
+     * @param type
+     *            Specify the type of update this will be. See {@link UpdateType}
+     * @param announce
+     *            True if the program should announce the progress of new updates in console.
      */
     public Updater(Plugin plugin, int id, File file, UpdateType type, boolean announce) {
         this.plugin = plugin;
@@ -169,8 +174,7 @@ public class Updater {
         final File updaterFile = new File(pluginFile, "Updater");
         final File updaterConfigFile = new File(updaterFile, "config.yml");
 
-        this.config.options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n'
-                + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below." + '\n'
+        this.config.options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n' + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below." + '\n'
                 + "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration.");
         this.config.addDefault("api-key", "PUT_API_KEY_HERE");
         this.config.addDefault("disable", false);
@@ -296,9 +300,12 @@ public class Updater {
     /**
      * Save an update from dev.bukkit.org into the server's update folder.
      *
-     * @param folder the updates folder location.
-     * @param file the name of the file to save it as.
-     * @param link the url of the file.
+     * @param folder
+     *            the updates folder location.
+     * @param file
+     *            the name of the file to save it as.
+     * @param link
+     *            the url of the file.
      */
     private void saveFile(File folder, String file, String link) {
         if (!folder.exists()) {
@@ -327,7 +334,7 @@ public class Updater {
                     this.plugin.getLogger().info("Downloading update: " + percent + "% of " + fileLength + " bytes.");
                 }
             }
-            //Just a quick check to make sure we didn't leave any files from last time...
+            // Just a quick check to make sure we didn't leave any files from last time...
             for (final File xFile : new File(this.plugin.getDataFolder().getParent(), this.updateFolder).listFiles()) {
                 if (xFile.getName().endsWith(".zip")) {
                     xFile.delete();
@@ -361,7 +368,8 @@ public class Updater {
     /**
      * Part of Zip-File-Extractor, modified by Gravity for use with Updater.
      *
-     * @param file the location of the file to extract.
+     * @param file
+     *            the location of the file to extract.
      */
     private void unzip(String file) {
         try {
@@ -439,7 +447,8 @@ public class Updater {
     /**
      * Check if the name of a jar is one of the plugins currently installed, used for extracting the correct files out of a zip.
      *
-     * @param name a name to check for inside the plugins folder.
+     * @param name
+     *            a name to check for inside the plugins folder.
      * @return true if a file inside the plugins folder is named this.
      */
     private boolean pluginFile(String name) {
@@ -454,7 +463,8 @@ public class Updater {
     /**
      * Check to see if the program should continue by evaluating whether the plugin is already updated, or shouldn't be updated.
      *
-     * @param title the plugin's title.
+     * @param title
+     *            the plugin's title.
      * @return true if the version was located and is not the same as the remote's newest.
      */
     private boolean versionCheck(String title) {
@@ -500,13 +510,16 @@ public class Updater {
      * Without revision, this method will always consider a remote version at all different from
      * that of the local version a new update.
      * </p>
-     * @param localVersion the current version
-     * @param remoteVersion the remote version
+     * 
+     * @param localVersion
+     *            the current version
+     * @param remoteVersion
+     *            the remote version
      * @return true if Updater should consider the remote version an update, false if not.
      */
     public boolean shouldUpdate(String localVersion, String remoteVersion) {
         if (localVersion.contains("DEV") || getLatestType() != ReleaseType.RELEASE) {
-            return false; //Do not download alphas or betas
+            return false; // Do not download alphas or betas
         }
 
         return !localVersion.equalsIgnoreCase(remoteVersion);
@@ -515,7 +528,8 @@ public class Updater {
     /**
      * Evaluate whether the version number is marked showing that it should not be updated by this program.
      *
-     * @param version a version number to check for tags in.
+     * @param version
+     *            a version number to check for tags in.
      * @return true if updating should be disabled.
      */
     private boolean hasTag(String version) {

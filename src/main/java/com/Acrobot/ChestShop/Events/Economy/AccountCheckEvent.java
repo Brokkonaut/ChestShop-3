@@ -38,7 +38,8 @@ public class AccountCheckEvent extends Event {
     /**
      * Sets the event's outcome
      *
-     * @param outcome Outcome of the check
+     * @param outcome
+     *            Outcome of the check
      */
     public void hasAccount(boolean outcome) {
         this.outcome = outcome;

@@ -23,7 +23,8 @@ public class ShopRemovalLogger implements Listener {
         }
 
         ChestShop.getBukkitServer().getScheduler().runTaskAsynchronously(ChestShop.getPlugin(), new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 String shopOwner = event.getSign().getLine(NAME_LINE);
                 String typeOfShop = ChestShopSign.isAdminShop(shopOwner) ? "An Admin Shop" : "A shop belonging to " + shopOwner;
 
@@ -31,11 +32,7 @@ public class ShopRemovalLogger implements Listener {
                 String prices = event.getSign().getLine(PRICE_LINE);
                 String location = LocationUtil.locationToString(event.getSign().getLocation());
 
-                String message = String.format(REMOVAL_MESSAGE,
-                        typeOfShop,
-                        item,
-                        prices,
-                        location);
+                String message = String.format(REMOVAL_MESSAGE, typeOfShop, item, prices, location);
 
                 ChestShop.getBukkitLogger().info(message);
             }

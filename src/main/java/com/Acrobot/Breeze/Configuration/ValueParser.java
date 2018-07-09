@@ -13,7 +13,8 @@ public class ValueParser {
     /**
      * Parses an object to a YAML-usable string
      *
-     * @param object Object to parse
+     * @param object
+     *            Object to parse
      * @return YAML string
      */
     public static String parseToYAML(Object object) {
@@ -27,7 +28,8 @@ public class ValueParser {
     /**
      * Parses a YAML "object" to Java-compatible object
      *
-     * @param object Object to parse
+     * @param object
+     *            Object to parse
      * @return Java-compatible object
      */
     public static Object parseToJava(Object object) {

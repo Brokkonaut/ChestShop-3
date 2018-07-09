@@ -43,7 +43,8 @@ public class EntityParser {
     /**
      * Converts a field type to SQL type
      *
-     * @param field Java's field
+     * @param field
+     *            Java's field
      * @return SQL type
      */
     public static String convertToSQL(Field field) {

@@ -47,7 +47,8 @@ public class CurrencyAmountEvent extends Event {
     /**
      * Sets the amount of currency
      *
-     * @param amount Amount available
+     * @param amount
+     *            Amount available
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
@@ -56,7 +57,8 @@ public class CurrencyAmountEvent extends Event {
     /**
      * Sets the amount of currency
      *
-     * @param amount Amount available
+     * @param amount
+     *            Amount available
      * @deprecated Use {@link #setAmount(java.math.BigDecimal)} if possible
      */
     public void setAmount(double amount) {

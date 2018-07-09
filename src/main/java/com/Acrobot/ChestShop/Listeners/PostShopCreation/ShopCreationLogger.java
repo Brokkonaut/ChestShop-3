@@ -19,7 +19,8 @@ public class ShopCreationLogger implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onShopCreation(final ShopCreatedEvent event) {
         ChestShop.getBukkitServer().getScheduler().runTaskAsynchronously(ChestShop.getPlugin(), new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 String creator = event.getPlayer().getName();
                 String shopOwner = event.getSignLine(NAME_LINE);
                 String typeOfShop = ChestShopSign.isAdminShop(shopOwner) ? "an Admin Shop" : "a shop";
@@ -28,12 +29,7 @@ public class ShopCreationLogger implements Listener {
                 String prices = event.getSignLine(PRICE_LINE);
                 String location = LocationUtil.locationToString(event.getSign().getLocation());
 
-                String message = String.format(CREATION_MESSAGE,
-                        creator,
-                        typeOfShop,
-                        item,
-                        prices,
-                        location);
+                String message = String.format(CREATION_MESSAGE, creator, typeOfShop, item, prices, location);
 
                 ChestShop.getBukkitLogger().info(message);
             }

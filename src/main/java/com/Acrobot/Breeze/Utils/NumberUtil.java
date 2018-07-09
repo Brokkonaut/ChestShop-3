@@ -7,7 +7,8 @@ public class NumberUtil {
     /**
      * Checks if the string is a integer
      *
-     * @param string string to check
+     * @param string
+     *            string to check
      * @return Is the string integer?
      */
     public static boolean isInteger(String string) {
@@ -22,7 +23,8 @@ public class NumberUtil {
     /**
      * Checks if the string is a float
      *
-     * @param string string to check
+     * @param string
+     *            string to check
      * @return Is the string float?
      */
     public static boolean isFloat(String string) {
@@ -37,7 +39,8 @@ public class NumberUtil {
     /**
      * Checks if the string is a double
      *
-     * @param string string to check
+     * @param string
+     *            string to check
      * @return Is the string double?
      */
     public static boolean isDouble(String string) {
@@ -52,7 +55,8 @@ public class NumberUtil {
     /**
      * Checks if the string is a short
      *
-     * @param string string to check
+     * @param string
+     *            string to check
      * @return Is the string short?
      */
     public static boolean isShort(String string) {
@@ -67,7 +71,8 @@ public class NumberUtil {
     /**
      * Checks if the string is a long
      *
-     * @param string string to check
+     * @param string
+     *            string to check
      * @return Is the string long?
      */
     public static boolean isLong(String string) {
@@ -82,7 +87,8 @@ public class NumberUtil {
     /**
      * Checks if the string is an enchantment
      *
-     * @param string String to check
+     * @param string
+     *            String to check
      * @return Is the string an enchantment?
      */
     public static boolean isEnchantment(String string) {
@@ -97,7 +103,8 @@ public class NumberUtil {
     /**
      * Rounds the number up to two decimal points (Can be inaccurate due to using decimal-points)
      *
-     * @param number Number to round
+     * @param number
+     *            Number to round
      * @return Rounded number
      */
     public static double roundUp(double number) {
@@ -107,7 +114,8 @@ public class NumberUtil {
     /**
      * Rounds the number down to two decimal points
      *
-     * @param number Number to round
+     * @param number
+     *            Number to round
      * @return Rounded number
      */
     public static double roundDown(double number) {
@@ -117,7 +125,8 @@ public class NumberUtil {
     /**
      * Converts the number (in seconds) to timer-like format, like 2:00 (minutes:seconds)
      *
-     * @param number Number of seconds
+     * @param number
+     *            Number of seconds
      * @return Formatted string
      */
     public static String toTime(int number) {
@@ -127,7 +136,8 @@ public class NumberUtil {
     /**
      * Converts a number to roman (only 1-9, because of the enchantment decorations)
      *
-     * @param number number to convert
+     * @param number
+     *            number to convert
      * @return Converted number
      */
     public static String toRoman(int number) {

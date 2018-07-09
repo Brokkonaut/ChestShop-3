@@ -19,7 +19,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
  * @author Acrobot
  */
 public class BlockPlace implements Listener {
-    private static BlockFace[] SEARCH_DIRECTIONS = {BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN};
+    private static BlockFace[] SEARCH_DIRECTIONS = { BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN };
 
     @EventHandler(ignoreCancelled = true)
     public static void onChestPlace(BlockPlaceEvent event) {

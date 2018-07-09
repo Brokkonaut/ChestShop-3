@@ -28,11 +28,8 @@ public class DiscountModule implements Listener {
     public DiscountModule() {
         config = YamlConfiguration.loadConfiguration(ChestShop.loadFile("discounts.yml"));
 
-        config.options().header("This file is for discount management. You are able to do that:\n" +
-                "group1: 75\n" +
-                "That means that the person with ChestShop.discount.group1 permission will pay only 75% of the price. \n" +
-                "For example, if the price is 100 dollars, the player pays only 75 dollars.\n" +
-                "(Only works in buy-only Admin Shops!)");
+        config.options().header("This file is for discount management. You are able to do that:\n" + "group1: 75\n" + "That means that the person with ChestShop.discount.group1 permission will pay only 75% of the price. \n"
+                + "For example, if the price is 100 dollars, the player pays only 75 dollars.\n" + "(Only works in buy-only Admin Shops!)");
 
         try {
             config.save(ChestShop.loadFile("discounts.yml"));

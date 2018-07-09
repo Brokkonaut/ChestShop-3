@@ -14,8 +14,10 @@ public class Row {
     /**
      * Puts a name/value pair inside the row
      *
-     * @param name  Item's name
-     * @param value Item's value
+     * @param name
+     *            Item's name
+     * @param value
+     *            Item's value
      */
     public void put(String name, String value) {
         if (!values.containsKey(name)) {
@@ -28,7 +30,8 @@ public class Row {
     /**
      * Gets a value from name
      *
-     * @param name Value's name
+     * @param name
+     *            Value's name
      * @return Value
      */
     public String get(String name) {
@@ -38,7 +41,8 @@ public class Row {
     /**
      * Gets a value from index
      *
-     * @param index Value's index
+     * @param index
+     *            Value's index
      * @return Value
      */
     public String get(int index) {
@@ -49,7 +53,8 @@ public class Row {
     /**
      * Returns value's key
      *
-     * @param index Value's index
+     * @param index
+     *            Value's index
      * @return Value's key
      */
     public String getKey(int index) {
@@ -77,7 +82,8 @@ public class Row {
     /**
      * Returns this row as a class
      *
-     * @param clazz Class which will be represented
+     * @param clazz
+     *            Class which will be represented
      * @return Representation
      */
     public <T> T getAsClass(Class<T> clazz) {

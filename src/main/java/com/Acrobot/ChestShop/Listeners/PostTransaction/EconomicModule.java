@@ -22,9 +22,7 @@ public class EconomicModule implements Listener {
             return;
         }
 
-        CurrencyAddEvent currencyAddEvent = new CurrencyAddEvent(BigDecimal.valueOf(event.getPrice()),
-                                                            event.getOwner().getUniqueId(),
-                                                            event.getSign().getWorld());
+        CurrencyAddEvent currencyAddEvent = new CurrencyAddEvent(BigDecimal.valueOf(event.getPrice()), event.getOwner().getUniqueId(), event.getSign().getWorld());
         ChestShop.callEvent(currencyAddEvent);
 
         CurrencySubtractEvent currencySubtractEvent = new CurrencySubtractEvent(BigDecimal.valueOf(event.getPrice()), event.getClient());
@@ -37,9 +35,7 @@ public class EconomicModule implements Listener {
             return;
         }
 
-        CurrencySubtractEvent currencySubtractEvent = new CurrencySubtractEvent(BigDecimal.valueOf(event.getPrice()),
-                                                                            event.getOwner().getUniqueId(),
-                                                                            event.getSign().getWorld());
+        CurrencySubtractEvent currencySubtractEvent = new CurrencySubtractEvent(BigDecimal.valueOf(event.getPrice()), event.getOwner().getUniqueId(), event.getSign().getWorld());
         ChestShop.callEvent(currencySubtractEvent);
 
         CurrencyAddEvent currencyAddEvent = new CurrencyAddEvent(BigDecimal.valueOf(event.getPrice()), event.getClient());

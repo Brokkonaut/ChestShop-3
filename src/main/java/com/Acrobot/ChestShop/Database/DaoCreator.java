@@ -21,8 +21,11 @@ public class DaoCreator {
 
     /**
      * Returns a DAO for the given entity and with the given ID
-     * @param entity Entity's class
-     * @param <ENTITY> Type of the entity
+     * 
+     * @param entity
+     *            Entity's class
+     * @param <ENTITY>
+     *            Type of the entity
      * @return Dao
      * @throws InvalidParameterException
      * @throws SQLException
@@ -45,6 +48,7 @@ public class DaoCreator {
 
     /**
      * Creates a dao as well as a default table, if doesn't exist
+     * 
      * @see #getDao(Class)
      * @throws SQLException
      * @throws InvalidParameterException

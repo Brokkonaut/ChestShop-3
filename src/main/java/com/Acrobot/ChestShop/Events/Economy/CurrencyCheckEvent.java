@@ -42,7 +42,8 @@ public class CurrencyCheckEvent extends Event {
     /**
      * Sets if the account holds enough currency
      *
-     * @param outcome Outcome of the currency check
+     * @param outcome
+     *            Outcome of the currency check
      */
     public void hasEnough(boolean outcome) {
         this.outcome = outcome;
@@ -66,7 +67,8 @@ public class CurrencyCheckEvent extends Event {
     /**
      * Sets the amount of currency transferred
      *
-     * @param amount Amount to transfer
+     * @param amount
+     *            Amount to transfer
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
@@ -75,7 +77,8 @@ public class CurrencyCheckEvent extends Event {
     /**
      * Sets the amount of currency transferred
      *
-     * @param amount Amount to transfer
+     * @param amount
+     *            Amount to transfer
      * @deprecated Use {@link #setAmount(java.math.BigDecimal)} if possible
      */
     public void setAmount(double amount) {
@@ -99,7 +102,8 @@ public class CurrencyCheckEvent extends Event {
     /**
      * Sets the account name
      *
-     * @param account Account name
+     * @param account
+     *            Account name
      */
     public void setAccount(UUID account) {
         this.account = account;

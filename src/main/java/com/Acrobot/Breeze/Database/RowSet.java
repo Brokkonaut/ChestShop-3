@@ -12,7 +12,8 @@ public class RowSet {
     /**
      * Adds a row to the set
      *
-     * @param row Row to add
+     * @param row
+     *            Row to add
      */
     public void add(Row row) {
         rowList.add(row);
@@ -21,7 +22,8 @@ public class RowSet {
     /**
      * Retrieves a row from its index
      *
-     * @param index Row's index
+     * @param index
+     *            Row's index
      * @return Row
      */
     public Row get(int index) {

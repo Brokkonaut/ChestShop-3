@@ -20,7 +20,8 @@ public class ShopCreatedEvent extends Event {
 
     private final Sign sign;
     private final String[] signLines;
-    @Nullable private final Chest chest;
+    @Nullable
+    private final Chest chest;
 
     public ShopCreatedEvent(Player creator, Sign sign, @Nullable Chest chest, String[] signLines) {
         this.creator = creator;
@@ -32,7 +33,8 @@ public class ShopCreatedEvent extends Event {
     /**
      * Returns the text on the sign
      *
-     * @param line Line number (0-3)
+     * @param line
+     *            Line number (0-3)
      * @return Text on the sign
      */
     public String getSignLine(short line) {
@@ -71,7 +73,8 @@ public class ShopCreatedEvent extends Event {
      *
      * @return Shop's chest
      */
-    @Nullable public Chest getChest() {
+    @Nullable
+    public Chest getChest() {
         return chest;
     }
 

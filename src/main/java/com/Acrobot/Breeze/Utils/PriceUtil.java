@@ -15,8 +15,10 @@ public class PriceUtil {
     /**
      * Gets the price from the text
      *
-     * @param text      Text to check
-     * @param indicator Price indicator (for example, B for buy)
+     * @param text
+     *            Text to check
+     * @param indicator
+     *            Price indicator (for example, B for buy)
      * @return price
      */
     public static double get(String text, char indicator) {
@@ -51,7 +53,8 @@ public class PriceUtil {
     /**
      * Gets the buy price from the text
      *
-     * @param text Text to check
+     * @param text
+     *            Text to check
      * @return Buy price
      */
     public static double getBuyPrice(String text) {
@@ -61,7 +64,8 @@ public class PriceUtil {
     /**
      * Gets the sell price from the text
      *
-     * @param text Text to check
+     * @param text
+     *            Text to check
      * @return Sell price
      */
     public static double getSellPrice(String text) {
@@ -71,7 +75,8 @@ public class PriceUtil {
     /**
      * Tells if there is a buy price
      *
-     * @param text Price text
+     * @param text
+     *            Price text
      * @return If there is a buy price
      */
     public static boolean hasBuyPrice(String text) {
@@ -81,7 +86,8 @@ public class PriceUtil {
     /**
      * Tells if there is a sell price
      *
-     * @param text Price text
+     * @param text
+     *            Price text
      * @return If there is a sell price
      */
     public static boolean hasSellPrice(String text) {
@@ -91,8 +97,10 @@ public class PriceUtil {
     /**
      * Tells if there is a price with the specified indicator
      *
-     * @param text      Price text
-     * @param indicator Price indicator
+     * @param text
+     *            Price text
+     * @param indicator
+     *            Price indicator
      * @return If the text contains indicated price
      */
     public static boolean hasPrice(String text, char indicator) {
@@ -102,7 +110,8 @@ public class PriceUtil {
     /**
      * Checks if the string is a valid price
      *
-     * @param text Text to check
+     * @param text
+     *            Text to check
      * @return Is the string a valid price
      */
     public static boolean isPrice(String text) {
