@@ -1,9 +1,10 @@
 package com.Acrobot.Breeze.Database;
 
-import javax.persistence.Entity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.persistence.Entity;
 
 /**
  * Database class, which can be used to connect to JDBC
@@ -27,11 +28,11 @@ public class Database {
         this.password = null;
     }
 
-
     /**
      * Gets the table with given name, even if it doesn't exist in the database
      *
-     * @param name Table's name
+     * @param name
+     *            Table's name
      * @return Table
      */
     public Table getTable(String name) {
@@ -41,7 +42,8 @@ public class Database {
     /**
      * Creates a table from a given class
      *
-     * @param clazz Class with fields
+     * @param clazz
+     *            Class with fields
      * @return If table was succesfully created
      */
     public boolean createFromClass(Class<?> clazz) {
@@ -49,7 +51,7 @@ public class Database {
             return false;
         }
 
-        String tableName = ((javax.persistence.Table) clazz.getAnnotation(javax.persistence.Table.class)).name();
+        String tableName = clazz.getAnnotation(javax.persistence.Table.class).name();
         Table table = getTable(tableName);
 
         EntityParser parser = new EntityParser(clazz);
@@ -68,7 +70,8 @@ public class Database {
 
     /**
      * @return Connection to the database
-     * @throws SQLException exception
+     * @throws SQLException
+     *             exception
      */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(uri, username, password);

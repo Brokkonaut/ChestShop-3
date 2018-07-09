@@ -1,16 +1,17 @@
 package com.Acrobot.ChestShop.Tests;
 
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import static com.Acrobot.ChestShop.Listeners.PreShopCreation.PriceChecker.onPreShopCreation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.Acrobot.ChestShop.Listeners.PreShopCreation.PriceChecker.onPreShopCreation;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
 
 /**
  * Created by Andrzej Pomirski (Acrobot)
@@ -19,14 +20,14 @@ import static junit.framework.Assert.assertTrue;
 public class PriceCheckerTest {
 
     String[] getPriceString(String prices) {
-        return new String[]{null, null, prices, null};
+        return new String[] { null, null, prices, null };
     }
 
     @Test
     public void testLegalBuyPrice() {
         PreShopCreationEvent event = new PreShopCreationEvent(null, null, getPriceString("B 1"));
         onPreShopCreation(event);
-        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0);
+        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0, 0.0);
         assertFalse(event.isCancelled());
     }
 
@@ -34,7 +35,7 @@ public class PriceCheckerTest {
     public void testLegalSellPrice() {
         PreShopCreationEvent event = new PreShopCreationEvent(null, null, getPriceString("S 1"));
         onPreShopCreation(event);
-        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0);
+        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0, 0.0);
         assertFalse(event.isCancelled());
     }
 
@@ -53,22 +54,22 @@ public class PriceCheckerTest {
     public void testLegalBuyAndSellPrices() {
         PreShopCreationEvent event = new PreShopCreationEvent(null, null, getPriceString("B 2:S 1"));
         onPreShopCreation(event);
-        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0);
-        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0);
+        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0, 0.0);
+        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0, 0.0);
         assertFalse(event.isCancelled());
 
         event = new PreShopCreationEvent(null, null, getPriceString("2 B:S 1"));
 
         onPreShopCreation(event);
-        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0);
-        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0);
+        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0, 0.0);
+        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0, 0.0);
         assertFalse(event.isCancelled());
 
         event = new PreShopCreationEvent(null, null, getPriceString("2 B:1 S"));
 
         onPreShopCreation(event);
-        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0);
-        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0);
+        assertEquals(PriceUtil.getSellPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 1.0, 0.0);
+        assertEquals(PriceUtil.getBuyPrice(event.getSignLine(ChestShopSign.PRICE_LINE)), 2.0, 0.0);
         assertFalse(event.isCancelled());
     }
 

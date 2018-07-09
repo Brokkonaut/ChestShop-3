@@ -1,14 +1,19 @@
 package com.Acrobot.Breeze.Configuration;
 
-import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Scanner;
+
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Scanner;
+import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
 
 /**
  * A class which can be used to make configs easier to load
@@ -19,8 +24,10 @@ public class Configuration {
     /**
      * Loads a YAML-formatted file into a class and modifies the file if some of class's fields are missing
      *
-     * @param file  File to load
-     * @param clazz Class to modify
+     * @param file
+     *            File to load
+     * @param clazz
+     *            Class to modify
      */
     public static void pairFileAndClass(File file, Class<?> clazz) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -67,7 +74,8 @@ public class Configuration {
     /**
      * Checks if the file ends with space
      *
-     * @param file File to check
+     * @param file
+     *            File to check
      * @return If the file ends with space
      */
     public static boolean endsWithSpace(File file) {
@@ -79,9 +87,7 @@ public class Configuration {
                 lastLine = scanner.nextLine();
             }
 
-            if (scanner != null) {
-                scanner.close();
-            }
+            scanner.close();
 
             return lastLine.isEmpty();
         } catch (FileNotFoundException e) {
@@ -93,7 +99,8 @@ public class Configuration {
     /**
      * Converts a java value to config-compatible value
      *
-     * @param value Value to parse
+     * @param value
+     *            Value to parse
      * @return Parsed output
      */
     public static String parseToConfig(Object value) {
@@ -103,7 +110,8 @@ public class Configuration {
     /**
      * Colourises a string (using '&' character)
      *
-     * @param string String to colourise
+     * @param string
+     *            String to colourise
      * @return Colourised string
      */
     public static String getColoured(String string) {
