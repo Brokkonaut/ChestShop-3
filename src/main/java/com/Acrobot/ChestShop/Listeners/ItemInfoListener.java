@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -28,14 +29,35 @@ import com.Acrobot.ChestShop.Events.ItemInfoEvent;
  * @author Acrobot
  */
 public class ItemInfoListener implements Listener {
-    @EventHandler
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public static void addDamage(ItemInfoEvent event) {
+        ItemStack item = event.getItem();
+        CommandSender sender = event.getSender();
+        ItemMeta meta = item.getItemMeta();
+
+        int maxdurability = item.getType().getMaxDurability();
+        if (maxdurability > 0) {
+            int remainingDurability = maxdurability - item.getDurability();
+            sender.sendMessage("    " + ChatColor.RED + "Durability: " + remainingDurability + "/" + maxdurability);
+        }
+
+        if (meta instanceof Repairable) {
+            Repairable repairable = (Repairable) meta;
+            if (repairable.hasRepairCost()) {
+                sender.sendMessage("    " + ChatColor.RED + "Additional Repair Cost: " + repairable.getRepairCost());
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
     public static void addName(ItemInfoEvent event) {
         ItemStack item = event.getItem();
         CommandSender sender = event.getSender();
         ItemMeta meta = item.getItemMeta();
 
         if (meta.hasDisplayName()) {
-            sender.sendMessage(ChatColor.DARK_GRAY + "Name: " + meta.getDisplayName());
+            sender.sendMessage("    " + ChatColor.GRAY + "Name: " + meta.getDisplayName());
         }
     }
 
@@ -45,23 +67,16 @@ public class ItemInfoListener implements Listener {
         CommandSender sender = event.getSender();
         ItemMeta meta = item.getItemMeta();
 
-        if (meta instanceof Repairable) {
-            Repairable repairable = (Repairable) meta;
-            if (repairable.hasRepairCost()) {
-                sender.sendMessage(ChatColor.RED + "Additional Repair Cost: " + repairable.getRepairCost());
-            }
-        }
-
         Map<Enchantment, Integer> enchantments = item.getEnchantments();
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
-            sender.sendMessage(ChatColor.DARK_GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
+            sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
         }
 
         if (meta instanceof EnchantmentStorageMeta) {
             EnchantmentStorageMeta ench = (EnchantmentStorageMeta) meta;
             if (ench.hasStoredEnchants()) {
                 for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
-                    sender.sendMessage(ChatColor.DARK_GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
+                    sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
                 }
             }
         }
@@ -71,7 +86,7 @@ public class ItemInfoListener implements Listener {
     public static void addPotionInfo(ItemInfoEvent event) {
         ItemStack item = event.getItem();
         Material t = item.getType();
-        if (t != Material.POTION && t != Material.SPLASH_POTION && t != Material.LINGERING_POTION) {
+        if (t != Material.POTION && t != Material.SPLASH_POTION && t != Material.LINGERING_POTION && t != Material.TIPPED_ARROW) {
             return;
         }
 
@@ -107,10 +122,10 @@ public class ItemInfoListener implements Listener {
         }
         CommandSender sender = event.getSender();
 
-        sender.sendMessage(message.toString());
+        sender.sendMessage("    " + message.toString());
         if (potion.hasCustomEffects()) {
             for (PotionEffect effect : potion.getCustomEffects()) {
-                sender.sendMessage(ChatColor.DARK_GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
+                sender.sendMessage("    " + ChatColor.GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
             }
         }
     }

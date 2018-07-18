@@ -1,13 +1,19 @@
 package com.Acrobot.ChestShop.Listeners.PreTransaction;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Economy.Economy;
-import com.Acrobot.ChestShop.Events.Economy.CurrencyAmountEvent;
-import com.Acrobot.ChestShop.Events.Economy.CurrencyCheckEvent;
-import com.Acrobot.ChestShop.Events.Economy.CurrencyHoldEvent;
-import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.CLIENT_DEPOSIT_FAILED;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_STOCK_IN_CHEST;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_STOCK_IN_INVENTORY;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_DEPOSIT_FAILED;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_DOES_NOT_HAVE_ENOUGH_MONEY;
+import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
+import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
+
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,14 +21,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
-
-import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.*;
-import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
-import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Economy.Economy;
+import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import com.Acrobot.ChestShop.Events.Economy.CurrencyAmountEvent;
+import com.Acrobot.ChestShop.Events.Economy.CurrencyCheckEvent;
+import com.Acrobot.ChestShop.Events.Economy.CurrencyHoldEvent;
 
 /**
  * @author Acrobot
@@ -189,7 +194,7 @@ public class PartialTransactionModule implements Listener {
             boolean added = false;
 
             for (ItemStack iStack : stacks) {
-                if (MaterialUtil.equals(toAdd, iStack)) {
+                if (toAdd.isSimilar(iStack)) {
                     iStack.setAmount(iStack.getAmount() + toAdd.getAmount());
                     added = true;
                     break;

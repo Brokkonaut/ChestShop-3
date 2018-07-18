@@ -1,12 +1,12 @@
 package com.Acrobot.Breeze.Utils;
 
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Acrobot
@@ -34,7 +34,7 @@ public class InventoryUtil {
         int itemAmount = 0;
 
         for (ItemStack iStack : items.values()) {
-            if (!MaterialUtil.equals(iStack, item)) {
+            if (!iStack.isSimilar(item)) {
                 continue;
             }
 
@@ -106,7 +106,7 @@ public class InventoryUtil {
                 continue;
             }
 
-            if (!MaterialUtil.equals(iStack, item)) {
+            if (!iStack.isSimilar(item)) {
                 continue;
             }
 
@@ -146,7 +146,7 @@ public class InventoryUtil {
                 amountLeft -= duplicate.getAmount();
 
                 inventory.setItem(currentSlot, duplicate);
-            } else if (currentItem.getAmount() < maxStackSize && MaterialUtil.equals(currentItem, item)) {
+            } else if (currentItem.getAmount() < maxStackSize && currentItem.isSimilar(item)) {
                 int currentAmount = currentItem.getAmount();
                 int neededToAdd = Math.min(maxStackSize - currentAmount, amountLeft);
 
@@ -206,7 +206,7 @@ public class InventoryUtil {
 
         Iterating: for (ItemStack item : items) {
             for (ItemStack iStack : itemList) {
-                if (MaterialUtil.equals(item, iStack)) {
+                if (item.isSimilar(iStack)) {
                     iStack.setAmount(iStack.getAmount() + item.getAmount());
                     continue Iterating;
                 }

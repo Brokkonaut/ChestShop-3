@@ -28,6 +28,8 @@ public class PotionNames {
         addEnchantment(PotionType.WATER, "Water Bottle");
         addEnchantment(PotionType.WATER_BREATHING, "Potion of Water Breathing");
         addEnchantment(PotionType.WEAKNESS, "Potion of Weakness");
+        addEnchantment(PotionType.TURTLE_MASTER, "Potion of the Turtle Master");
+        addEnchantment(PotionType.SLOW_FALLING, "Potion of Slow Falling");
     }
 
     private static void addEnchantment(PotionType potion, String name) {

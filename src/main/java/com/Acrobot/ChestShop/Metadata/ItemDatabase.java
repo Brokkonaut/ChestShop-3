@@ -1,10 +1,8 @@
 package com.Acrobot.ChestShop.Metadata;
 
-import com.Acrobot.Breeze.Utils.Encoding.Base62;
-import com.Acrobot.Breeze.Utils.Encoding.Base64;
-import com.Acrobot.ChestShop.Database.DaoCreator;
-import com.Acrobot.ChestShop.Database.Item;
-import com.j256.ormlite.dao.Dao;
+import java.io.IOException;
+import java.sql.SQLException;
+
 import org.bukkit.configuration.file.YamlConstructor;
 import org.bukkit.configuration.file.YamlRepresenter;
 import org.bukkit.inventory.ItemStack;
@@ -12,8 +10,11 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import com.Acrobot.Breeze.Utils.Encoding.Base62;
+import com.Acrobot.Breeze.Utils.Encoding.Base64;
+import com.Acrobot.ChestShop.Database.DaoCreator;
+import com.Acrobot.ChestShop.Database.Item;
+import com.j256.ormlite.dao.Dao;
 
 /**
  * Saves items with Metadata in database, which allows for saving items on signs easily.
@@ -46,7 +47,6 @@ public class ItemDatabase {
         try {
             ItemStack clone = new ItemStack(item);
             clone.setAmount(1);
-            clone.setDurability((short) 0);
 
             String code = Base64.encodeObject(yaml.dump(clone));
             Item itemEntity = itemDao.queryBuilder().where().eq("code", code).queryForFirst();

@@ -103,7 +103,7 @@ public class ErrorMessageSender implements Listener {
             if (names.length() > 0) {
                 names.append(',').append(' ');
             }
-            names.append(MaterialUtil.getName(item));
+            names.append(MaterialUtil.getName(item.getType()));
         }
 
         return names.toString();

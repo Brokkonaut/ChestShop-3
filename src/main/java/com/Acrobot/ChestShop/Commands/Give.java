@@ -1,10 +1,8 @@
 package com.Acrobot.ChestShop.Commands;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.NumberUtil;
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Permission;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +10,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.NumberUtil;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Configuration.Messages;
 
 /**
  * @author Acrobot
@@ -76,7 +77,7 @@ public class Give implements CommandExecutor {
         item.setAmount(quantity);
         InventoryUtil.add(item, receiver.getInventory());
 
-        sender.sendMessage(Messages.prefix(Messages.ITEM_GIVEN.replace("%item", MaterialUtil.getName(item)).replace("%player", receiver.getName())));
+        sender.sendMessage(Messages.prefix(Messages.ITEM_GIVEN.replace("%item", MaterialUtil.getName(item.getType())).replace("%player", receiver.getName())));
 
         return true;
     }

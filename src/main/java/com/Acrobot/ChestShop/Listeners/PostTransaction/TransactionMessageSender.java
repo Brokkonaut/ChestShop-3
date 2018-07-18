@@ -85,7 +85,7 @@ public class TransactionMessageSender implements Listener {
         Joiner joiner = Joiner.on(' ');
 
         for (ItemStack item : stock) {
-            joiner.appendTo(message, item.getAmount(), MaterialUtil.getName(item));
+            joiner.appendTo(message, item.getAmount(), MaterialUtil.getName(item.getType()));
         }
 
         return message.toString();

@@ -1,14 +1,16 @@
 package com.Acrobot.ChestShop.Utils;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.material.MaterialData;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
@@ -57,15 +59,13 @@ public class uBlock {
     public static Chest findConnectedChest(Sign sign) {
         Block block = sign.getBlock();
         BlockFace signFace = null;
-        MaterialData data = sign.getData();
-        if (data instanceof org.bukkit.material.Sign) {
-            org.bukkit.material.Sign signData = (org.bukkit.material.Sign) data;
-            if (signData.isWallSign()) {
-                signFace = signData.getAttachedFace();
-                Block faceBlock = block.getRelative(signFace);
-                if (BlockUtil.isChest(faceBlock)) {
-                    return (Chest) faceBlock.getState();
-                }
+        BlockData data = sign.getBlockData();
+        if (data.getMaterial() == Material.WALL_SIGN) {
+            WallSign signData = (WallSign) data;
+            signFace = signData.getFacing();
+            Block faceBlock = block.getRelative(signFace);
+            if (BlockUtil.isChest(faceBlock)) {
+                return (Chest) faceBlock.getState();
             }
         }
         for (BlockFace bf : SHOP_FACES) {

@@ -5,7 +5,7 @@
 
 	<groupId>com.acrobot.chestshop</groupId>
 	<artifactId>chestshop</artifactId>
-	<version>3.8.18-brokko</version>
+	<version>3.9.0-brokko-SNAPSHOT</version>
 	<description>Chest-and-sign shop plugin for Bukkit</description>
 
 	<scm>
@@ -60,9 +60,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.12.2-R0.1-SNAPSHOT</version>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.13-pre7-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -82,7 +82,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>fr.xephi</groupId>
 			<artifactId>authme</artifactId>
@@ -234,20 +234,10 @@
 						<configuration>
 							<artifactSet>
 								<includes>
-									<include>org.mcstats.bukkit</include>
-									<include>net.gravitydevelopment.updater</include>
 									<include>com.j256.ormlite</include>
 								</includes>
 							</artifactSet>
 							<relocations>
-								<relocation>
-									<pattern>org.mcstats</pattern>
-									<shadedPattern>com.Acrobot.ChestShop</shadedPattern>
-								</relocation>
-								<relocation>
-									<pattern>net.gravitydevelopment.updater</pattern>
-									<shadedPattern>com.Acrobot.ChestShop.Updater</shadedPattern>
-								</relocation>
 								<relocation>
 									<pattern>com.j256.ormlite</pattern>
 									<shadedPattern>com.Acrobot.ChestShop.ORMlite</shadedPattern>

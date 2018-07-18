@@ -1,11 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
-import static com.Acrobot.Breeze.Utils.MaterialUtil.METADATA;
-import static com.Acrobot.Breeze.Utils.MaterialUtil.SHORT_NAME;
 import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
-
-import java.util.regex.Matcher;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -54,60 +50,32 @@ public class ItemChecker implements Listener {
         }
 
         String metadata = getMetadata(itemCode);
-        String longName = MaterialUtil.getName(item);
+        String itemName = StringUtil.capitalizeFirstLetter(MaterialUtil.getName(item.getType()));
 
-        if (longName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
-            String longNameShorter = StringUtil.capitalizeFirstLetter(longName);
-            longNameShorter = longNameShorter.replace(" ", "");
-            if (longNameShorter.length() <= (MAXIMUM_SIGN_LETTERS - metadata.length())) {
-                if (isSameItem(longNameShorter + metadata, item)) {
-                    event.setSignLine(ITEM_LINE, longNameShorter + metadata);
-                    return;
-                }
-            }
+        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+            itemName = itemName.replace(" ", "");
         }
-
-        if (longName.length() <= (MAXIMUM_SIGN_LETTERS - metadata.length())) {
-            if (isSameItem(longName + metadata, item)) {
-                String itemName = StringUtil.capitalizeFirstLetter(longName);
-
-                event.setSignLine(ITEM_LINE, itemName + metadata);
-                return;
-            }
+        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+            itemName = itemName.substring(0, MAXIMUM_SIGN_LETTERS - metadata.length());
         }
-
-        String code = MaterialUtil.getName(item, SHORT_NAME);
-
-        String[] parts = itemCode.split("(?=:|-|#)", 2);
-        String data = (parts.length > 1 ? parts[1] : "");
-
-        if (code.length() > (MAXIMUM_SIGN_LETTERS - data.length())) {
-            code = code.substring(0, MAXIMUM_SIGN_LETTERS - data.length());
-        }
-
-        if (!isSameItem(code + data, item)) {
-            event.setOutcome(INVALID_ITEM);
+        if (isSameItem(itemName + metadata, item)) {
+            event.setSignLine(ITEM_LINE, itemName + metadata);
             return;
         }
-
-        code = StringUtil.capitalizeFirstLetter(code);
-
-        event.setSignLine(ITEM_LINE, code + data);
+        event.setOutcome(INVALID_ITEM);
     }
 
     private static boolean isSameItem(String newCode, ItemStack item) {
         ItemStack newItem = MaterialUtil.getItem(newCode);
 
-        return newItem != null && MaterialUtil.equals(newItem, item);
+        return newItem != null && newItem.isSimilar(item);
     }
 
     private static String getMetadata(String itemCode) {
-        Matcher m = METADATA.matcher(itemCode);
-
-        if (!m.find()) {
-            return "";
+        String metaCode = MaterialUtil.Metadata.getMetaCodeFromItemCode(itemCode);
+        if (metaCode != null) {
+            return "#" + metaCode;
         }
-
-        return m.group();
+        return "";
     }
 }

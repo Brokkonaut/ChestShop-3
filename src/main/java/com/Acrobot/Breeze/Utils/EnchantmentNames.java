@@ -31,6 +31,10 @@ public class EnchantmentNames {
         addEnchantment(Enchantment.PROTECTION_PROJECTILE, "Projectile Protection");
         addEnchantment(Enchantment.VANISHING_CURSE, ChatColor.RED + "Curse of Vanishing");
         addEnchantment(Enchantment.WATER_WORKER, "Aqua Affinity");
+        addEnchantment(Enchantment.LOYALTY, "Loyalty");
+        addEnchantment(Enchantment.IMPALING, "Impaling");
+        addEnchantment(Enchantment.RIPTIDE, "Riptide");
+        addEnchantment(Enchantment.CHANNELING, "Channeling");
     }
 
     private static void addEnchantment(Enchantment enchantment, String name) {
@@ -45,6 +49,6 @@ public class EnchantmentNames {
         if (name != null) {
             return name;
         }
-        return StringUtil.capitalizeFirstLetter(enchantment.getName(), '_');
+        return StringUtil.capitalizeFirstLetter(enchantment.getKey().getKey(), '_');
     }
 }
