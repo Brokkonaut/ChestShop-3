@@ -15,7 +15,7 @@ public class AlternativeItemNames {
         itemToName = new HashMap<>();
         NAME_TO_ITEM = Collections.unmodifiableMap(nameToItem);
 
-        addItem(Material.WITHER_SKELETON_SKULL, "WITHERSKEL _HEAD");
+        addItem(Material.WITHER_SKELETON_SKULL, "WITHER_SKEL_HEAD");
         addItem(Material.STRIPPED_DARK_OAK_LOG, "STR_DARK_OAK_LOG");
         addItem(Material.STRIPPED_DARK_OAK_WOOD, "STR_DARK_OAK_WOOD");
 
@@ -24,6 +24,9 @@ public class AlternativeItemNames {
             if (!name.startsWith("LEGACY_")) {
                 if (name.endsWith("_STAINED_GLASS") || name.endsWith("_STAINED_GLASS_PANE")) {
                     addItem(mat, mat.name().replace("STAINED_", ""));
+                }
+                if (name.startsWith("DEAD_") && name.contains("_CORAL_")) { // DEAD_*_CORAL_*
+                    addItem(mat, mat.name().replace("DEAD_", "DE_"));
                 }
             }
         }
