@@ -1,16 +1,12 @@
 package com.Acrobot.ChestShop.Utils;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
-import org.bukkit.inventory.DoubleChestInventory;
-import org.bukkit.inventory.Inventory;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
@@ -26,7 +22,7 @@ public class uBlock {
         Sign sign = uBlock.findAnyNearbyShopSign(chestBlock);
 
         if (sign == null) {
-            Block neighbour = getNeighbor(chestBlock);
+            Block neighbour = getConnectedChest(chestBlock);
             if (neighbour != null) {
                 sign = uBlock.findAnyNearbyShopSign(neighbour);
             }
@@ -35,24 +31,39 @@ public class uBlock {
         return sign;
     }
 
-    private static Block getNeighbor(Block chestBlock) {
-        BlockState state = chestBlock.getState();
-        if (state instanceof Chest) {
-            Chest chest = (Chest) state;
-            Inventory inv = chest.getInventory();
-            if (inv instanceof DoubleChestInventory) {
-                DoubleChestInventory doubleChest = ((DoubleChestInventory) inv);
-                Location left = doubleChest.getLeftSide().getLocation();
-                if (left != null && !left.equals(chestBlock.getLocation())) {
-                    return left.getBlock();
-                }
-                Location right = doubleChest.getRightSide().getLocation();
-                if (right != null && !right.equals(chestBlock.getLocation())) {
-                    return right.getBlock();
-                }
-            }
+    public static Block getConnectedChest(Block chestBlock) {
+        BlockData blockData = chestBlock.getBlockData();
+        if (!(blockData instanceof Chest)) {
+            return null;
         }
 
+        org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) blockData;
+        if (chestData.getType() != org.bukkit.block.data.type.Chest.Type.SINGLE) {
+            BlockFace chestFace = chestData.getFacing();
+            // we have to rotate is to get the adjacent chest
+            // west, right -> south
+            // west, left -> north
+            if (chestFace == BlockFace.WEST) {
+                chestFace = BlockFace.NORTH;
+            } else if (chestFace == BlockFace.NORTH) {
+                chestFace = BlockFace.EAST;
+            } else if (chestFace == BlockFace.EAST) {
+                chestFace = BlockFace.SOUTH;
+            } else if (chestFace == BlockFace.SOUTH) {
+                chestFace = BlockFace.WEST;
+            }
+            if (chestData.getType() == org.bukkit.block.data.type.Chest.Type.RIGHT) {
+                chestFace = chestFace.getOppositeFace();
+            }
+
+            Block face = chestBlock.getRelative(chestFace);
+
+            // They're placing it beside a chest, check if it's already
+            // protected
+            if (face.getType() == chestBlock.getType()) {
+                return face;
+            }
+        }
         return null;
     }
 
@@ -93,18 +104,6 @@ public class uBlock {
                 return sign;
             }
         }
-        return null;
-    }
-
-    public static Chest findNeighbor(Block block) {
-        for (BlockFace blockFace : CHEST_EXTENSION_FACES) {
-            Block neighborBlock = block.getRelative(blockFace);
-
-            if (neighborBlock.getType() == block.getType()) {
-                return (Chest) neighborBlock.getState();
-            }
-        }
-
         return null;
     }
 }
