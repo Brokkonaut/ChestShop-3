@@ -14,6 +14,7 @@ import com.Acrobot.ChestShop.Plugins.Lockette;
 import com.Acrobot.ChestShop.Plugins.ResidenceChestProtection;
 import com.Acrobot.ChestShop.Plugins.SimpleChestLock;
 import com.Acrobot.ChestShop.Plugins.WorldGuardBuilding;
+import com.Acrobot.ChestShop.Plugins.WorldGuardFlags;
 import com.Acrobot.ChestShop.Plugins.WorldGuardProtection;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -28,7 +29,7 @@ public class Dependencies {
             Plugin plugin = pluginManager.getPlugin(dependency);
 
             if (plugin != null) {
-                initializePlugin(dependency, plugin);
+                initializePluginOnEnable(dependency, plugin);
             }
         }
 
@@ -47,7 +48,17 @@ public class Dependencies {
         ChestShop.getBukkitLogger().info(plugin + " loaded! Found an economy plugin!");
     }
 
-    private static void initializePlugin(String name, Plugin plugin) { // Really messy, right? But it's short and fast :)
+    public static void initializePluginsOnLoad() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
+        Plugin plugin = pluginManager.getPlugin("WorldGuard");
+
+        if (plugin != null) {
+            WorldGuardFlags.ENABLE_SHOP.getName(); // force the static code to run
+        }
+    }
+
+    private static void initializePluginOnEnable(String name, Plugin plugin) { // Really messy, right? But it's short and fast :)
         Dependency dependency;
 
         try {
@@ -96,7 +107,7 @@ public class Dependencies {
                 }
 
                 if (Properties.WORLDGUARD_INTEGRATION) {
-                    listener = new WorldGuardBuilding(worldGuard);
+                    listener = new WorldGuardBuilding();
                 }
 
                 break;
