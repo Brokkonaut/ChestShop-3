@@ -19,12 +19,16 @@ public class uBlock {
     public static final BlockFace[] SHOP_FACES = { BlockFace.DOWN, BlockFace.UP, BlockFace.EAST, BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH };
 
     public static Sign getConnectedSign(Block chestBlock) {
-        Sign sign = uBlock.findAnyNearbyShopSign(chestBlock);
+        return getConnectedSign(chestBlock, null);
+    }
+
+    public static Sign getConnectedSign(Block chestBlock, Block ignoredSign) {
+        Sign sign = uBlock.findAnyNearbyShopSign(chestBlock, ignoredSign);
 
         if (sign == null) {
             Block neighbour = getConnectedChest(chestBlock);
             if (neighbour != null) {
-                sign = uBlock.findAnyNearbyShopSign(neighbour);
+                sign = uBlock.findAnyNearbyShopSign(neighbour, ignoredSign);
             }
         }
 
@@ -33,7 +37,7 @@ public class uBlock {
 
     public static Block getConnectedChest(Block chestBlock) {
         BlockData blockData = chestBlock.getBlockData();
-        if (!(blockData instanceof Chest)) {
+        if (!(blockData instanceof org.bukkit.block.data.type.Chest)) {
             return null;
         }
 
@@ -90,16 +94,15 @@ public class uBlock {
         return null;
     }
 
-    private static Sign findAnyNearbyShopSign(Block block) {
+    private static Sign findAnyNearbyShopSign(Block block, Block ignoredSign) {
         for (BlockFace bf : SHOP_FACES) {
             Block faceBlock = block.getRelative(bf);
 
-            if (!BlockUtil.isSign(faceBlock)) {
+            if ((ignoredSign != null && ignoredSign.equals(faceBlock)) || !BlockUtil.isSign(faceBlock)) {
                 continue;
             }
 
             Sign sign = (Sign) faceBlock.getState();
-
             if (ChestShopSign.isValid(sign)) {
                 return sign;
             }

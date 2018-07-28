@@ -2,13 +2,16 @@ package com.Acrobot.Breeze.Utils;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.material.Attachable;
 
 /**
  * @author Acrobot
@@ -57,7 +60,11 @@ public class BlockUtil {
      * @return Block to which the sign is attached
      */
     public static Block getAttachedBlock(Sign sign) {
-        return sign.getBlock().getRelative(((Attachable) sign.getData()).getAttachedFace());
+        BlockData signData = sign.getBlockData();
+        if (signData instanceof WallSign) {
+            return sign.getBlock().getRelative(((Directional) signData).getFacing().getOppositeFace());
+        }
+        return sign.getBlock().getRelative(BlockFace.DOWN);
     }
 
     /**

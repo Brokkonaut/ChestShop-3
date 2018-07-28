@@ -1,11 +1,8 @@
 package com.Acrobot.ChestShop.Listeners.Block.Break;
 
-import static com.Acrobot.Breeze.Utils.BlockUtil.getAttachedBlock;
-import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
 import static com.Acrobot.ChestShop.Permission.ADMIN;
 import static com.Acrobot.ChestShop.Permission.MOD;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
-import static com.Acrobot.ChestShop.UUIDs.NameManager.canUseName;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -35,6 +32,7 @@ import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import com.google.common.collect.Lists;
 
@@ -151,7 +149,7 @@ public class SignBreak implements Listener {
     }
 
     private static boolean canDestroyShop(Player player, String name) {
-        return player != null && (hasShopBreakingPermission(player) || canUseName(player, name));
+        return player != null && (hasShopBreakingPermission(player) || NameManager.canUseName(player, name));
     }
 
     private static boolean hasShopBreakingPermission(Player player) {
@@ -174,7 +172,7 @@ public class SignBreak implements Listener {
             return Lists.newArrayList();
         }
 
-        if (isSign(block)) {
+        if (BlockUtil.isSign(block)) {
             return Collections.singletonList((Sign) block.getState());
         } else {
             List<Sign> attachedSigns = new LinkedList<Sign>();
@@ -182,13 +180,13 @@ public class SignBreak implements Listener {
             for (BlockFace face : SIGN_CONNECTION_FACES) {
                 Block relative = block.getRelative(face);
 
-                if (!isSign(relative)) {
+                if (!BlockUtil.isSign(relative)) {
                     continue;
                 }
 
                 Sign sign = (Sign) relative.getState();
 
-                if (getAttachedBlock(sign).equals(block)) {
+                if (BlockUtil.getAttachedBlock(sign).equals(block)) {
                     attachedSigns.add(sign);
                 }
             }
