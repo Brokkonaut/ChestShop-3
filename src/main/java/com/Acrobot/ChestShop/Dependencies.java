@@ -8,11 +8,7 @@ import org.bukkit.plugin.PluginManager;
 
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Listeners.Economy.Plugins.VaultListener;
-import com.Acrobot.ChestShop.Plugins.Deadbolt;
 import com.Acrobot.ChestShop.Plugins.LightweightChestProtection;
-import com.Acrobot.ChestShop.Plugins.Lockette;
-import com.Acrobot.ChestShop.Plugins.ResidenceChestProtection;
-import com.Acrobot.ChestShop.Plugins.SimpleChestLock;
 import com.Acrobot.ChestShop.Plugins.WorldGuardBuilding;
 import com.Acrobot.ChestShop.Plugins.WorldGuardFlags;
 import com.Acrobot.ChestShop.Plugins.WorldGuardProtection;
@@ -74,24 +70,6 @@ public class Dependencies {
             case LWC:
                 listener = new LightweightChestProtection();
                 break;
-            case Lockette:
-                listener = new Lockette();
-                break;
-            case Deadbolt:
-                listener = new Deadbolt();
-                break;
-            case SimpleChestLock:
-                listener = SimpleChestLock.getSimpleChestLock(plugin);
-                break;
-            case Residence:
-                if (plugin.getDescription().getVersion().startsWith("2")) {
-                    ChestShop.getBukkitLogger().severe("You are using an old version of Residence! " + "Please update to the newest one, which supports UUIDs: http://ci.drtshock.net/job/Residence/");
-
-                    break;
-                }
-
-                listener = new ResidenceChestProtection();
-                break;
 
             // Terrain protection plugins
             case WorldGuard:
@@ -123,7 +101,7 @@ public class Dependencies {
     }
 
     private static enum Dependency {
-        LWC, Lockette, Deadbolt, SimpleChestLock, Residence,
+        LWC,
 
         WorldGuard,
     }
