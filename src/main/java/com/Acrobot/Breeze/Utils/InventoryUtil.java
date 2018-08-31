@@ -1,12 +1,13 @@
 package com.Acrobot.Breeze.Utils;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import com.Acrobot.ChestShop.Containers.AdminInventory;
 
 /**
  * @author Acrobot
@@ -30,15 +31,16 @@ public class InventoryUtil {
             return Integer.MAX_VALUE;
         }
 
-        HashMap<Integer, ? extends ItemStack> items = inventory.all(item.getType());
+        // Special case required because AdminInventory has no storage contents
+        if (inventory instanceof AdminInventory) {
+            return Integer.MAX_VALUE;
+        }
+
         int itemAmount = 0;
-
-        for (ItemStack iStack : items.values()) {
-            if (!iStack.isSimilar(item)) {
-                continue;
+        for (ItemStack content : inventory.getStorageContents()) {
+            if (item.isSimilar(content)) {
+                itemAmount += content.getAmount();
             }
-
-            itemAmount += iStack.getAmount();
         }
 
         return itemAmount;

@@ -133,6 +133,7 @@ public class PlayerInteract implements Listener {
 
         if (MaterialUtil.isEmpty(item)) {
             player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+            return;
         }
 
         ItemInfo.showItemInfo(player, item);

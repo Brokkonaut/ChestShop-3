@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -37,8 +38,8 @@ public class ItemInfoListener implements Listener {
         ItemMeta meta = item.getItemMeta();
 
         int maxdurability = item.getType().getMaxDurability();
-        if (maxdurability > 0) {
-            int remainingDurability = maxdurability - item.getDurability();
+        if (maxdurability > 0 && meta instanceof Damageable) {
+            int remainingDurability = maxdurability - ((Damageable) meta).getDamage();
             sender.sendMessage("    " + ChatColor.RED + "Durability: " + remainingDurability + "/" + maxdurability);
         }
 

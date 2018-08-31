@@ -163,7 +163,7 @@ public class PartialTransactionModule implements Listener {
         for (ItemStack item : neededItems) {
             int amount = InventoryUtil.getAmount(item, inventory);
 
-            ItemStack clone = item.clone();
+            ItemStack clone = new ItemStack(item);
             clone.setAmount(amount > item.getAmount() ? item.getAmount() : amount);
 
             toReturn.add(clone);
