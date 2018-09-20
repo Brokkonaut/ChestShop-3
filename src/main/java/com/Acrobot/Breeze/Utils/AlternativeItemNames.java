@@ -19,6 +19,10 @@ public class AlternativeItemNames {
         addItem(Material.STRIPPED_DARK_OAK_LOG, "STR_DARK_OAK_LOG");
         addItem(Material.STRIPPED_DARK_OAK_WOOD, "STR_DARK_OAK_WOOD");
 
+        addItem(Material.LIGHT_GRAY_CONCRETE_POWDER, "LIGHT_GRAY_CON_POWDER");
+        addItem(Material.LIGHT_BLUE_CONCRETE_POWDER, "LIGHT_BLUE_CON_POWDER");
+        addItem(Material.MAGENTA_CONCRETE_POWDER, "MAGENTA_CON_POWDER");
+
         for (Material mat : Material.values()) {
             String name = mat.name();
             if (!name.startsWith("LEGACY_")) {
