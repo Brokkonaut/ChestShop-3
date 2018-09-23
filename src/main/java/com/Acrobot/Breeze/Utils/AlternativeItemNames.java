@@ -23,6 +23,8 @@ public class AlternativeItemNames {
         addItem(Material.LIGHT_BLUE_CONCRETE_POWDER, "LIGHT_BLUE_CON_POWDER");
         addItem(Material.MAGENTA_CONCRETE_POWDER, "MAGENTA_CON_POWDER");
 
+        addItem(Material.TROPICAL_FISH_BUCKET, "TRO_FISH_BUCKET");
+
         for (Material mat : Material.values()) {
             String name = mat.name();
             if (!name.startsWith("LEGACY_")) {
