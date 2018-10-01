@@ -77,7 +77,7 @@ public class uBlock {
         BlockData data = sign.getBlockData();
         if (data.getMaterial() == Material.WALL_SIGN) {
             WallSign signData = (WallSign) data;
-            signFace = signData.getFacing();
+            signFace = signData.getFacing().getOppositeFace();
             Block faceBlock = block.getRelative(signFace);
             if (BlockUtil.isChest(faceBlock)) {
                 return (Chest) faceBlock.getState();
