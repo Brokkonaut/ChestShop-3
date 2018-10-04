@@ -12,22 +12,15 @@ Don't be fooled though - you might think that your ticket disappeared, however t
 You should configure the system to show **"All tickets"**, instead of only **"All open"** - you can do that by clicking on the "Filters".
 
 
+Fork information
+--------------------------------
+* This is not the official ChestShop, but a modified fork
+* Minecraft 1.13.1 is required
+
+There will be no official releases, but you can get dev builds at [our Jenkins server](https://www.iani.de/jenkins/job/ChestShop/)
+
 Building
 --------------------------------
-
-#### Installing
-
-To build ChestShop, you'll need a Maven installation.
+To build ChestShop yourself, you'll need a Maven installation.
 * [Maven download](http://maven.apache.org/download.cgi)
 * Launch `mvn clean install` -- that's it!
-
-#### Installing external dependencies
-
-To install external dependencies, place your .jar into the main folder and launch the `install_dependency_to_repo.sh` script - it'll guide you through the process.
-
-
-Links
---------------------------------
-* [Forum Thread](http://forums.bukkit.org/threads/4150/)
-* [BukkitDev site](http://dev.bukkit.org/server-mods/chestshop/)
-* [Bug Tracker](http://dev.bukkit.org/server-mods/chestshop/tickets/?status=+)
