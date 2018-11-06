@@ -26,6 +26,6 @@ public class WorldGuardBuilding implements Listener {
     }
 
     private ApplicableRegionSet getApplicableRegions(Location location) {
-        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(location.getWorld())).getApplicableRegions(BukkitAdapter.asVector(location));
+        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(location.getWorld())).getApplicableRegions(BukkitAdapter.asBlockVector(location));
     }
 }

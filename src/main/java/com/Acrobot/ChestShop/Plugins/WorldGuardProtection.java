@@ -39,7 +39,7 @@ public class WorldGuardProtection implements Listener {
 
         Location blockPos = BukkitAdapter.adapt(block.getLocation());
         RegionManager manager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(block.getWorld()));
-        ApplicableRegionSet set = manager.getApplicableRegions(blockPos.toVector());
+        ApplicableRegionSet set = manager.getApplicableRegions(blockPos.toVector().toBlockPoint());
 
         LocalPlayer localPlayer = worldGuard.wrapPlayer(player);
 
