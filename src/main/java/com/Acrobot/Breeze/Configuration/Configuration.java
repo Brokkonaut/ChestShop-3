@@ -3,8 +3,9 @@ package com.Acrobot.Breeze.Configuration;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
+import com.google.common.base.Charsets;
 
 /**
  * A class which can be used to make configs easier to load
@@ -33,7 +35,7 @@ public class Configuration {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), Charsets.UTF_8));
 
             if (!endsWithSpace(file)) {
                 writer.newLine();
@@ -80,7 +82,7 @@ public class Configuration {
      */
     public static boolean endsWithSpace(File file) {
         try {
-            Scanner scanner = new Scanner(file);
+            Scanner scanner = new Scanner(file, "UTF-8");
             String lastLine = "";
 
             while (scanner.hasNextLine()) {
