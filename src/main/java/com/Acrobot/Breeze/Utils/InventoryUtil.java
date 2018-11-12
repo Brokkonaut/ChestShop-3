@@ -83,6 +83,38 @@ public class InventoryUtil {
     }
 
     /**
+     * Returns the free space for items of a certain type
+     *
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
+     * @return free space for the item
+     */
+    public static int getFreeSpace(ItemStack item, Inventory inventory) {
+        if (inventory.getType() == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        // Special case required because AdminInventory has no storage contents
+        if (inventory instanceof AdminInventory) {
+            return Integer.MAX_VALUE;
+        }
+
+        int freeSpace = 0;
+        int maxStack = Math.max(item.getMaxStackSize(), 1);
+        for (ItemStack content : inventory.getStorageContents()) {
+            if (item.isSimilar(content)) {
+                freeSpace += Math.max(maxStack - content.getAmount(), 0);
+            } else if (MaterialUtil.isEmpty(content)) {
+                freeSpace += maxStack;
+            }
+        }
+
+        return freeSpace;
+    }
+
+    /**
      * Checks if the item fits the inventory
      *
      * @param item

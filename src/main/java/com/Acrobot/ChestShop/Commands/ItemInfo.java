@@ -1,6 +1,6 @@
 package com.Acrobot.ChestShop.Commands;
 
-import static com.Acrobot.ChestShop.Configuration.Messages.iteminfo;
+import static com.Acrobot.ChestShop.Configuration.Messages.ITEM_INFO;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -43,7 +43,7 @@ public class ItemInfo implements CommandExecutor {
     }
 
     public static void showItemInfo(CommandSender sender, ItemStack item) {
-        sender.sendMessage(Messages.prefix(iteminfo));
+        sender.sendMessage(Messages.prefix(ITEM_INFO));
         String name = StringUtil.capitalizeFirstLetter(item.getType().name(), '_');
         sender.sendMessage("  " + ChatColor.WHITE + name);
 

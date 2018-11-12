@@ -82,6 +82,9 @@ public class Properties {
     @ConfigurationComment("Do you want to show \"Somebody bought/sold... \" messages?")
     public static boolean SHOW_TRANSACTION_INFORMATION_OWNER = true;
 
+    @ConfigurationComment("Do you want to show information about available items/free space of a shop?")
+    public static boolean SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK = true;
+
     @PrecededBySpace
     @ConfigurationComment("If true, plugin will log transactions in its own file")
     public static boolean LOG_TO_FILE = false;

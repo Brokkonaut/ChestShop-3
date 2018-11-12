@@ -8,8 +8,9 @@ import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
  * @author Acrobot
  */
 public class Messages {
-    public static String prefix = ChatColor.GREEN + "[Shop] " + ChatColor.RESET;
-    public static String iteminfo = ChatColor.GREEN + "Item Information: " + ChatColor.RESET;
+    public static String PREFIX = ChatColor.GREEN + "[Shop] " + ChatColor.RESET;
+    public static String ITEM_INFO = ChatColor.GREEN + "Item Information: " + ChatColor.RESET;
+    public static String SHOP_INFO = ChatColor.GREEN + "Shop Information: " + ChatColor.RESET;
 
     @PrecededBySpace
     public static String ACCESS_DENIED = "You don't have permission to do that!";
@@ -58,6 +59,10 @@ public class Messages {
     public static String ITEM_GIVEN = "Given %item to %player.";
 
     @PrecededBySpace
+    public static String AVAILABLE_ITEMS = "%amount items are available in this shop.";
+    public static String AVAILABLE_SPACE = "There is free space for %amount items.";
+
+    @PrecededBySpace
     public static String RESTRICTED_SIGN_CREATED = "Sign successfully created!";
 
     @PrecededBySpace
@@ -74,6 +79,6 @@ public class Messages {
     public static String TOGGLE_MESSAGES_ON = "You will now receive messages from your shop(s).";
 
     public static String prefix(String message) {
-        return prefix + message;
+        return PREFIX + message;
     }
 }

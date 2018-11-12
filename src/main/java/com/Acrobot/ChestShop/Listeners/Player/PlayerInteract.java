@@ -89,7 +89,7 @@ public class PlayerInteract implements Listener {
 
         if (event.getPlayer().isSneaking()) {
             if (action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) {
-                showSoldItem(player, sign);
+                showShopInfo(player, sign);
             }
             return;
         }
@@ -127,7 +127,7 @@ public class PlayerInteract implements Listener {
         Bukkit.getPluginManager().callEvent(tEvent);
     }
 
-    private static void showSoldItem(Player player, Sign sign) {
+    private static void showShopInfo(Player player, Sign sign) {
         String material = sign.getLine(ITEM_LINE);
         ItemStack item = MaterialUtil.getItem(material);
 
@@ -136,6 +136,24 @@ public class PlayerInteract implements Listener {
             return;
         }
 
+        if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
+            if (!ChestShopSign.isAdminShop(sign)) {
+                Chest chest = uBlock.findConnectedChest(sign);
+                if (chest != null) {
+                    player.sendMessage(Messages.prefix(Messages.SHOP_INFO));
+                    String prices = sign.getLine(PRICE_LINE);
+                    Inventory inventory = chest.getInventory();
+                    if (PriceUtil.getSellPrice(prices) != PriceUtil.NO_PRICE) {
+                        int free = InventoryUtil.getFreeSpace(item, inventory);
+                        player.sendMessage("  " + Messages.AVAILABLE_SPACE.replace("%amount", Integer.toString(free)));
+                    }
+                    if (PriceUtil.getBuyPrice(prices) != PriceUtil.NO_PRICE) {
+                        int available = InventoryUtil.getAmount(item, inventory);
+                        player.sendMessage("  " + Messages.AVAILABLE_ITEMS.replace("%amount", Integer.toString(available)));
+                    }
+                }
+            }
+        }
         ItemInfo.showItemInfo(player, item);
     }
 
