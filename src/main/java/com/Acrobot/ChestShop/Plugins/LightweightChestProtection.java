@@ -61,8 +61,15 @@ public class LightweightChestProtection implements Listener {
             return;
         }
 
-        if (protection.getType() == Protection.Type.DONATION ? !lwc.canAdminProtection(player, protection) : !lwc.canAccessProtection(player, protection)) {
-            event.setResult(Event.Result.DENY);
+        try {
+            if (!lwc.canAccessProtectionContents(player, protection)) {
+                event.setResult(Event.Result.DENY);
+            }
+        } catch (NoSuchMethodError e) {
+            // use old method as fallback
+            if (protection.getType() == Protection.Type.DONATION ? !lwc.canAdminProtection(player, protection) : !lwc.canAccessProtection(player, protection)) {
+                event.setResult(Event.Result.DENY);
+            }
         }
     }
 
@@ -79,13 +86,7 @@ public class LightweightChestProtection implements Listener {
             return;
         }
 
-        int x = block.getX();
-        int y = block.getY();
-        int z = block.getZ();
-
-        String worldName = block.getWorld().getName();
-
-        Protection existingProtection = lwc.getPhysicalDatabase().loadProtection(worldName, x, y, z);
+        Protection existingProtection = lwc.findProtection(block);
 
         if (existingProtection != null) {
             event.setProtected(true);
@@ -99,6 +100,10 @@ public class LightweightChestProtection implements Listener {
             return;
         }
 
+        int x = block.getX();
+        int y = block.getY();
+        int z = block.getZ();
+        String worldName = block.getWorld().getName();
         Protection protection = lwc.getPhysicalDatabase().registerProtection(block.getType(), Protection.Type.PRIVATE, worldName, player.getUniqueId().toString(), "", x, y, z);
 
         if (protection != null) {
