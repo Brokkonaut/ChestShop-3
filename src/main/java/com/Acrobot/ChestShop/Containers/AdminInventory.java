@@ -105,18 +105,7 @@ public class AdminInventory implements Inventory {
 
     @Override
     public HashMap<Integer, ? extends ItemStack> all(Material material) {
-        HashMap<Integer, ItemStack> items = new HashMap<Integer, ItemStack>();
-        if (material.getMaxDurability() != 0) {
-
-            for (short currentDurability = 0; currentDurability < material.getMaxDurability(); currentDurability++) {
-                items.put((int) currentDurability, new ItemStack(material, Integer.MAX_VALUE, currentDurability));
-            }
-
-            return items;
-        } else {
-            items.put(1, new ItemStack(material, Integer.MAX_VALUE));
-        }
-        return items;
+        return new HashMap<Integer, ItemStack>();
     }
 
     @Override
