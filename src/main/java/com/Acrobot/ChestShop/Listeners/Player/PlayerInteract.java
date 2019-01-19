@@ -26,6 +26,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,7 +89,7 @@ public class PlayerInteract implements Listener {
         }
 
         if (event.getPlayer().isSneaking()) {
-            if (action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) {
+            if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
                 showShopInfo(player, sign);
             }
             return;
