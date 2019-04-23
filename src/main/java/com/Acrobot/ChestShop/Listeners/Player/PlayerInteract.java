@@ -11,25 +11,6 @@ import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
@@ -48,6 +29,22 @@ import com.Acrobot.ChestShop.Plugins.ChestShop;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Acrobot
@@ -78,7 +75,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (!isSign(block) || player.getInventory().getItemInMainHand().getType() == Material.SIGN) { // Blocking accidental sign edition
+        if (!isSign(block) || BlockUtil.isSign(player.getInventory().getItemInMainHand().getType())) { // Blocking accidental sign edition
             return;
         }
 

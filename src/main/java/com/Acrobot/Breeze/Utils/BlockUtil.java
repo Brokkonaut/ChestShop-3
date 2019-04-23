@@ -18,6 +18,29 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public class BlockUtil {
     /**
+     * Checks if the material is a wall sign
+     *
+     * @param material
+     *            Material to check
+     * @return Is this material a wall sign?
+     */
+    public static boolean isWallSign(Material material) {
+        return material == Material.ACACIA_WALL_SIGN || material == Material.BIRCH_WALL_SIGN || material == Material.DARK_OAK_WALL_SIGN || material == Material.JUNGLE_WALL_SIGN || material == Material.OAK_WALL_SIGN || material == Material.SPRUCE_WALL_SIGN;
+    }
+
+    /**
+     * Checks if the material is a sign
+     *
+     * @param material
+     *            Material to check
+     * @return Is this material a sign?
+     */
+    public static boolean isSign(Material material) {
+        return material == Material.ACACIA_SIGN || material == Material.ACACIA_WALL_SIGN || material == Material.BIRCH_SIGN || material == Material.BIRCH_WALL_SIGN || material == Material.DARK_OAK_SIGN || material == Material.DARK_OAK_WALL_SIGN || material == Material.JUNGLE_SIGN
+                || material == Material.JUNGLE_WALL_SIGN || material == Material.OAK_SIGN || material == Material.OAK_WALL_SIGN || material == Material.SPRUCE_SIGN || material == Material.SPRUCE_WALL_SIGN;
+    }
+
+    /**
      * Checks if the block is a sign
      *
      * @param block
@@ -25,8 +48,7 @@ public class BlockUtil {
      * @return Is this block a sign?
      */
     public static boolean isSign(Block block) {
-        Material m = block.getType();
-        return m == Material.SIGN || m == Material.WALL_SIGN;
+        return isSign(block.getType());
     }
 
     /**

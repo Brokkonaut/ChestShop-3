@@ -1,15 +1,13 @@
 package com.Acrobot.ChestShop.Utils;
 
-import org.bukkit.Material;
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 
 /**
  * @author Acrobot
@@ -75,7 +73,7 @@ public class uBlock {
         Block block = sign.getBlock();
         BlockFace signFace = null;
         BlockData data = sign.getBlockData();
-        if (data.getMaterial() == Material.WALL_SIGN) {
+        if (data instanceof WallSign) {
             WallSign signData = (WallSign) data;
             signFace = signData.getFacing().getOppositeFace();
             Block faceBlock = block.getRelative(signFace);

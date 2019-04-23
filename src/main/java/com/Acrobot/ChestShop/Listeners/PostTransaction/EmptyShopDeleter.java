@@ -38,12 +38,26 @@ public class EmptyShopDeleter implements Listener {
         ShopDestroyedEvent destroyedEvent = new ShopDestroyedEvent(null, event.getSign(), connectedChest);
         ChestShop.callEvent(destroyedEvent);
 
+        Material signMaterial = sign.getBlock().getType();
+        if (signMaterial == Material.ACACIA_WALL_SIGN) {
+            signMaterial = Material.ACACIA_SIGN;
+        } else if (signMaterial == Material.BIRCH_WALL_SIGN) {
+            signMaterial = Material.BIRCH_SIGN;
+        } else if (signMaterial == Material.DARK_OAK_WALL_SIGN) {
+            signMaterial = Material.DARK_OAK_SIGN;
+        } else if (signMaterial == Material.JUNGLE_WALL_SIGN) {
+            signMaterial = Material.JUNGLE_SIGN;
+        } else if (signMaterial == Material.OAK_WALL_SIGN) {
+            signMaterial = Material.OAK_SIGN;
+        } else if (signMaterial == Material.SPRUCE_WALL_SIGN) {
+            signMaterial = Material.SPRUCE_SIGN;
+        }
         sign.getBlock().setType(Material.AIR);
 
         if (Properties.REMOVE_EMPTY_CHESTS && !ChestShopSign.isAdminShop(ownerInventory) && InventoryUtil.isEmpty(ownerInventory)) {
             connectedChest.getBlock().setType(Material.AIR);
         } else {
-            ownerInventory.addItem(new ItemStack(Material.SIGN, 1));
+            ownerInventory.addItem(new ItemStack(signMaterial, 1));
         }
     }
 

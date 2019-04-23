@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -34,11 +33,6 @@ public class AdminInventory implements Inventory {
 
     @Override
     public void setMaxStackSize(int i) {
-    }
-
-    @Override
-    public String getName() {
-        return "Admin inventory";
     }
 
     @Override
@@ -154,11 +148,6 @@ public class AdminInventory implements Inventory {
     @Override
     public List<HumanEntity> getViewers() {
         return new ArrayList<HumanEntity>();
-    }
-
-    @Override
-    public String getTitle() {
-        return "Admin inventory";
     }
 
     @Override

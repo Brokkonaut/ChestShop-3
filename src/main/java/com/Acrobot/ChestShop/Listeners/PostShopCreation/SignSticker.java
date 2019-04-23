@@ -2,6 +2,11 @@ package com.Acrobot.ChestShop.Listeners.PostShopCreation;
 
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
 
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,12 +15,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -36,7 +35,23 @@ public class SignSticker implements Listener {
     }
 
     private static void stickSign(Block signBlock, String[] lines) {
-        if (signBlock.getType() != Material.SIGN) {
+        Material signMaterial = signBlock.getType();
+        Material newSignMaterial = null;
+        if (signMaterial == Material.ACACIA_SIGN) {
+            newSignMaterial = Material.ACACIA_WALL_SIGN;
+        } else if (signMaterial == Material.BIRCH_SIGN) {
+            newSignMaterial = Material.BIRCH_WALL_SIGN;
+        } else if (signMaterial == Material.DARK_OAK_SIGN) {
+            newSignMaterial = Material.DARK_OAK_WALL_SIGN;
+        } else if (signMaterial == Material.JUNGLE_SIGN) {
+            newSignMaterial = Material.JUNGLE_WALL_SIGN;
+        } else if (signMaterial == Material.OAK_SIGN) {
+            newSignMaterial = Material.OAK_WALL_SIGN;
+        } else if (signMaterial == Material.SPRUCE_SIGN) {
+            newSignMaterial = Material.SPRUCE_WALL_SIGN;
+        }
+
+        if (newSignMaterial == null) {
             return;
         }
 
@@ -53,10 +68,8 @@ public class SignSticker implements Listener {
             return;
         }
 
-        WallSign wallSign = (WallSign) Bukkit.createBlockData(Material.WALL_SIGN);
+        WallSign wallSign = (WallSign) Bukkit.createBlockData(newSignMaterial);
         wallSign.setFacing(chestFace.getOppositeFace());
-
-        signBlock.setType(Material.WALL_SIGN);
         signBlock.setBlockData(wallSign);
 
         Sign sign = (Sign) signBlock.getState();
