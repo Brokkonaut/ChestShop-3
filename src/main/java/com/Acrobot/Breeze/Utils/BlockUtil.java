@@ -18,17 +18,6 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public class BlockUtil {
     /**
-     * Checks if the material is a wall sign
-     *
-     * @param material
-     *            Material to check
-     * @return Is this material a wall sign?
-     */
-    public static boolean isWallSign(Material material) {
-        return material == Material.ACACIA_WALL_SIGN || material == Material.BIRCH_WALL_SIGN || material == Material.DARK_OAK_WALL_SIGN || material == Material.JUNGLE_WALL_SIGN || material == Material.OAK_WALL_SIGN || material == Material.SPRUCE_WALL_SIGN;
-    }
-
-    /**
      * Checks if the material is a sign
      *
      * @param material
