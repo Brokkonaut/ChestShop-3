@@ -1,13 +1,5 @@
 package com.Acrobot.ChestShop.Plugins;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
 import com.Acrobot.ChestShop.Security;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
@@ -18,6 +10,13 @@ import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
 import com.griefcraft.scripting.event.LWCProtectionRegisterEvent;
+import org.bukkit.block.Block;
+import org.bukkit.block.Container;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 /**
  * @author Acrobot
@@ -33,7 +32,7 @@ public class LightweightChestProtection implements Listener {
     public static void onShopCreation(ShopCreatedEvent event) {
         Player player = event.getPlayer();
         Sign sign = event.getSign();
-        Chest connectedChest = event.getChest();
+        Container connectedChest = event.getChest();
 
         if (Properties.PROTECT_SIGN_WITH_LWC) {
             if (!Security.protect(player, sign.getBlock())) {

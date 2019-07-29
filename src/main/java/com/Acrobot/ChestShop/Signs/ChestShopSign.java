@@ -1,20 +1,14 @@
 package com.Acrobot.ChestShop.Signs;
 
-import java.util.regex.Pattern;
-
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.regex.Pattern;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 /**
  * @author Acrobot
@@ -49,20 +43,6 @@ public class ChestShopSign {
 
     public static boolean isValid(Block sign) {
         return BlockUtil.isSign(sign) && isValid((Sign) sign.getState());
-    }
-
-    public static boolean isShopChest(Block chest) {
-        return uBlock.getConnectedSign(chest) != null;
-    }
-
-    public static boolean isShopChest(InventoryHolder holder) {
-        if (holder instanceof DoubleChest) {
-            return isShopChest(((DoubleChest) holder).getLocation().getBlock());
-        } else if (holder instanceof Chest) {
-            return isShopChest(((Chest) holder).getBlock());
-        } else {
-            return false;
-        }
     }
 
     public static boolean canAccess(Player player, Sign sign) {

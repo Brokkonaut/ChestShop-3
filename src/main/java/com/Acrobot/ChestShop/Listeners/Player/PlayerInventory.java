@@ -3,10 +3,8 @@ package com.Acrobot.ChestShop.Listeners.Player;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,17 +28,14 @@ public class PlayerInventory implements Listener {
 
         HumanEntity entity = event.getPlayer();
 
-        if (!(entity instanceof Player) || (!(event.getInventory().getHolder() instanceof Chest) && !(event.getInventory().getHolder() instanceof DoubleChest))) {
+        if (!(entity instanceof Player)) {
             return;
         }
 
         Player player = (Player) entity;
-        Block chest;
-
-        if (event.getInventory().getHolder() instanceof Chest) {
-            chest = ((BlockState) event.getInventory().getHolder()).getBlock();
-        } else {
-            chest = ((DoubleChest) event.getInventory().getHolder()).getLocation().getBlock();
+        Block chest = uBlock.getInventoryHolderBlock(event.getInventory().getHolder());
+        if (!uBlock.isShopChest(chest)) {
+            return;
         }
 
         if (!PlayerInteract.canOpenOtherShops(player) && !ChestShop.canAccess(player, chest)) {

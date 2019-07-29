@@ -4,10 +4,13 @@ import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.inventory.InventoryHolder;
 
 /**
  * @author Acrobot
@@ -21,12 +24,12 @@ public class uBlock {
     }
 
     public static Sign getConnectedSign(Block chestBlock, Block ignoredSign) {
-        Sign sign = uBlock.findAnyNearbyShopSign(chestBlock, ignoredSign);
+        Sign sign = findAnyNearbyShopSign(chestBlock, ignoredSign);
 
         if (sign == null) {
             Block neighbour = getConnectedChest(chestBlock);
             if (neighbour != null) {
-                sign = uBlock.findAnyNearbyShopSign(neighbour, ignoredSign);
+                sign = findAnyNearbyShopSign(neighbour, ignoredSign);
             }
         }
 
@@ -69,7 +72,7 @@ public class uBlock {
         return null;
     }
 
-    public static Chest findConnectedChest(Sign sign) {
+    public static Container findConnectedChest(Sign sign) {
         Block block = sign.getBlock();
         BlockFace signFace = null;
         BlockData data = sign.getBlockData();
@@ -78,14 +81,14 @@ public class uBlock {
             signFace = signData.getFacing().getOppositeFace();
             Block faceBlock = block.getRelative(signFace);
             if (BlockUtil.isChest(faceBlock)) {
-                return (Chest) faceBlock.getState();
+                return (Container) faceBlock.getState();
             }
         }
         for (BlockFace bf : SHOP_FACES) {
             if (bf != signFace) {
                 Block faceBlock = block.getRelative(bf);
                 if (BlockUtil.isChest(faceBlock)) {
-                    return (Chest) faceBlock.getState();
+                    return (Container) faceBlock.getState();
                 }
             }
         }
@@ -106,5 +109,24 @@ public class uBlock {
             }
         }
         return null;
+    }
+
+    public static boolean isShopChest(Block chest) {
+        return getConnectedSign(chest) != null;
+    }
+
+    public static boolean isShopChest(InventoryHolder holder) {
+        Block block = getInventoryHolderBlock(holder);
+        return block != null && isShopChest(block);
+    }
+
+    public static Block getInventoryHolderBlock(InventoryHolder holder) {
+        if (holder instanceof DoubleChest) {
+            return ((DoubleChest) holder).getLocation().getBlock();
+        } else if (holder instanceof BlockState) {
+            return ((BlockState) holder).getBlock();
+        } else {
+            return null;
+        }
     }
 }

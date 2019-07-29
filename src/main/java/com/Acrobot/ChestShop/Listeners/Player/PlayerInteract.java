@@ -34,7 +34,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -136,7 +136,7 @@ public class PlayerInteract implements Listener {
 
         if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
             if (!ChestShopSign.isAdminShop(sign)) {
-                Chest chest = uBlock.findConnectedChest(sign);
+                Container chest = uBlock.findConnectedChest(sign);
                 if (chest != null) {
                     player.sendMessage(Messages.prefix(Messages.SHOP_INFO));
                     String prices = sign.getLine(PRICE_LINE);
@@ -172,7 +172,7 @@ public class PlayerInteract implements Listener {
         Action buy = Properties.REVERSE_BUTTONS ? LEFT_CLICK_BLOCK : RIGHT_CLICK_BLOCK;
         double price = (action == buy ? PriceUtil.getBuyPrice(prices) : PriceUtil.getSellPrice(prices));
 
-        Chest chest = uBlock.findConnectedChest(sign);
+        Container chest = uBlock.findConnectedChest(sign);
         Inventory ownerInventory = (ChestShopSign.isAdminShop(sign) ? new AdminInventory() : chest != null ? chest.getInventory() : null);
 
         ItemStack item = MaterialUtil.getItem(material);
@@ -230,7 +230,7 @@ public class PlayerInteract implements Listener {
     }
 
     private static void showChestGUI(Player player, Sign sign) {
-        Chest chest = uBlock.findConnectedChest(sign);
+        Container chest = uBlock.findConnectedChest(sign);
 
         if (chest == null) {
             player.sendMessage(Messages.prefix(Messages.NO_CHEST_DETECTED));

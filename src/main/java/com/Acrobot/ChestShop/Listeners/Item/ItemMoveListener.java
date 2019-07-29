@@ -1,11 +1,10 @@
 package com.Acrobot.ChestShop.Listeners.Item;
 
+import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
-
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 
 /**
  * @author Acrobot
@@ -18,7 +17,7 @@ public class ItemMoveListener implements Listener {
             return;
         }
 
-        if (!ChestShopSign.isShopChest(event.getSource().getHolder())) {
+        if (!uBlock.isShopChest(event.getSource().getHolder())) {
             return;
         }
 

@@ -1,12 +1,11 @@
 package com.Acrobot.ChestShop.Events;
 
-import org.bukkit.block.Chest;
+import javax.annotation.Nullable;
+import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nullable;
 
 /**
  * Represents a state after shop destruction
@@ -19,9 +18,9 @@ public class ShopDestroyedEvent extends Event {
     private final Player destroyer;
 
     private final Sign sign;
-    private final Chest chest;
+    private final Container chest;
 
-    public ShopDestroyedEvent(@Nullable Player destroyer, Sign sign, @Nullable Chest chest) {
+    public ShopDestroyedEvent(@Nullable Player destroyer, Sign sign, @Nullable Container chest) {
         this.destroyer = destroyer;
         this.sign = sign;
         this.chest = chest;
@@ -39,7 +38,7 @@ public class ShopDestroyedEvent extends Event {
      * @return Shop's chest
      */
     @Nullable
-    public Chest getChest() {
+    public Container getChest() {
         return chest;
     }
 

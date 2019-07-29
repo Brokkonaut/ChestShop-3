@@ -1,14 +1,5 @@
 package com.Acrobot.ChestShop;
 
-import java.util.UUID;
-
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.Protection.ProtectBlockEvent;
@@ -16,6 +7,13 @@ import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.UUID;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 /**
  * @author Acrobot
@@ -43,7 +41,7 @@ public class Security {
 
     public static boolean canPlaceSign(Player player, Sign sign) {
         if (!Properties.ALLOW_MULTIPLE_SHOPS_AT_ONE_BLOCK) {
-            Chest chest = uBlock.findConnectedChest(sign);
+            Container chest = uBlock.findConnectedChest(sign);
             if (chest != null) {
                 Sign existingShopSign = uBlock.getConnectedSign(chest.getBlock(), sign.getBlock());
                 if (existingShopSign != null) {
