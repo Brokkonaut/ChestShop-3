@@ -25,6 +25,8 @@ public class AlternativeItemNames {
 
         addItem(Material.TROPICAL_FISH_BUCKET, "TRO_FISH_BUCKET");
 
+        addItem(Material.PRISMARINE_BRICK_SLAB, "PRISMARINE_BR_SLAB");
+
         for (Material mat : Material.values()) {
             String name = mat.name();
             if (!name.startsWith("LEGACY_")) {
