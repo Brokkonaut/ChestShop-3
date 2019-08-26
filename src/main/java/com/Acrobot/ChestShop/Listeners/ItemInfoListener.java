@@ -76,7 +76,7 @@ public class ItemInfoListener implements Listener {
             if (book.hasAuthor()) {
                 sender.sendMessage("    " + ChatColor.GRAY + "Author: " + book.getAuthor());
             }
-            if (book.getGeneration() != Generation.ORIGINAL) {
+            if (book.hasGeneration() && book.getGeneration() != Generation.ORIGINAL) {
                 sender.sendMessage("    " + ChatColor.RED + capitalizeFirstLetter(book.getGeneration().name(), '_'));
             }
         }
