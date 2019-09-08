@@ -18,6 +18,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class BlockUtil {
 
     private static EnumSet<Material> SIGNS = EnumSet.noneOf(Material.class);
+    private static EnumSet<Material> SHULKER_BOXES = EnumSet.noneOf(Material.class);
     private static EnumSet<Material> CONTAINERS = EnumSet.noneOf(Material.class);
     static {
         SIGNS.add(Material.ACACIA_SIGN);
@@ -33,26 +34,28 @@ public class BlockUtil {
         SIGNS.add(Material.SPRUCE_SIGN);
         SIGNS.add(Material.SPRUCE_WALL_SIGN);
 
+        SHULKER_BOXES.add(Material.SHULKER_BOX);
+        SHULKER_BOXES.add(Material.BLACK_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.BLUE_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.BROWN_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.CYAN_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.GRAY_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.GREEN_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.LIGHT_BLUE_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.LIGHT_GRAY_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.LIME_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.MAGENTA_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.ORANGE_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.PINK_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.PURPLE_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.RED_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.WHITE_SHULKER_BOX);
+        SHULKER_BOXES.add(Material.YELLOW_SHULKER_BOX);
+
         CONTAINERS.add(Material.CHEST);
         CONTAINERS.add(Material.TRAPPED_CHEST);
         CONTAINERS.add(Material.BARREL);
-        CONTAINERS.add(Material.SHULKER_BOX);
-        CONTAINERS.add(Material.BLACK_SHULKER_BOX);
-        CONTAINERS.add(Material.BLUE_SHULKER_BOX);
-        CONTAINERS.add(Material.BROWN_SHULKER_BOX);
-        CONTAINERS.add(Material.CYAN_SHULKER_BOX);
-        CONTAINERS.add(Material.GRAY_SHULKER_BOX);
-        CONTAINERS.add(Material.GREEN_SHULKER_BOX);
-        CONTAINERS.add(Material.LIGHT_BLUE_SHULKER_BOX);
-        CONTAINERS.add(Material.LIGHT_GRAY_SHULKER_BOX);
-        CONTAINERS.add(Material.LIME_SHULKER_BOX);
-        CONTAINERS.add(Material.MAGENTA_SHULKER_BOX);
-        CONTAINERS.add(Material.ORANGE_SHULKER_BOX);
-        CONTAINERS.add(Material.PINK_SHULKER_BOX);
-        CONTAINERS.add(Material.PURPLE_SHULKER_BOX);
-        CONTAINERS.add(Material.RED_SHULKER_BOX);
-        CONTAINERS.add(Material.WHITE_SHULKER_BOX);
-        CONTAINERS.add(Material.YELLOW_SHULKER_BOX);
+        CONTAINERS.addAll(SHULKER_BOXES);
     }
 
     /**
@@ -86,6 +89,17 @@ public class BlockUtil {
      */
     public static boolean isChest(Block block) {
         return block != null && CONTAINERS.contains(block.getType());
+    }
+
+    /**
+     * Checks if the material is a shulker box
+     *
+     * @param type
+     *            Material to check
+     * @return Is this material a shulker box?
+     */
+    public static boolean isShulkerBox(Material type) {
+        return SHULKER_BOXES.contains(type);
     }
 
     /**

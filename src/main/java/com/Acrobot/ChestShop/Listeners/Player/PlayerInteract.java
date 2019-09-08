@@ -35,6 +35,7 @@ import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -138,6 +139,12 @@ public class PlayerInteract implements Listener {
             if (!ChestShopSign.isAdminShop(sign)) {
                 Container chest = uBlock.findConnectedChest(sign);
                 if (chest != null) {
+                    // do not allow shulker boxes inside of shulker boxes
+                    if (chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
+                        player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+                        return;
+                    }
+
                     player.sendMessage(Messages.prefix(Messages.SHOP_INFO));
                     String prices = sign.getLine(PRICE_LINE);
                     Inventory inventory = chest.getInventory();
@@ -178,6 +185,11 @@ public class PlayerInteract implements Listener {
         ItemStack item = MaterialUtil.getItem(material);
 
         if (item == null || !NumberUtil.isInteger(quantity)) {
+            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+            return null;
+        }
+        // do not allow shulker boxes inside of shulker boxes
+        if (!ChestShopSign.isAdminShop(sign) && chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
             player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
             return null;
         }
