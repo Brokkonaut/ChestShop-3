@@ -15,6 +15,7 @@ import com.Acrobot.Breeze.Utils.Encoding.Base64;
 import com.Acrobot.ChestShop.Database.DaoCreator;
 import com.Acrobot.ChestShop.Database.Item;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.SelectArg;
 
 /**
  * Saves items with Metadata in database, which allows for saving items on signs easily.
@@ -49,7 +50,7 @@ public class ItemDatabase {
             clone.setAmount(1);
 
             String code = Base64.encodeObject(yaml.dump(clone));
-            Item itemEntity = itemDao.queryBuilder().where().eq("code", code).queryForFirst();
+            Item itemEntity = itemDao.queryBuilder().where().eq("code", new SelectArg(code)).queryForFirst();
 
             if (itemEntity != null) {
                 return Base62.encode(itemEntity.getId());
@@ -81,7 +82,7 @@ public class ItemDatabase {
     public ItemStack getFromCode(String code) {
         try {
             int id = Base62.decode(code);
-            Item item = itemDao.queryBuilder().where().eq("id", id).queryForFirst();
+            Item item = itemDao.queryBuilder().where().eq("id", new SelectArg(id)).queryForFirst();
 
             if (item == null) {
                 return null;
