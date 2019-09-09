@@ -190,6 +190,20 @@ public class ItemInfoListener implements Listener {
                 sender.sendMessage("    " + ChatColor.GRAY + "Color: " + getColorHexCode(color));
             }
         }
+
+        if (meta != null && meta.hasLore() && !(meta instanceof BookMeta)) {
+            List<String> lore = meta.getLore();
+            if (lore != null && lore.size() > 0) {
+                if (lore.size() == 1) {
+                    sender.sendMessage("    " + ChatColor.GRAY + "Lore: " + lore.get(0));
+                } else {
+                    sender.sendMessage("    " + ChatColor.GRAY + "Lore:");
+                    for (String loreLine : lore) {
+                        sender.sendMessage("      " + ChatColor.GRAY + loreLine);
+                    }
+                }
+            }
+        }
     }
 
     private static void sendFireworkEffect(CommandSender sender, FireworkEffect effect) {
