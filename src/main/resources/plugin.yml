@@ -21,9 +21,12 @@ commands:
     aliases: [iinfo]
     description: Lists item id and names
     usage: |
-           /<command> §2(what's the item in hand?)
-           /<command> §712§f §2(what's the item with ID §712§2?)
-           /<command> §7log§f §2(what's the item ID of §7LOG§2?)
+           /<command>
+               §2(what's the item in hand?)
+           /<command> §7DiamondChestpla§f
+               §2(what's the item with ID §7DiamondChestpla§2?)
+           /<command> §7diamond chestplate§f
+               §2(what's the item ID of a §7DIAMOND CHESTPLATE§2?)
 
   csGive:
     description: Gives an item to the appropriate player

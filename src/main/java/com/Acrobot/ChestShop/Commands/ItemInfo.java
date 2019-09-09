@@ -1,5 +1,6 @@
 package com.Acrobot.ChestShop.Commands;
 
+import static com.Acrobot.ChestShop.Configuration.Messages.INCORRECT_ITEM_ID;
 import static com.Acrobot.ChestShop.Configuration.Messages.ITEM_INFO;
 
 import org.bukkit.ChatColor;
@@ -29,12 +30,11 @@ public class ItemInfo implements CommandExecutor {
             }
 
             item = ((HumanEntity) sender).getInventory().getItemInMainHand();
+            if (MaterialUtil.isEmpty(item)) {
+                return false;
+            }
         } else {
             item = MaterialUtil.getItem(StringUtil.joinArray(args));
-        }
-
-        if (MaterialUtil.isEmpty(item)) {
-            return false;
         }
 
         showItemInfo(sender, item);
@@ -44,8 +44,13 @@ public class ItemInfo implements CommandExecutor {
 
     public static void showItemInfo(CommandSender sender, ItemStack item) {
         sender.sendMessage(Messages.prefix(ITEM_INFO));
+        if (MaterialUtil.isEmpty(item)) {
+            sender.sendMessage("  " + ChatColor.DARK_RED + INCORRECT_ITEM_ID);
+            return;
+        }
         String name = StringUtil.capitalizeFirstLetter(item.getType().name(), '_');
-        sender.sendMessage("  " + ChatColor.WHITE + name);
+        String signName = MaterialUtil.getSignName(item);
+        sender.sendMessage("  " + ChatColor.WHITE + name + (name.equals(signName) ? "" : (" " + ChatColor.DARK_GRAY + signName)));
 
         ItemInfoEvent event = new ItemInfoEvent(sender, item);
         ChestShop.callEvent(event);
