@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Utils.uBlock;
@@ -18,7 +17,6 @@ import com.Acrobot.ChestShop.Utils.uBlock;
  * @author Acrobot
  */
 public class ItemChecker implements Listener {
-    private static final short MAXIMUM_SIGN_LETTERS = 15;
     private static final String AUTOFILL_CODE = "?";
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -50,14 +48,7 @@ public class ItemChecker implements Listener {
         }
 
         String metadata = getMetadata(itemCode);
-        String itemName = StringUtil.capitalizeFirstLetter(MaterialUtil.getName(item.getType()));
-
-        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
-            itemName = itemName.replace(" ", "");
-        }
-        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
-            itemName = itemName.substring(0, MAXIMUM_SIGN_LETTERS - metadata.length());
-        }
+        String itemName = MaterialUtil.getSignMaterialName(item.getType(), metadata);
         if (isSameItem(itemName + metadata, item)) {
             event.setSignLine(ITEM_LINE, itemName + metadata);
             return;

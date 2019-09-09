@@ -6,8 +6,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.Acrobot.ChestShop.ChestShop;
 
 /**
@@ -15,6 +13,7 @@ import com.Acrobot.ChestShop.ChestShop;
  */
 public class MaterialUtil {
     private static final Map<String, Material> MATERIAL_CACHE = new HashMap<String, Material>();
+    private static final short MAXIMUM_SIGN_LETTERS = 15;
 
     /**
      * Checks if the itemStack is empty or null
@@ -98,14 +97,11 @@ public class MaterialUtil {
      * @return ItemStack's name
      */
     public static String getSignName(ItemStack itemStack) {
-        StringBuilder name = new StringBuilder(15);
-
-        name.append(getName(itemStack.getType()));
+        String metaCode = "";
         if (itemStack.hasItemMeta()) {
-            name.append('#').append(Metadata.getItemCode(itemStack));
+            metaCode = "#" + Metadata.getItemCode(itemStack);
         }
-
-        return name.toString();
+        return getSignMaterialName(itemStack.getType(), metaCode) + metaCode;
     }
 
     /**
@@ -116,7 +112,7 @@ public class MaterialUtil {
      * @return ItemStack
      */
     public static ItemStack getItem(String itemName) {
-        ItemStack itemStack;
+        ItemStack itemStack = null;
 
         String materialString = itemName;
         String metaString = null;
@@ -132,15 +128,30 @@ public class MaterialUtil {
             return null;
         }
 
-        itemStack = new ItemStack(material);
-        if (metaString != null) {
-            ItemMeta meta = Metadata.getFromCode(metaString);
-            if (meta != null) {
-                itemStack.setItemMeta(meta);
+        if (metaString == null) {
+            itemStack = new ItemStack(material);
+        } else {
+            ItemStack itemStackFromCode = Metadata.getFromCode(metaString);
+            if (itemStackFromCode != null) {
+                if (itemStackFromCode.getType() == material || getSignMaterialName(itemStackFromCode.getType(), metaString).equalsIgnoreCase(materialString)) {
+                    itemStack = itemStackFromCode;
+                }
             }
         }
 
         return itemStack;
+    }
+
+    public static String getSignMaterialName(Material material, String metadata) {
+        String itemName = StringUtil.capitalizeFirstLetter(getName(material));
+
+        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+            itemName = itemName.replace(" ", "");
+        }
+        if (itemName.length() > (MAXIMUM_SIGN_LETTERS - metadata.length())) {
+            itemName = itemName.substring(0, MAXIMUM_SIGN_LETTERS - metadata.length());
+        }
+        return itemName;
     }
 
     public static class Metadata {
@@ -159,14 +170,8 @@ public class MaterialUtil {
          *            Code representing the item
          * @return Item represented by code
          */
-        public static ItemMeta getFromCode(String code) {
-            ItemStack item = ChestShop.getItemDatabase().getFromCode(code);
-
-            if (item == null) {
-                return null;
-            } else {
-                return item.getItemMeta();
-            }
+        public static ItemStack getFromCode(String code) {
+            return ChestShop.getItemDatabase().getFromCode(code);
         }
 
         /**
