@@ -10,6 +10,7 @@ import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -31,9 +32,11 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 
@@ -169,6 +172,24 @@ public class ItemInfoListener implements Listener {
                 }
             }
         }
+
+        if (meta instanceof TropicalFishBucketMeta) {
+            TropicalFishBucketMeta tropicalFishBucketMeta = (TropicalFishBucketMeta) meta;
+            if (tropicalFishBucketMeta.hasVariant()) {
+                String pattern = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPattern()), '_');
+                String basecolor = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getBodyColor()), '_');
+                String patterncolor = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPatternColor()), '_');
+                sender.sendMessage("    " + ChatColor.GRAY + "Variant: " + pattern + " " + basecolor + "/" + patterncolor);
+            }
+        }
+
+        if (meta instanceof LeatherArmorMeta) {
+            LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
+            Color color = leatherArmorMeta.getColor();
+            if (color != null) {
+                sender.sendMessage("    " + ChatColor.GRAY + "Color: " + getColorHexCode(color));
+            }
+        }
     }
 
     private static void sendFireworkEffect(CommandSender sender, FireworkEffect effect) {
@@ -200,5 +221,20 @@ public class ItemInfoListener implements Listener {
             sb.append(dyeColor != null ? capitalizeFirstLetter(dyeColor.name(), '_') : "Custom");
         }
         return sb.toString();
+    }
+
+    private static String getTwoCharacterColorHexCode(int color) {
+        String s = Integer.toHexString(color).toUpperCase();
+        if (s.length() < 2) {
+            s = "0" + s;
+        }
+        return s;
+    }
+
+    private static String getColorHexCode(Color color) {
+        String red = getTwoCharacterColorHexCode(color.getRed());
+        String green = getTwoCharacterColorHexCode(color.getGreen());
+        String blue = getTwoCharacterColorHexCode(color.getBlue());
+        return "#" + red + green + blue;
     }
 }
