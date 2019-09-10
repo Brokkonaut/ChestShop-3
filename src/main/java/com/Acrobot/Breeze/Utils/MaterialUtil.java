@@ -133,7 +133,7 @@ public class MaterialUtil {
         } else {
             ItemStack itemStackFromCode = Metadata.getFromCode(metaString);
             if (itemStackFromCode != null) {
-                if (itemStackFromCode.getType() == material || getSignMaterialName(itemStackFromCode.getType(), metaString).equalsIgnoreCase(materialString)) {
+                if (itemStackFromCode.getType() == material || getSignMaterialName(itemStackFromCode.getType(), "#" + metaString).equalsIgnoreCase(materialString)) {
                     itemStack = itemStackFromCode;
                 }
             }
