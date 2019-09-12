@@ -93,6 +93,6 @@ public class Give implements CommandExecutor {
             builder.append(arguments[index]).append(' ');
         }
 
-        return MaterialUtil.getItem(builder.toString());
+        return MaterialUtil.getItem(builder.toString().trim());
     }
 }
