@@ -35,6 +35,10 @@ public class EnchantmentNames {
         addEnchantment(Enchantment.IMPALING, "Impaling");
         addEnchantment(Enchantment.RIPTIDE, "Riptide");
         addEnchantment(Enchantment.CHANNELING, "Channeling");
+        addEnchantment(Enchantment.SWEEPING_EDGE, "Sweeping Edge");
+        addEnchantment(Enchantment.DEPTH_STRIDER, "Depth Strider");
+        addEnchantment(Enchantment.FROST_WALKER, "Frost Walker");
+        addEnchantment(Enchantment.QUICK_CHARGE, "Quick Charge");
     }
 
     private static void addEnchantment(Enchantment enchantment, String name) {

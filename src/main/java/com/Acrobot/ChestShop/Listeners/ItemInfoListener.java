@@ -86,14 +86,14 @@ public class ItemInfoListener implements Listener {
 
         Map<Enchantment, Integer> enchantments = item.getEnchantments();
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
-            sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
+            sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ((enchantment.getKey().getMaxLevel() > 1 || enchantment.getValue() != 1) ? (' ' + toRoman(enchantment.getValue())) : ""));
         }
 
         if (meta instanceof EnchantmentStorageMeta) {
             EnchantmentStorageMeta ench = (EnchantmentStorageMeta) meta;
             if (ench.hasStoredEnchants()) {
                 for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
-                    sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ' ' + toRoman(enchantment.getValue()));
+                    sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ((enchantment.getKey().getMaxLevel() > 1 || enchantment.getValue() != 1) ? (' ' + toRoman(enchantment.getValue())) : ""));
                 }
             }
         }
