@@ -16,6 +16,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.block.Beehive;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.command.CommandSender;
@@ -168,6 +169,13 @@ public class ItemInfoListener implements Listener {
                         if (stacks > 0) {
                             sender.sendMessage("    " + ChatColor.GRAY + "Content: " + stacks + " Stacks");
                         }
+                    }
+                    if (blockState instanceof Beehive) {
+                        Beehive beehive = (Beehive) blockState;
+                        int honeyLevel = ((org.bukkit.block.data.type.Beehive) beehive.getBlockData()).getHoneyLevel();
+                        sender.sendMessage("    " + ChatColor.GRAY + "Honey Level: " + honeyLevel);
+                        int bees = beehive.getEntityCount();
+                        sender.sendMessage("    " + ChatColor.GRAY + "Bees: " + bees);
                     }
                 }
             }
