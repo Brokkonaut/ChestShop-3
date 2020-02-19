@@ -172,8 +172,8 @@ public class ItemInfoListener implements Listener {
                     }
                     if (blockState instanceof Beehive) {
                         Beehive beehive = (Beehive) blockState;
-                        int honeyLevel = ((org.bukkit.block.data.type.Beehive) beehive.getBlockData()).getHoneyLevel();
-                        sender.sendMessage("    " + ChatColor.GRAY + "Honey Level: " + honeyLevel);
+                        // int honeyLevel = ((org.bukkit.block.data.type.Beehive) beehive.getBlockData()).getHoneyLevel();
+                        // sender.sendMessage(" " + ChatColor.GRAY + "Honey Level: " + honeyLevel);
                         int bees = beehive.getEntityCount();
                         sender.sendMessage("    " + ChatColor.GRAY + "Bees: " + bees);
                     }
