@@ -39,7 +39,7 @@ public class PriceUtil {
             if (NumberUtil.isDouble(part)) {
                 double price = Double.valueOf(part);
 
-                if (Double.isInfinite(price) || price <= 0) {
+                if (!Double.isFinite(price) || price <= 0) {
                     return NO_PRICE;
                 } else {
                     return price;
