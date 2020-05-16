@@ -16,7 +16,7 @@ public class EnchantmentNames {
         addEnchantment(Enchantment.ARROW_KNOCKBACK, "Punch");
         addEnchantment(Enchantment.BINDING_CURSE, ChatColor.RED + "Curse of Binding");
         addEnchantment(Enchantment.DAMAGE_ALL, "Sharpness");
-        addEnchantment(Enchantment.DAMAGE_ARTHROPODS, "Bane of Anthropods");
+        addEnchantment(Enchantment.DAMAGE_ARTHROPODS, "Bane of Arthropods");
         addEnchantment(Enchantment.DAMAGE_UNDEAD, "Smite");
         addEnchantment(Enchantment.DIG_SPEED, "Efficiency");
         addEnchantment(Enchantment.DURABILITY, "Unbreaking");
