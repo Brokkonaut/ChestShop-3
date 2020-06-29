@@ -33,6 +33,10 @@ public class BlockUtil {
         SIGNS.add(Material.OAK_WALL_SIGN);
         SIGNS.add(Material.SPRUCE_SIGN);
         SIGNS.add(Material.SPRUCE_WALL_SIGN);
+        SIGNS.add(Material.WARPED_SIGN);
+        SIGNS.add(Material.WARPED_WALL_SIGN);
+        SIGNS.add(Material.CRIMSON_SIGN);
+        SIGNS.add(Material.CRIMSON_WALL_SIGN);
 
         SHULKER_BOXES.add(Material.SHULKER_BOX);
         SHULKER_BOXES.add(Material.BLACK_SHULKER_BOX);

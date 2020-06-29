@@ -39,6 +39,7 @@ public class EnchantmentNames {
         addEnchantment(Enchantment.DEPTH_STRIDER, "Depth Strider");
         addEnchantment(Enchantment.FROST_WALKER, "Frost Walker");
         addEnchantment(Enchantment.QUICK_CHARGE, "Quick Charge");
+        addEnchantment(Enchantment.SOUL_SPEED, "Soul Speed");
     }
 
     private static void addEnchantment(Enchantment enchantment, String name) {

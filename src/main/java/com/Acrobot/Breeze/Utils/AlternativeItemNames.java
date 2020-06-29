@@ -27,6 +27,16 @@ public class AlternativeItemNames {
 
         addItem(Material.PRISMARINE_BRICK_SLAB, "PRISMARINE_BR_SLAB");
 
+        addItem(Material.POLISHED_BLACKSTONE_WALL, "POL_BLACKSTONE_WALL");
+        addItem(Material.POLISHED_BLACKSTONE_BRICK_WALL, "POL_BLACKST_B_WALL");
+        addItem(Material.POLISHED_BLACKSTONE_BUTTON, "POL_BLACKST_BUTTON");
+        addItem(Material.POLISHED_BLACKSTONE_SLAB, "POL_BLACKST_SLAB");
+        addItem(Material.POLISHED_BLACKSTONE_STAIRS, "POL_BLACKST_STAIRS");
+        addItem(Material.POLISHED_BLACKSTONE_BRICK_SLAB, "POL_BLACKST_B_SLAB");
+        addItem(Material.POLISHED_BLACKSTONE_BRICK_STAIRS, "POL_BLACKST_B_STAIRS");
+        addItem(Material.POLISHED_BLACKSTONE_BRICKS, "POL_BLACKST_BRICKS");
+        addItem(Material.CRACKED_POLISHED_BLACKSTONE_BRICKS, "CRACKED_POL_BLST_BRICKS");
+
         for (Material mat : Material.values()) {
             String name = mat.name();
             if (!name.startsWith("LEGACY_")) {
