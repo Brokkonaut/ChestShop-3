@@ -169,4 +169,12 @@ public class AdminInventory implements Inventory {
     public ListIterator<ItemStack> iterator(int i) {
         return null;
     }
+
+    public InventoryHolder getHolder(boolean useSnapshot) {
+        return null;
+    }
+
+    public HashMap<Integer, ItemStack> removeItemAnySlot(ItemStack... items) throws IllegalArgumentException {
+        return new HashMap<Integer, ItemStack>();
+    }
 }
