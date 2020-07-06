@@ -107,7 +107,13 @@ public class ItemDatabase {
             int mutants = 0;
             int collisions = 0;
             int errors = 0;
+            int total = items.size();
+            int current = 0;
             for (Item item : items) {
+                current++;
+                if (current % 100 == 0 || current == total) {
+                    ChestShop.getPlugin().getLogger().info("Converting... " + current + "/" + total);
+                }
                 try {
                     String serialized = item.getBase64ItemCode();
                     String reserialized = encodeItemStack(fromLegacy ? decodeItemStackLegacy(serialized) : decodeItemStack(serialized));
