@@ -137,7 +137,7 @@ public class PlayerInteract implements Listener {
 
         if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
             if (!ChestShopSign.isAdminShop(sign)) {
-                Container chest = uBlock.findConnectedChest(sign);
+                Container chest = uBlock.findConnectedChest(sign, true);
                 if (chest != null) {
                     // do not allow shulker boxes inside of shulker boxes
                     if (chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
@@ -179,7 +179,7 @@ public class PlayerInteract implements Listener {
         Action buy = Properties.REVERSE_BUTTONS ? LEFT_CLICK_BLOCK : RIGHT_CLICK_BLOCK;
         double price = (action == buy ? PriceUtil.getBuyPrice(prices) : PriceUtil.getSellPrice(prices));
 
-        Container chest = uBlock.findConnectedChest(sign);
+        Container chest = uBlock.findConnectedChest(sign, true);
         Inventory ownerInventory = (ChestShopSign.isAdminShop(sign) ? new AdminInventory() : chest != null ? chest.getInventory() : null);
 
         ItemStack item = MaterialUtil.getItem(material);

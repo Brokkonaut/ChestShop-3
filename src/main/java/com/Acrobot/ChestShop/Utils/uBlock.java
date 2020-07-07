@@ -10,7 +10,12 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * @author Acrobot
@@ -73,6 +78,10 @@ public class uBlock {
     }
 
     public static Container findConnectedChest(Sign sign) {
+        return findConnectedChest(sign, false);
+    }
+
+    public static Container findConnectedChest(Sign sign, boolean upgradeItems) {
         Block block = sign.getBlock();
         BlockFace signFace = null;
         BlockData data = sign.getBlockData();
@@ -81,6 +90,9 @@ public class uBlock {
             signFace = signData.getFacing().getOppositeFace();
             Block faceBlock = block.getRelative(signFace);
             if (BlockUtil.isChest(faceBlock)) {
+                if (upgradeItems) {
+                    upgradeContainerItems(faceBlock);
+                }
                 return (Container) faceBlock.getState();
             }
         }
@@ -88,11 +100,50 @@ public class uBlock {
             if (bf != signFace) {
                 Block faceBlock = block.getRelative(bf);
                 if (BlockUtil.isChest(faceBlock)) {
+                    if (upgradeItems) {
+                        upgradeContainerItems(faceBlock);
+                    }
                     return (Container) faceBlock.getState();
                 }
             }
         }
         return null;
+    }
+
+    private static void upgradeContainerItems(Block chestBlock) {
+        BlockState blockState = chestBlock.getState();
+        if (blockState instanceof Container) {
+            Container container = (Container) blockState;
+            Inventory inventory = container.getInventory();
+            ItemStack[] contents = inventory.getContents();
+            YamlConfiguration conf = null;
+            for (int i = 0; i < contents.length; i++) {
+                ItemStack stack = contents[i];
+                if (stack != null && stack.hasItemMeta()) {
+                    ItemMeta meta = stack.getItemMeta();
+                    if (meta.hasDisplayName() || meta.hasLocalizedName() || meta.hasLore()) {
+                        if (conf == null) {
+                            conf = new YamlConfiguration();
+                        }
+                        conf.set("item" + i, stack);
+                    }
+                }
+            }
+            if (conf != null) {
+                try {
+                    conf.loadFromString(conf.saveToString());
+                } catch (InvalidConfigurationException e) {
+                    throw new RuntimeException("should be impossible", e);
+                }
+                for (int i = 0; i < contents.length; i++) {
+                    ItemStack stack = conf.getItemStack("item" + i);
+                    if (stack != null) {
+                        contents[i] = stack;
+                    }
+                }
+                inventory.setContents(contents);
+            }
+        }
     }
 
     private static Sign findAnyNearbyShopSign(Block block, Block ignoredSign) {
