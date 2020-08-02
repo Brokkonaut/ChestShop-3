@@ -85,6 +85,9 @@ public class Properties {
     @ConfigurationComment("Do you want to show information about available items/free space of a shop?")
     public static boolean SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK = true;
 
+    @ConfigurationComment("Do you want to show translated item names in messages?")
+    public static boolean SHOW_TRANSLATED_ITEM_NAMES = true;
+
     @PrecededBySpace
     @ConfigurationComment("If true, plugin will log transactions in its own file")
     public static boolean LOG_TO_FILE = false;
