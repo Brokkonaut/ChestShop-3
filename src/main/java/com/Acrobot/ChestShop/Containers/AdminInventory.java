@@ -177,4 +177,9 @@ public class AdminInventory implements Inventory {
     public HashMap<Integer, ItemStack> removeItemAnySlot(ItemStack... items) throws IllegalArgumentException {
         return new HashMap<Integer, ItemStack>();
     }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
 }
