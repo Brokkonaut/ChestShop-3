@@ -26,6 +26,9 @@ public class AlternativeItemNames {
         addItem(Material.TROPICAL_FISH_BUCKET, "TRO_FISH_BUCKET");
 
         addItem(Material.PRISMARINE_BRICK_SLAB, "PRISMARINE_BR_SLAB");
+        addItem(Material.PRISMARINE_BRICK_STAIRS, "PRISMARINE_BR_STAIRS");
+        addItem(Material.DARK_PRISMARINE_STAIRS, "DARK_PRISM_STAIRS");
+        addItem(Material.DARK_PRISMARINE_SLAB, "DARK_PRISM_SLAB");
 
         addItem(Material.POLISHED_BLACKSTONE_WALL, "POL_BLACKSTONE_WALL");
         addItem(Material.POLISHED_BLACKSTONE_BRICK_WALL, "POL_BLACKST_B_WALL");
