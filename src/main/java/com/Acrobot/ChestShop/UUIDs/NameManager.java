@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.Acrobot.ChestShop.ChestShop;
@@ -72,6 +72,30 @@ public class NameManager {
         String name = player.getName();
         String foundShortName = storeUsername(uuid, name);
         currentShortName.put(uuid, foundShortName);
+    }
+
+    public static boolean freeUsername(String name) {
+        name = name.trim().toLowerCase();
+        UUID assignedFor = usedShortNames.get(name);
+        if (assignedFor == null) {
+            return false;
+        }
+        try {
+            accounts2.delete(new Account2(name, assignedFor));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        usedShortNames.remove(name);
+        String assignedName = currentShortName.get(assignedFor);
+        if (name.equals(assignedName)) {
+            currentShortName.remove(assignedFor);
+            // assign a new name for the player if online
+            Player onlinePlayer = Bukkit.getServer().getPlayer(assignedFor);
+            if (onlinePlayer != null) {
+                storeUsername(onlinePlayer);
+            }
+        }
+        return true;
     }
 
     private static String storeUsername(final UUID uuid, String name) {

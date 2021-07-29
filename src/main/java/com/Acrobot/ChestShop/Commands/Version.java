@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
  * @author Acrobot
  */
 public class Version implements CommandExecutor {
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Permission.has(sender, Permission.ADMIN)) {
             sender.sendMessage(Messages.prefix(Messages.ACCESS_DENIED));
@@ -27,6 +28,19 @@ public class Version implements CommandExecutor {
             NameManager.load();
 
             sender.sendMessage(ChatColor.DARK_GREEN + "The config was reloaded.");
+            return true;
+        }
+        if (args.length > 0 && args[0].equals("free")) {
+            if (args.length != 2) {
+                sender.sendMessage(ChatColor.DARK_RED + "/chestshop free <username>");
+                return true;
+            }
+            boolean success = NameManager.freeUsername(args[1]);
+            if (success) {
+                sender.sendMessage(ChatColor.DARK_GREEN + "The name '" + args[1] + "' is now no longer in use.");
+            } else {
+                sender.sendMessage(ChatColor.DARK_GREEN + "The name '" + args[1] + "' was not in use.");
+            }
             return true;
         }
 
