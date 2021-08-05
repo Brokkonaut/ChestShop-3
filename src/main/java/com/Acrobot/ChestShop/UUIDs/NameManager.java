@@ -88,7 +88,7 @@ public class NameManager {
         if (rowsDeleted > 0) {
             UUID assignedFor = usedShortNames.remove(name);
             String assignedName = currentShortName.get(assignedFor);
-            if (name.equals(assignedName)) {
+            if (name.equalsIgnoreCase(assignedName)) {
                 currentShortName.remove(assignedFor);
                 // assign a new name for the player if online
                 Player onlinePlayer = Bukkit.getServer().getPlayer(assignedFor);
