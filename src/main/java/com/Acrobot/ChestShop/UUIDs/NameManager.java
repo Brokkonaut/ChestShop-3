@@ -15,6 +15,7 @@ import com.Acrobot.ChestShop.Database.DaoCreator;
 import com.Acrobot.ChestShop.Database.PlayerName;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 /**
  * Lets you save/cache username and UUID relations
@@ -76,26 +77,27 @@ public class NameManager {
 
     public static boolean freeUsername(String name) {
         name = name.trim().toLowerCase();
-        UUID assignedFor = usedShortNames.get(name);
-        if (assignedFor == null) {
-            return false;
-        }
+        int rowsDeleted = 0;
         try {
-            accounts2.delete(new Account2(name, assignedFor));
+            DeleteBuilder<Account2, String> del = accounts2.deleteBuilder();
+            del.setWhere(del.where().like("shortName", name));
+            rowsDeleted = del.delete();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        usedShortNames.remove(name);
-        String assignedName = currentShortName.get(assignedFor);
-        if (name.equals(assignedName)) {
-            currentShortName.remove(assignedFor);
-            // assign a new name for the player if online
-            Player onlinePlayer = Bukkit.getServer().getPlayer(assignedFor);
-            if (onlinePlayer != null) {
-                storeUsername(onlinePlayer);
+        if (rowsDeleted > 0) {
+            UUID assignedFor = usedShortNames.remove(name);
+            String assignedName = currentShortName.get(assignedFor);
+            if (name.equals(assignedName)) {
+                currentShortName.remove(assignedFor);
+                // assign a new name for the player if online
+                Player onlinePlayer = Bukkit.getServer().getPlayer(assignedFor);
+                if (onlinePlayer != null) {
+                    storeUsername(onlinePlayer);
+                }
             }
         }
-        return true;
+        return rowsDeleted > 0;
     }
 
     private static String storeUsername(final UUID uuid, String name) {
