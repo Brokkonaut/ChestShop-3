@@ -24,4 +24,22 @@ public class MaterialTest {
         assertTrue(MaterialUtil.isEmpty(air));
         assertTrue(MaterialUtil.isEmpty(null));
     }
+
+    @Test
+    public void testNameCollisions() {
+        boolean anyFail = false;
+        for (Material m : Material.values()) {
+            if (!m.name().startsWith("LEGACY_")) {
+                String materialName = MaterialUtil.getSignMaterialName(m, "");
+                Material m2 = MaterialUtil.getMaterial(materialName);
+                if (m != m2) {
+                    System.err.println("Material " + m + " becomes " + m2);
+                    anyFail = true;
+                }
+            }
+        }
+        if (anyFail) {
+            throw new AssertionError();
+        }
+    }
 }

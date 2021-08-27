@@ -33,7 +33,7 @@ public class MaterialUtil {
      *            Name of the material
      * @return Material found
      */
-    private static Material getMaterial(String name) {
+    public static Material getMaterial(String name) {
         String formatted = name.replaceAll(" |_", "").toUpperCase();
 
         if (MATERIAL_CACHE.containsKey(formatted)) {
