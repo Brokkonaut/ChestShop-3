@@ -78,6 +78,12 @@ public class Messages {
     public static String TOGGLE_MESSAGES_OFF = "You will no longer receive messages from your shop(s).";
     public static String TOGGLE_MESSAGES_ON = "You will now receive messages from your shop(s).";
 
+    @PrecededBySpace
+    public static String MUST_LOOK_AT_SHOP_SIGN = "You must look at a shop sign when using this command.";
+    public static String INVALID_PRICE_LINE = "You have specified an invalid price!";
+    public static String INVALID_AMOUNT_LINE = "You have specified an invalid amount!";
+    public static String SHOP_UPDATE_FAILED = "This shop cannot be edited.";
+
     public static String prefix(String message) {
         return PREFIX + message;
     }

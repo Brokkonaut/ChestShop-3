@@ -38,7 +38,13 @@ commands:
   cstoggle:
     description: Toggle messages to the owner of a shop
     usage: /<command>
-
+  csSetPrice:
+    description: Edit the price of a shop
+    usage: /<command>
+  csSetAmount:
+    description: Edit the amount of a shop
+    usage: /<command>
+    
 permissions:
   ChestShop.*:
     description: Gives access to all ChestShop permissions
@@ -52,6 +58,8 @@ permissions:
         ChestShop.shop.create: true
         ChestShop.shop.buy: true
         ChestShop.shop.sell: true
+        ChestShop.setpricecommand: true
+        ChestShop.setamountcommand: true
     default: true
   ChestShop.shop.create:
     description: Allows the user to create a shop that sells and buys any item
@@ -62,6 +70,10 @@ permissions:
     description: Allows the user to create a shop that sells any item
   ChestShop.shop.create.sell:
     description: Allows the user to create a shop that buy any item
+  ChestShop.setpricecommand:
+    description: Allows the user modify the price of existing own shops
+  ChestShop.setamountcommand:
+    description: Allows the user modify the amount of existing own shops
   ChestShop.shop.create.(itemType):
     description: Allows user to create a shop that sells item with itemType like in the permission node (replace (itemType) with Material item name)
   ChestShop.shop.buy.(itemType):
