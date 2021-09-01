@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import com.Acrobot.ChestShop.ChestShop;
@@ -135,7 +136,7 @@ public class NameManager {
         return foundShortName;
     }
 
-    public static boolean canUseName(Player player, String name) {
+    public static boolean canUseName(OfflinePlayer player, String name) {
         if (ChestShopSign.isAdminShop(name)) {
             return false;
         }

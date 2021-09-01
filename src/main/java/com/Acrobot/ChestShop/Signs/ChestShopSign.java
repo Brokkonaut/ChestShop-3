@@ -5,9 +5,9 @@ import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.regex.Pattern;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 /**
@@ -45,7 +45,7 @@ public class ChestShopSign {
         return BlockUtil.isSign(sign) && isValid((Sign) sign.getState());
     }
 
-    public static boolean canAccess(Player player, Sign sign) {
+    public static boolean canAccess(OfflinePlayer player, Sign sign) {
         if (player == null) {
             return false;
         }
