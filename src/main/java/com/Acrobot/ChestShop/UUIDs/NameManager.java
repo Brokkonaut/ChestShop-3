@@ -31,6 +31,7 @@ public class NameManager {
     private static Map<String, UUID> usedShortNames = new HashMap<String, UUID>();
     private static Map<UUID, String> currentShortName = new HashMap<UUID, String>();
     private static Map<UUID, String> lastSeenFullName = new HashMap<UUID, String>();
+    private static Map<String, UUID> fullNamesToUUID = new HashMap<String, UUID>();
 
     private static UUID adminShopUUID;
     private static UUID serverAccountUUID;
@@ -57,6 +58,10 @@ public class NameManager {
             return serverAccountUUID;
         }
         return usedShortNames.get(shortName.toLowerCase());
+    }
+
+    public static UUID getUUIDForFullName(String name) {
+        return fullNamesToUUID.get(name.toLowerCase());
     }
 
     private static String createUseableShortName(String name, int id) {
@@ -126,6 +131,7 @@ public class NameManager {
                 e.printStackTrace();
             }
         }
+        fullNamesToUUID.put(name.toLowerCase(), uuid);
         return foundShortName;
     }
 
@@ -168,6 +174,7 @@ public class NameManager {
 
             for (PlayerName pn : playerNames.queryForAll()) {
                 lastSeenFullName.put(pn.getUuid(), pn.getFullName());
+                fullNamesToUUID.put(pn.getFullName().toLowerCase(), pn.getUuid());
             }
             for (Account2 a : accounts2.queryForAll()) {
                 UUID id = a.getUuid();
