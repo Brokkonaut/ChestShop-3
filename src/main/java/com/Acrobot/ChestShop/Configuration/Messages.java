@@ -80,6 +80,7 @@ public class Messages {
 
     @PrecededBySpace
     public static String MUST_LOOK_AT_SHOP_SIGN = "You must look at a shop sign when using this command.";
+    public static String INVALID_ITEM_LINE = "You have specified an invalid item!";
     public static String INVALID_PRICE_LINE = "You have specified an invalid price!";
     public static String INVALID_AMOUNT_LINE = "You have specified an invalid amount!";
     public static String SHOP_UPDATE_FAILED = "This shop cannot be edited.";

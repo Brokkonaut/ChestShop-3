@@ -19,9 +19,9 @@ public enum Permission {
 
     NOFEE("ChestShop.nofee"), DISCOUNT("ChestShop.discount."),
 
-    NOTIFY_TOGGLE("ChestShop.toggle"), SET_PRICE_COMMAND("ChestShop.setpricecommand"),
-    
-    SET_AMOUNT_COMMAND("ChestShop.setamountcommand");
+    NOTIFY_TOGGLE("ChestShop.toggle"), SET_ITEM_COMMAND("ChestShop.setitemcommand"), 
+
+    SET_PRICE_COMMAND("ChestShop.setpricecommand"), SET_AMOUNT_COMMAND("ChestShop.setamountcommand");
 
     private final String permission;
 

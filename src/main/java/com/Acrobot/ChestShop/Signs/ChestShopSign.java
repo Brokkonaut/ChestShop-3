@@ -1,14 +1,17 @@
 package com.Acrobot.ChestShop.Signs;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.regex.Pattern;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Acrobot
@@ -20,6 +23,7 @@ public class ChestShopSign {
     public static final byte ITEM_LINE = 3;
 
     public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
+    public static final String AUTOFILL_CODE = "?";
 
     public static boolean isAdminShop(Inventory ownerInventory) {
         return ownerInventory instanceof AdminInventory;
@@ -63,5 +67,48 @@ public class ChestShopSign {
             }
         }
         return lines[PRICE_LINE].indexOf(':') == lines[PRICE_LINE].lastIndexOf(':');
+    }
+
+    /**
+     * Returns the itemCode as it should display on a sign or null, if the itemCode is invalid.
+     *
+     * @param itemCode
+     *            the user entered itemCode
+     * @param sign
+     *            the sign to set the item, required for autofill
+     * @return the corrected itemCode or null if it was invalid
+     */
+    public static String getCorrectedItemCode(String itemCode, Sign sign) {
+        ItemStack item = MaterialUtil.getItem(itemCode);
+        if (item == null) {
+            boolean foundItem = false;
+
+            if (Properties.ALLOW_AUTO_ITEM_FILL && itemCode.equals(AUTOFILL_CODE) && uBlock.findConnectedChest(sign) != null) {
+                for (ItemStack stack : uBlock.findConnectedChest(sign, true).getInventory().getContents()) {
+                    if (!MaterialUtil.isEmpty(stack)) {
+                        item = stack;
+                        itemCode = MaterialUtil.getSignName(stack);
+
+                        foundItem = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!foundItem) {
+                return null;
+            }
+        }
+
+        String metaCode = MaterialUtil.Metadata.getMetaCodeFromItemCode(itemCode);
+        metaCode = metaCode == null ? "" : "#" + metaCode;
+        String itemName = MaterialUtil.getSignMaterialName(item.getType(), metaCode);
+
+        ItemStack newItem = MaterialUtil.getItem(itemCode);
+        if (newItem == null || !newItem.isSimilar(item)) {
+            return null;
+        }
+
+        return itemName + metaCode;
     }
 }

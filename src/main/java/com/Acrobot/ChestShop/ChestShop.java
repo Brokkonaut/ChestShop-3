@@ -20,6 +20,7 @@ import com.Acrobot.Breeze.Configuration.Configuration;
 import com.Acrobot.ChestShop.Commands.Give;
 import com.Acrobot.ChestShop.Commands.ItemInfo;
 import com.Acrobot.ChestShop.Commands.SetAmount;
+import com.Acrobot.ChestShop.Commands.SetItem;
 import com.Acrobot.ChestShop.Commands.SetPrice;
 import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Commands.Version;
@@ -138,6 +139,7 @@ public class ChestShop extends JavaPlugin {
         getCommand("csVersion").setExecutor(new Version());
         getCommand("csGive").setExecutor(new Give());
         getCommand("cstoggle").setExecutor(new Toggle());
+        getCommand("csSetItem").setExecutor(new SetItem());
         getCommand("csSetPrice").setExecutor(new SetPrice());
         getCommand("csSetAmount").setExecutor(new SetAmount());
     }
