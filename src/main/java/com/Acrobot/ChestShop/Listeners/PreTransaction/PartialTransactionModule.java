@@ -4,6 +4,8 @@ import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcom
 import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY;
 import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_STOCK_IN_CHEST;
 import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_STOCK_IN_INVENTORY;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_SPACE_IN_INVENTORY;
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.NOT_ENOUGH_SPACE_IN_CHEST;
 import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_DEPOSIT_FAILED;
 import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_DOES_NOT_HAVE_ENOUGH_MONEY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
@@ -90,6 +92,22 @@ public class PartialTransactionModule implements Listener {
             event.setPrice(pricePerItem * posessedItemCount);
             event.setStock(itemsHad);
         }
+
+        stock = event.getStock();
+
+        if (!InventoryUtil.fits(stock, event.getClientInventory())) {
+            int freeSpace = InventoryUtil.getFreeSpace(stock, event.getClientInventory());
+            if (freeSpace <= 0) {
+                event.setCancelled(NOT_ENOUGH_SPACE_IN_INVENTORY);
+                return;
+            }
+
+            stock = new ItemStack(stock);
+            stock.setAmount(freeSpace);
+
+            event.setPrice(pricePerItem * freeSpace);
+            event.setStock(stock);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -151,6 +169,22 @@ public class PartialTransactionModule implements Listener {
 
             event.setPrice(pricePerItem * posessedItemCount);
             event.setStock(itemsHad);
+        }
+
+        stock = event.getStock();
+
+        if (!InventoryUtil.fits(stock, event.getOwnerInventory())) {
+            int freeSpace = InventoryUtil.getFreeSpace(stock, event.getOwnerInventory());
+            if (freeSpace <= 0) {
+                event.setCancelled(NOT_ENOUGH_SPACE_IN_CHEST);
+                return;
+            }
+
+            stock = new ItemStack(stock);
+            stock.setAmount(freeSpace);
+
+            event.setPrice(pricePerItem * freeSpace);
+            event.setStock(stock);
         }
     }
 
