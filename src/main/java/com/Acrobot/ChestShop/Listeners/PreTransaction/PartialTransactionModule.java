@@ -43,7 +43,7 @@ public class PartialTransactionModule implements Listener {
         ItemStack stock = event.getStock();
 
         double price = event.getPrice();
-        double pricePerItem = event.getPrice() / InventoryUtil.countItems(stock);
+        double pricePerItem = event.getPrice() / stock.getAmount();
 
         CurrencyAmountEvent currencyAmountEvent = new CurrencyAmountEvent(client);
         ChestShop.callEvent(currencyAmountEvent);
@@ -121,7 +121,7 @@ public class PartialTransactionModule implements Listener {
         ItemStack stock = event.getStock();
 
         double price = event.getPrice();
-        double pricePerItem = event.getPrice() / InventoryUtil.countItems(stock);
+        double pricePerItem = event.getPrice() / stock.getAmount();
 
         CurrencyAmountEvent currencyAmountEvent = new CurrencyAmountEvent(owner, client.getWorld());
         ChestShop.callEvent(currencyAmountEvent);

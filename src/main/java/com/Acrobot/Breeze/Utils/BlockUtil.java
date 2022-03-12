@@ -107,6 +107,17 @@ public class BlockUtil {
     }
 
     /**
+     * Checks if the material can be stored in a shulker box
+     *
+     * @param type
+     *            Material to check
+     * @return If this item can be stored in a shulker box
+     */
+    public static boolean canBeStoredInShulkerBox(Material type) {
+        return !SHULKER_BOXES.contains(type) && type != Material.FILLED_MAP;
+    }
+
+    /**
      * Gets the block to which the sign is attached
      *
      * @param sign
