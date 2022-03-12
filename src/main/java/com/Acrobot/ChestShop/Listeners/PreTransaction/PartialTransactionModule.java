@@ -78,7 +78,7 @@ public class PartialTransactionModule implements Listener {
         stock = event.getStock();
 
         if (!InventoryUtil.hasItems(stock, event.getOwnerInventory())) {
-            int posessedItemCount = InventoryUtil.getAmount(stock, event.getClientInventory());
+            int posessedItemCount = InventoryUtil.getAmount(stock, event.getOwnerInventory());
             if (posessedItemCount <= 0) {
                 event.setCancelled(NOT_ENOUGH_STOCK_IN_CHEST);
                 return;
