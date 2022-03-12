@@ -28,12 +28,12 @@ public class PreTransactionEvent extends Event {
     private Inventory ownerInventory;
     private Inventory clientInventory;
 
-    private ItemStack[] items;
+    private ItemStack items;
     private double price;
 
     private TransactionOutcome transactionOutcome = TRANSACTION_SUCCESFUL;
 
-    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack[] items, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type) {
+    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack items, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type) {
         this.ownerInventory = ownerInventory;
         this.clientInventory = (clientInventory == null ? client.getInventory() : clientInventory);
 
@@ -77,14 +77,14 @@ public class PreTransactionEvent extends Event {
      * @param stock
      *            Stock
      */
-    public void setStock(ItemStack... stock) {
+    public void setStock(ItemStack stock) {
         items = stock;
     }
 
     /**
      * @return Stock available
      */
-    public ItemStack[] getStock() {
+    public ItemStack getStock() {
         return items;
     }
 
@@ -177,6 +177,7 @@ public class PreTransactionEvent extends Event {
         transactionOutcome = reason;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }
@@ -186,21 +187,28 @@ public class PreTransactionEvent extends Event {
     }
 
     public enum TransactionOutcome {
-        SHOP_DOES_NOT_BUY_THIS_ITEM, SHOP_DOES_NOT_SELL_THIS_ITEM,
+        SHOP_DOES_NOT_BUY_THIS_ITEM,
+        SHOP_DOES_NOT_SELL_THIS_ITEM,
 
         CLIENT_DOES_NOT_HAVE_PERMISSION,
 
-        CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY, SHOP_DOES_NOT_HAVE_ENOUGH_MONEY,
+        CLIENT_DOES_NOT_HAVE_ENOUGH_MONEY,
+        SHOP_DOES_NOT_HAVE_ENOUGH_MONEY,
 
-        CLIENT_DEPOSIT_FAILED, SHOP_DEPOSIT_FAILED,
+        CLIENT_DEPOSIT_FAILED,
+        SHOP_DEPOSIT_FAILED,
 
-        NOT_ENOUGH_SPACE_IN_CHEST, NOT_ENOUGH_SPACE_IN_INVENTORY,
+        NOT_ENOUGH_SPACE_IN_CHEST,
+        NOT_ENOUGH_SPACE_IN_INVENTORY,
 
-        NOT_ENOUGH_STOCK_IN_CHEST, NOT_ENOUGH_STOCK_IN_INVENTORY,
+        NOT_ENOUGH_STOCK_IN_CHEST,
+        NOT_ENOUGH_STOCK_IN_INVENTORY,
 
         INVALID_SHOP,
 
-        SPAM_CLICKING_PROTECTION, CREATIVE_MODE_PROTECTION, SHOP_IS_RESTRICTED,
+        SPAM_CLICKING_PROTECTION,
+        CREATIVE_MODE_PROTECTION,
+        SHOP_IS_RESTRICTED,
 
         OTHER, // For plugin use!
 

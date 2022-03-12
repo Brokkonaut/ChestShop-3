@@ -40,21 +40,15 @@ public class ItemManager implements Listener {
         event.getClient().updateInventory();
     }
 
-    private static void removeItems(Inventory inventory, ItemStack[] items) {
-        for (ItemStack item : items) {
-            InventoryUtil.remove(item, inventory);
-        }
+    private static void removeItems(Inventory inventory, ItemStack item) {
+        InventoryUtil.remove(item, inventory);
     }
 
-    private static void addItems(Inventory inventory, ItemStack[] items) {
+    private static void addItems(Inventory inventory, ItemStack item) {
         if (Properties.STACK_TO_64) {
-            for (ItemStack item : items) {
-                InventoryUtil.add(item, inventory, 64);
-            }
+            InventoryUtil.add(item, inventory, 64);
         } else {
-            for (ItemStack item : items) {
-                InventoryUtil.add(item, inventory);
-            }
+            InventoryUtil.add(item, inventory);
         }
     }
 }

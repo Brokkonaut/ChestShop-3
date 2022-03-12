@@ -26,9 +26,8 @@ public class TransactionLogger implements Listener {
 
         StringBuilder items = new StringBuilder(50);
 
-        for (ItemStack item : event.getStock()) {
-            items.append(item.getAmount()).append(' ').append(getSignName(item));
-        }
+        ItemStack item = event.getStock();
+        items.append(item.getAmount()).append(' ').append(getSignName(item));
 
         String message = String.format(template, event.getClient().getUniqueId().toString(), event.getClient().getName(), items.toString(), event.getPrice(), event.getOwner().getUniqueId().toString(), NameManager.getFullNameFor(event.getOwner().getUniqueId()),
                 LocationUtil.locationToString(event.getSign().getLocation()));

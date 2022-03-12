@@ -10,15 +10,12 @@ import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.Acrobot.Breeze.Utils.InventoryUtil;
@@ -41,7 +38,7 @@ public class PartialTransactionModule implements Listener {
         }
 
         Player client = event.getClient();
-        ItemStack[] stock = event.getStock();
+        ItemStack stock = event.getStock();
 
         double price = event.getPrice();
         double pricePerItem = event.getPrice() / InventoryUtil.countItems(stock);
@@ -63,7 +60,9 @@ public class PartialTransactionModule implements Listener {
             }
 
             event.setPrice(amountAffordable * pricePerItem);
-            event.setStock(getCountedItemStack(stock, amountAffordable));
+            stock = new ItemStack(stock);
+            stock.setAmount(amountAffordable);
+            event.setStock(stock);
         }
 
         UUID seller = event.getOwner().getUniqueId();
@@ -79,13 +78,14 @@ public class PartialTransactionModule implements Listener {
         stock = event.getStock();
 
         if (!InventoryUtil.hasItems(stock, event.getOwnerInventory())) {
-            ItemStack[] itemsHad = getItems(stock, event.getOwnerInventory());
-            int posessedItemCount = InventoryUtil.countItems(itemsHad);
-
+            int posessedItemCount = InventoryUtil.getAmount(stock, event.getClientInventory());
             if (posessedItemCount <= 0) {
                 event.setCancelled(NOT_ENOUGH_STOCK_IN_CHEST);
                 return;
             }
+
+            ItemStack itemsHad = new ItemStack(stock);
+            itemsHad.setAmount(posessedItemCount);
 
             event.setPrice(pricePerItem * posessedItemCount);
             event.setStock(itemsHad);
@@ -100,7 +100,7 @@ public class PartialTransactionModule implements Listener {
 
         Player client = event.getClient();
         UUID owner = event.getOwner().getUniqueId();
-        ItemStack[] stock = event.getStock();
+        ItemStack stock = event.getStock();
 
         double price = event.getPrice();
         double pricePerItem = event.getPrice() / InventoryUtil.countItems(stock);
@@ -123,7 +123,9 @@ public class PartialTransactionModule implements Listener {
                 }
 
                 event.setPrice(amountAffordable * pricePerItem);
-                event.setStock(getCountedItemStack(stock, amountAffordable));
+                stock = new ItemStack(stock);
+                stock.setAmount(amountAffordable);
+                event.setStock(stock);
             }
         }
 
@@ -138,13 +140,14 @@ public class PartialTransactionModule implements Listener {
         }
 
         if (!InventoryUtil.hasItems(stock, event.getClientInventory())) {
-            ItemStack[] itemsHad = getItems(stock, event.getClientInventory());
-            int posessedItemCount = InventoryUtil.countItems(itemsHad);
-
+            int posessedItemCount = InventoryUtil.getAmount(stock, event.getClientInventory());
             if (posessedItemCount <= 0) {
                 event.setCancelled(NOT_ENOUGH_STOCK_IN_INVENTORY);
                 return;
             }
+
+            ItemStack itemsHad = new ItemStack(stock);
+            itemsHad.setAmount(posessedItemCount);
 
             event.setPrice(pricePerItem * posessedItemCount);
             event.setStock(itemsHad);
@@ -153,63 +156,5 @@ public class PartialTransactionModule implements Listener {
 
     private static int getAmountOfAffordableItems(BigDecimal walletMoney, double pricePerItem) {
         return (int) Math.floor(walletMoney.doubleValue() / pricePerItem);
-    }
-
-    private static ItemStack[] getItems(ItemStack[] stock, Inventory inventory) {
-        List<ItemStack> toReturn = new LinkedList<ItemStack>();
-
-        ItemStack[] neededItems = InventoryUtil.mergeSimilarStacks(stock);
-
-        for (ItemStack item : neededItems) {
-            int amount = InventoryUtil.getAmount(item, inventory);
-
-            ItemStack clone = new ItemStack(item);
-            clone.setAmount(amount > item.getAmount() ? item.getAmount() : amount);
-
-            toReturn.add(clone);
-        }
-
-        return toReturn.toArray(new ItemStack[toReturn.size()]);
-    }
-
-    private static ItemStack[] getCountedItemStack(ItemStack[] stock, int numberOfItems) {
-        int left = numberOfItems;
-        LinkedList<ItemStack> stacks = new LinkedList<ItemStack>();
-
-        for (ItemStack stack : stock) {
-            int count = stack.getAmount();
-            ItemStack toAdd;
-
-            if (left > count) {
-                toAdd = stack;
-                left -= count;
-            } else {
-                ItemStack clone = stack.clone();
-
-                clone.setAmount(left);
-                toAdd = clone;
-                left = 0;
-            }
-
-            boolean added = false;
-
-            for (ItemStack iStack : stacks) {
-                if (toAdd.isSimilar(iStack)) {
-                    iStack.setAmount(iStack.getAmount() + toAdd.getAmount());
-                    added = true;
-                    break;
-                }
-            }
-
-            if (!added) {
-                stacks.add(toAdd);
-            }
-
-            if (left <= 0) {
-                break;
-            }
-        }
-
-        return stacks.toArray(new ItemStack[stacks.size()]);
     }
 }

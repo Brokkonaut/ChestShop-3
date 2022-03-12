@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Configuration.Messages;
@@ -94,17 +93,10 @@ public class ErrorMessageSender implements Listener {
         }
     }
 
-    private static String getItemNames(ItemStack[] stock) {
-        ItemStack[] items = InventoryUtil.mergeSimilarStacks(stock);
-
+    private static String getItemNames(ItemStack stock) {
         StringBuilder names = new StringBuilder(50);
 
-        for (ItemStack item : items) {
-            if (names.length() > 0) {
-                names.append(',').append(' ');
-            }
-            names.append(MaterialUtil.getName(item.getType()));
-        }
+        names.append(MaterialUtil.getName(stock.getType()));
 
         return names.toString();
     }

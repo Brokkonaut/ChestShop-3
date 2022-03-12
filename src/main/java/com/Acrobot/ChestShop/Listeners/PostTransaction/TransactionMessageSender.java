@@ -11,7 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
@@ -75,20 +74,13 @@ public class TransactionMessageSender implements Listener {
         }
     }
 
-    private static BaseComponent[] parseItemInformation(ItemStack[] items) {
-        ItemStack[] stock = InventoryUtil.mergeSimilarStacks(items);
-
+    private static BaseComponent[] parseItemInformation(ItemStack item) {
         ArrayList<BaseComponent> message = new ArrayList<>();
         // StringBuilder message = new StringBuilder(15);
         // Joiner joiner = Joiner.on(' ');
 
-        for (ItemStack item : stock) {
-            if (!message.isEmpty()) {
-                message.add(new TextComponent(", "));
-            }
-            message.add(new TextComponent(item.getAmount() + " "));
-            message.add(ComponentUtils.getLocalizedItemName(item.getType()));
-        }
+        message.add(new TextComponent(item.getAmount() + " "));
+        message.add(ComponentUtils.getLocalizedItemName(item.getType()));
 
         return message.toArray(new BaseComponent[message.size()]);
     }

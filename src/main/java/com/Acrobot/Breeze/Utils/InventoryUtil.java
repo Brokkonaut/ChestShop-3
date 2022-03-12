@@ -72,11 +72,9 @@ public class InventoryUtil {
      *            inventory
      * @return Does the inventory contain stock of this type?
      */
-    public static boolean hasItems(ItemStack[] items, Inventory inventory) {
-        for (ItemStack item : items) {
-            if (!inventory.containsAtLeast(item, item.getAmount())) {
-                return false;
-            }
+    public static boolean hasItems(ItemStack item, Inventory inventory) {
+        if (!inventory.containsAtLeast(item, item.getAmount())) {
+            return false;
         }
 
         return true;

@@ -25,21 +25,20 @@ public class PermissionChecker implements Listener {
         Player client = event.getClient();
         TransactionEvent.TransactionType transactionType = event.getTransactionType();
 
-        for (ItemStack stock : event.getStock()) {
-            String matID = stock.getType().name().toLowerCase();
+        ItemStack stock = event.getStock();
+        String matID = stock.getType().name().toLowerCase();
 
-            boolean hasPerm;
+        boolean hasPerm;
 
-            if (transactionType == BUY) {
-                hasPerm = Permission.has(client, Permission.BUY) || Permission.has(client, Permission.BUY_ID + matID);
-            } else {
-                hasPerm = Permission.has(client, Permission.SELL) || Permission.has(client, Permission.SELL_ID + matID);
-            }
+        if (transactionType == BUY) {
+            hasPerm = Permission.has(client, Permission.BUY) || Permission.has(client, Permission.BUY_ID + matID);
+        } else {
+            hasPerm = Permission.has(client, Permission.SELL) || Permission.has(client, Permission.SELL_ID + matID);
+        }
 
-            if (!hasPerm) {
-                event.setCancelled(CLIENT_DOES_NOT_HAVE_PERMISSION);
-                return;
-            }
+        if (!hasPerm) {
+            event.setCancelled(CLIENT_DOES_NOT_HAVE_PERMISSION);
+            return;
         }
     }
 }

@@ -26,7 +26,7 @@ public class AmountAndPriceChecker implements Listener {
             return;
         }
 
-        ItemStack[] stock = event.getStock();
+        ItemStack stock = event.getStock();
         Inventory ownerInventory = event.getOwnerInventory();
 
         CurrencyCheckEvent currencyCheckEvent = new CurrencyCheckEvent(BigDecimal.valueOf(event.getPrice()), event.getClient());
@@ -48,7 +48,7 @@ public class AmountAndPriceChecker implements Listener {
             return;
         }
 
-        ItemStack[] stock = event.getStock();
+        ItemStack stock = event.getStock();
         Inventory clientInventory = event.getClientInventory();
 
         CurrencyCheckEvent currencyCheckEvent = new CurrencyCheckEvent(BigDecimal.valueOf(event.getPrice()), event.getOwner().getUniqueId(), event.getSign().getWorld());
