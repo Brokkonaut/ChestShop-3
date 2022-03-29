@@ -33,11 +33,16 @@ public class InventoryUtil {
         }
 
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
+
         int itemAmount = 0;
-        for (ItemStack content : inventory.getStorageContents()) {
+        ItemStack[] contents = inventory.getStorageContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack content = contents[i];
+
             if (item.isSimilar(content)) {
                 itemAmount += content.getAmount();
-            } else if (!isPlayerInventory && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((!isPlayerInventory || playerItemSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -94,14 +99,19 @@ public class InventoryUtil {
         }
 
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
+
         int missingAmount = item.getAmount();
-        for (ItemStack content : inventory.getStorageContents()) {
+        ItemStack[] contents = inventory.getStorageContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack content = contents[i];
+
             if (item.isSimilar(content)) {
                 missingAmount -= content.getAmount();
                 if (missingAmount <= 0) {
                     return true;
                 }
-            } else if (!isPlayerInventory && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((!isPlayerInventory || playerItemSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -144,15 +154,21 @@ public class InventoryUtil {
         }
 
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        boolean canBeStoredInShulker = !isPlayerInventory && BlockUtil.canBeStoredInShulkerBox(item.getType());
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
+
+        boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
         int freeSpace = 0;
         int maxStack = Math.max(item.getMaxStackSize(), 1);
-        for (ItemStack content : inventory.getStorageContents()) {
+
+        ItemStack[] contents = inventory.getStorageContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack content = contents[i];
+
             if (item.isSimilar(content)) {
                 freeSpace += Math.max(maxStack - content.getAmount(), 0);
             } else if (MaterialUtil.isEmpty(content)) {
                 freeSpace += maxStack;
-            } else if (canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((!isPlayerInventory || playerItemSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -198,10 +214,16 @@ public class InventoryUtil {
         }
 
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        boolean canBeStoredInShulker = !isPlayerInventory && BlockUtil.canBeStoredInShulkerBox(item.getType());
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
+
+        boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
         int left = item.getAmount();
         int maxStack = Math.max(item.getMaxStackSize(), 1);
-        for (ItemStack content : inventory.getStorageContents()) {
+
+        ItemStack[] contents = inventory.getStorageContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack content = contents[i];
+
             if (item.isSimilar(content)) {
                 left -= Math.max(maxStack - content.getAmount(), 0);
                 if (left <= 0) {
@@ -212,7 +234,7 @@ public class InventoryUtil {
                 if (left <= 0) {
                     return true;
                 }
-            } else if (canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((!isPlayerInventory || playerItemSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -270,11 +292,12 @@ public class InventoryUtil {
         boolean contentChanged = false;
         int contentsLength = contents.length;
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
         // prefer shulker store
-        if (!isPlayerInventory && BlockUtil.canBeStoredInShulkerBox(item.getType())) {
+        if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
-                if (content != null && BlockUtil.isShulkerBox(content.getType())) {
+                if ((!isPlayerInventory || playerItemSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
                     if (meta instanceof BlockStateMeta) {
                         BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -380,11 +403,13 @@ public class InventoryUtil {
         boolean contentChanged = false;
         int contentsLength = contents.length;
         boolean isPlayerInventory = inventory instanceof PlayerInventory;
+        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
+
         // prefer shulker store
-        if (!isPlayerInventory && BlockUtil.canBeStoredInShulkerBox(item.getType())) {
+        if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
-                if (content != null && BlockUtil.isShulkerBox(content.getType())) {
+                if ((!isPlayerInventory || playerItemSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
                     if (meta instanceof BlockStateMeta) {
                         BlockStateMeta bsm = (BlockStateMeta) meta;
