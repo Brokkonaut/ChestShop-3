@@ -50,7 +50,7 @@ public class Dependencies {
         Plugin plugin = pluginManager.getPlugin("WorldGuard");
 
         if (plugin != null) {
-            WorldGuardFlags.ENABLE_SHOP.getName(); // force the static code to run
+            WorldGuardFlags.ALLOW_SHOP.getName(); // force the static code to run
         }
     }
 
@@ -85,7 +85,7 @@ public class Dependencies {
                 }
 
                 if (Properties.WORLDGUARD_INTEGRATION) {
-                    listener = new WorldGuardBuilding();
+                    listener = new WorldGuardBuilding(worldGuard);
                 }
 
                 break;
