@@ -18,6 +18,8 @@ public class AlternativeItemNames {
         addItem(Material.WITHER_SKELETON_SKULL, "WITHER_SKEL_HEAD");
         addItem(Material.STRIPPED_DARK_OAK_LOG, "STR_DARK_OAK_LOG");
         addItem(Material.STRIPPED_DARK_OAK_WOOD, "STR_DARK_OAK_WOOD");
+        addItem(Material.STRIPPED_MANGROVE_LOG, "STR_MANGROVE_LOG");
+        addItem(Material.STRIPPED_MANGROVE_WOOD, "STR_MANGROVE_WOOD");
 
         addItem(Material.LIGHT_GRAY_CONCRETE_POWDER, "LIGHT_GRAY_CON_POWDER");
         addItem(Material.LIGHT_BLUE_CONCRETE_POWDER, "LIGHT_BLUE_CON_POWDER");

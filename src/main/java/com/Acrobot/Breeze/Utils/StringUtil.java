@@ -1,7 +1,6 @@
 package com.Acrobot.Breeze.Utils;
 
 import com.google.common.base.Joiner;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -22,9 +21,25 @@ public class StringUtil {
      * @return Reformatted string
      */
     public static String capitalizeFirstLetter(String string, char separator) {
-        char[] separators = new char[] { separator };
-
-        return WordUtils.capitalizeFully(string, separators).replace(String.valueOf(separator), " ");
+        if (string == null || string.length() == 0) {
+            return string;
+        }
+        int length = string.length();
+        StringBuilder builder = new StringBuilder(length);
+        boolean capitalizeNext = true;
+        for (int i = 0; i < length; i++) {
+            char ch = string.charAt(i);
+            if (ch == separator) {
+                builder.append(' ');
+                capitalizeNext = true;
+            } else if (capitalizeNext) {
+                builder.append(Character.toTitleCase(ch));
+                capitalizeNext = false;
+            } else {
+                builder.append(Character.toLowerCase(ch));
+            }
+        }
+        return builder.toString();
     }
 
     /**
@@ -63,7 +78,7 @@ public class StringUtil {
 
     /**
      * Strips colour codes from a string
-     * 
+     *
      * @param string
      *            String to strip
      * @return Stripped string
@@ -74,7 +89,7 @@ public class StringUtil {
 
     /**
      * Stips colour codes from an array of strings
-     * 
+     *
      * @param strings
      *            Strings to strip the codes from
      * @return Stripped strings
