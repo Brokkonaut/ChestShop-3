@@ -9,9 +9,14 @@ import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.regex.Pattern;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * @author Acrobot
@@ -24,6 +29,7 @@ public class ChestShopSign {
 
     public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
     public static final String AUTOFILL_CODE = "?";
+    public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
 
     public static boolean isAdminShop(Inventory ownerInventory) {
         return ownerInventory instanceof AdminInventory;
@@ -83,14 +89,44 @@ public class ChestShopSign {
         if (item == null) {
             boolean foundItem = false;
 
-            if (Properties.ALLOW_AUTO_ITEM_FILL && itemCode.equals(AUTOFILL_CODE) && uBlock.findConnectedChest(sign) != null) {
-                for (ItemStack stack : uBlock.findConnectedChest(sign, true).getInventory().getContents()) {
-                    if (!MaterialUtil.isEmpty(stack)) {
-                        item = stack;
-                        itemCode = MaterialUtil.getSignName(stack);
+            if (Properties.ALLOW_AUTO_ITEM_FILL && (itemCode.equals(AUTOFILL_CODE) || itemCode.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
+                Container connectedChest = uBlock.findConnectedChest(sign, true);
+                if (connectedChest != null) {
+                    if (itemCode.equals(AUTOFILL_SHULKER_CONTENT_CODE)) {
+                        for (ItemStack stack : connectedChest.getInventory().getContents()) {
+                            if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
+                                ItemMeta meta = stack.getItemMeta();
+                                if (meta instanceof BlockStateMeta) {
+                                    BlockStateMeta bsm = (BlockStateMeta) meta;
+                                    BlockState blockState = bsm.getBlockState();
+                                    if (blockState instanceof ShulkerBox) {
+                                        ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                                        for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
+                                            if (!MaterialUtil.isEmpty(shulkerContent)) {
+                                                item = shulkerContent;
+                                                itemCode = MaterialUtil.getSignName(shulkerContent);
+                                                foundItem = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (foundItem) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!foundItem) {
+                        for (ItemStack stack : connectedChest.getInventory().getContents()) {
+                            if (!MaterialUtil.isEmpty(stack)) {
+                                item = stack;
+                                itemCode = MaterialUtil.getSignName(stack);
 
-                        foundItem = true;
-                        break;
+                                foundItem = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }
