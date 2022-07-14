@@ -35,6 +35,9 @@ public class Properties {
     @ConfigurationComment("If true, when you left-click your own shop sign you won't open chest's inventory, but instead you will start destroying the sign.")
     public static boolean ALLOW_LEFT_CLICK_DESTROYING = true;
 
+    @ConfigurationComment("Shop shop content when sneak clicking a shop sign?")
+    public static boolean ALLOW_SHOP_INFO_ON_SNEAK_CLICK = true;
+
     @PrecededBySpace
     @ConfigurationComment("If true, if the shop is empty, the sign is destroyed and put into the chest, so the shop isn't usable anymore.")
     public static boolean REMOVE_EMPTY_SHOPS = false;

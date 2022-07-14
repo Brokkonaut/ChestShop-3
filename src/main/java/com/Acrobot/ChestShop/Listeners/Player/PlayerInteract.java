@@ -86,7 +86,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (event.getPlayer().isSneaking()) {
+        if (event.getPlayer().isSneaking() && Properties.ALLOW_SHOP_INFO_ON_SNEAK_CLICK) {
             if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
                 showShopInfo(player, sign);
             }
