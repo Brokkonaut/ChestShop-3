@@ -82,6 +82,15 @@ public class uBlock {
     }
 
     public static Container findConnectedChest(Sign sign, boolean upgradeItems) {
+        Block chestBlock = findConnectedChestBlock(sign, upgradeItems);
+        return chestBlock == null ? null : (Container) chestBlock.getState();
+    }
+
+    public static Block findConnectedChestBlock(Sign sign) {
+        return findConnectedChestBlock(sign, false);
+    }
+
+    public static Block findConnectedChestBlock(Sign sign, boolean upgradeItems) {
         Block block = sign.getBlock();
         BlockFace signFace = null;
         BlockData data = sign.getBlockData();
@@ -93,7 +102,7 @@ public class uBlock {
                 if (upgradeItems) {
                     upgradeContainerItems(faceBlock);
                 }
-                return (Container) faceBlock.getState();
+                return faceBlock;
             }
         }
         for (BlockFace bf : SHOP_FACES) {
@@ -103,7 +112,7 @@ public class uBlock {
                     if (upgradeItems) {
                         upgradeContainerItems(faceBlock);
                     }
-                    return (Container) faceBlock.getState();
+                    return faceBlock;
                 }
             }
         }
@@ -156,7 +165,10 @@ public class uBlock {
 
             Sign sign = (Sign) faceBlock.getState();
             if (ChestShopSign.isValid(sign)) {
-                return sign;
+                Block attachedTo = findConnectedChestBlock(sign);
+                if (attachedTo != null && attachedTo.equals(block)) {
+                    return sign;
+                }
             }
         }
         return null;
