@@ -87,13 +87,11 @@ public class ChestShopSign {
     public static String getCorrectedItemCode(String itemCode, Sign sign) {
         ItemStack item = MaterialUtil.getItem(itemCode);
         if (item == null) {
-            boolean foundItem = false;
-
             if (Properties.ALLOW_AUTO_ITEM_FILL && (itemCode.equals(AUTOFILL_CODE) || itemCode.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
                 Container connectedChest = uBlock.findConnectedChest(sign, true);
                 if (connectedChest != null) {
                     if (itemCode.equals(AUTOFILL_SHULKER_CONTENT_CODE)) {
-                        for (ItemStack stack : connectedChest.getInventory().getContents()) {
+                        out: for (ItemStack stack : connectedChest.getInventory().getContents()) {
                             if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
                                 ItemMeta meta = stack.getItemMeta();
                                 if (meta instanceof BlockStateMeta) {
@@ -105,25 +103,18 @@ public class ChestShopSign {
                                             if (!MaterialUtil.isEmpty(shulkerContent)) {
                                                 item = shulkerContent;
                                                 itemCode = MaterialUtil.getSignName(shulkerContent);
-                                                foundItem = true;
-                                                break;
+                                                break out;
                                             }
                                         }
                                     }
                                 }
-                                if (foundItem) {
-                                    break;
-                                }
                             }
                         }
-                    }
-                    if (!foundItem) {
+                    } else {
                         for (ItemStack stack : connectedChest.getInventory().getContents()) {
                             if (!MaterialUtil.isEmpty(stack)) {
                                 item = stack;
                                 itemCode = MaterialUtil.getSignName(stack);
-
-                                foundItem = true;
                                 break;
                             }
                         }
@@ -131,7 +122,7 @@ public class ChestShopSign {
                 }
             }
 
-            if (!foundItem) {
+            if (item == null) {
                 return null;
             }
         }
