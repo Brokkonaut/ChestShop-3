@@ -49,6 +49,12 @@ public class SignSticker implements Listener {
             newSignMaterial = Material.OAK_WALL_SIGN;
         } else if (signMaterial == Material.SPRUCE_SIGN) {
             newSignMaterial = Material.SPRUCE_WALL_SIGN;
+        } else if (signMaterial == Material.MANGROVE_SIGN) {
+            newSignMaterial = Material.MANGROVE_WALL_SIGN;
+        } else if (signMaterial == Material.CRIMSON_SIGN) {
+            newSignMaterial = Material.CRIMSON_WALL_SIGN;
+        } else if (signMaterial == Material.WARPED_SIGN) {
+            newSignMaterial = Material.WARPED_WALL_SIGN;
         }
 
         if (newSignMaterial == null) {

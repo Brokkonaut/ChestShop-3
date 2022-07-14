@@ -51,6 +51,12 @@ public class EmptyShopDeleter implements Listener {
             signMaterial = Material.OAK_SIGN;
         } else if (signMaterial == Material.SPRUCE_WALL_SIGN) {
             signMaterial = Material.SPRUCE_SIGN;
+        } else if (signMaterial == Material.MANGROVE_WALL_SIGN) {
+            signMaterial = Material.MANGROVE_SIGN;
+        } else if (signMaterial == Material.CRIMSON_WALL_SIGN) {
+            signMaterial = Material.CRIMSON_SIGN;
+        } else if (signMaterial == Material.WARPED_WALL_SIGN) {
+            signMaterial = Material.WARPED_SIGN;
         }
         sign.getBlock().setType(Material.AIR);
 
