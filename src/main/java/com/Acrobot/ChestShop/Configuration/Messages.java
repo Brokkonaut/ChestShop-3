@@ -40,10 +40,12 @@ public class Messages {
     @PrecededBySpace
     public static String YOU_BOUGHT_FROM_SHOP = "You bought %item from %owner for %price.";
     public static String SOMEBODY_BOUGHT_FROM_YOUR_SHOP = "%buyer bought %item for %price from you.";
+    public static String YOU_TOOK_FROM_SHOP = "You took %item from your shop.";
 
     @PrecededBySpace
     public static String YOU_SOLD_TO_SHOP = "You sold %item to %buyer for %price.";
     public static String SOMEBODY_SOLD_TO_YOUR_SHOP = "%seller sold %item for %price to you.";
+    public static String YOU_PUT_TO_SHOP = "You put %item into your shop.";
 
     @PrecededBySpace
     public static String YOU_CANNOT_CREATE_SHOP = "You can't create this type of shop!";

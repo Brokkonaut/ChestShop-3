@@ -93,7 +93,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (ChestShopSign.canAccess(player, sign)) {
+        if (ChestShopSign.canAccess(player, sign) && (!Properties.ALLOW_OWN_SHOP_TRANSACTIONS || player.isSneaking())) {
             if (!Properties.ALLOW_SIGN_CHEST_OPEN || player.isSneaking() || player.isInsideVehicle() || player.getGameMode() == GameMode.CREATIVE) {
                 return;
             }
@@ -178,6 +178,9 @@ public class PlayerInteract implements Listener {
 
         Action buy = Properties.REVERSE_BUTTONS ? LEFT_CLICK_BLOCK : RIGHT_CLICK_BLOCK;
         double price = (action == buy ? PriceUtil.getBuyPrice(prices) : PriceUtil.getSellPrice(prices));
+        if (player.getUniqueId().equals(uuid)) { // own shop
+            price = PriceUtil.FREE;
+        }
 
         Container chest = uBlock.findConnectedChest(sign, true);
         Inventory ownerInventory = (ChestShopSign.isAdminShop(sign) ? new AdminInventory() : chest != null ? chest.getInventory() : null);

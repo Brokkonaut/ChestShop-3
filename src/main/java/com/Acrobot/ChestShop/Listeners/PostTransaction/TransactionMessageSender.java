@@ -38,18 +38,23 @@ public class TransactionMessageSender implements Listener {
 
         Player player = event.getClient();
 
-        String price = Economy.formatBalance(event.getPrice());
+        if (!event.getOwner().getUniqueId().equals(player.getUniqueId())) {
+            String price = Economy.formatBalance(event.getPrice());
 
-        if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
-            BaseComponent[] message = formatMessage(Messages.YOU_BOUGHT_FROM_SHOP.replace("%owner", owner), itemName, price);
+            if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
+                BaseComponent[] message = formatMessage(Messages.YOU_BOUGHT_FROM_SHOP.replace("%owner", owner), itemName, price);
 
+                player.spigot().sendMessage(message);
+            }
+
+            if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
+                BaseComponent[] message = formatMessage(Messages.SOMEBODY_BOUGHT_FROM_YOUR_SHOP.replace("%buyer", player.getName()), itemName, price);
+
+                sendMessageToOwner(message, event);
+            }
+        } else {
+            BaseComponent[] message = formatMessage(Messages.YOU_TOOK_FROM_SHOP, itemName, "");
             player.spigot().sendMessage(message);
-        }
-
-        if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
-            BaseComponent[] message = formatMessage(Messages.SOMEBODY_BOUGHT_FROM_YOUR_SHOP.replace("%buyer", player.getName()), itemName, price);
-
-            sendMessageToOwner(message, event);
         }
     }
 
@@ -59,18 +64,23 @@ public class TransactionMessageSender implements Listener {
 
         Player player = event.getClient();
 
-        String price = Economy.formatBalance(event.getPrice());
+        if (!event.getOwner().getUniqueId().equals(player.getUniqueId())) {
+            String price = Economy.formatBalance(event.getPrice());
 
-        if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
-            BaseComponent[] message = formatMessage(Messages.YOU_SOLD_TO_SHOP.replace("%buyer", owner), itemName, price);
+            if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
+                BaseComponent[] message = formatMessage(Messages.YOU_SOLD_TO_SHOP.replace("%buyer", owner), itemName, price);
 
+                player.spigot().sendMessage(message);
+            }
+
+            if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
+                BaseComponent[] message = formatMessage(Messages.SOMEBODY_SOLD_TO_YOUR_SHOP.replace("%seller", player.getName()), itemName, price);
+
+                sendMessageToOwner(message, event);
+            }
+        } else {
+            BaseComponent[] message = formatMessage(Messages.YOU_PUT_TO_SHOP, itemName, "");
             player.spigot().sendMessage(message);
-        }
-
-        if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
-            BaseComponent[] message = formatMessage(Messages.SOMEBODY_SOLD_TO_YOUR_SHOP.replace("%seller", player.getName()), itemName, price);
-
-            sendMessageToOwner(message, event);
         }
     }
 

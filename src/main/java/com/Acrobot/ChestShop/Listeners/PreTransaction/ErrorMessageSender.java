@@ -47,7 +47,7 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.NOT_ENOUGH_MONEY_SHOP;
                 break;
             case NOT_ENOUGH_SPACE_IN_CHEST:
-                if (!Toggle.isIgnoring(event.getOwner())) {
+                if (!Toggle.isIgnoring(event.getOwner()) && !event.getOwner().getUniqueId().equals(event.getClient().getUniqueId())) {
                     Location loc = event.getSign().getLocation();
                     String messageFull = Messages.prefix(FULL_SHOP_TO_OWNER).replace("%material", getItemNames(event.getStock())).replace("%buyer", event.getClient().getName()).replace("%location", loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
                     sendMessageToOwner(event.getOwner(), messageFull);
@@ -61,7 +61,7 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.NOT_ENOUGH_ITEMS_TO_SELL;
                 break;
             case NOT_ENOUGH_STOCK_IN_CHEST:
-                if (!Toggle.isIgnoring(event.getOwner())) {
+                if (!Toggle.isIgnoring(event.getOwner()) && !event.getOwner().getUniqueId().equals(event.getClient().getUniqueId())) {
                     Location loc = event.getSign().getLocation();
                     String messageOutOfStock = Messages.prefix(NOT_ENOUGH_STOCK_IN_YOUR_SHOP).replace("%material", getItemNames(event.getStock())).replace("%buyer", event.getClient().getName()).replace("%location", loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
                     sendMessageToOwner(event.getOwner(), messageOutOfStock);

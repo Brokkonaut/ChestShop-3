@@ -29,6 +29,9 @@ public class Properties {
     @ConfigurationComment("Can shop's chest be opened by owner with right-clicking a shop's sign?")
     public static boolean ALLOW_SIGN_CHEST_OPEN = true;
 
+    @ConfigurationComment("Can a shop's owner use his shop (for free)")
+    public static boolean ALLOW_OWN_SHOP_TRANSACTIONS = true;
+
     @ConfigurationComment("If true, when you left-click your own shop sign you won't open chest's inventory, but instead you will start destroying the sign.")
     public static boolean ALLOW_LEFT_CLICK_DESTROYING = true;
 
