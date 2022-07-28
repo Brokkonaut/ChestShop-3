@@ -25,9 +25,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.AxolotlBucketMeta;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.BookMeta.Generation;
+import org.bukkit.inventory.meta.CrossbowMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
@@ -191,11 +193,65 @@ public class ItemInfoListener implements Listener {
             }
         }
 
+        if (meta instanceof AxolotlBucketMeta axolotlBucketMeta) {
+            if (axolotlBucketMeta.hasVariant()) {
+                String variant = capitalizeFirstLetter(Objects.toString(axolotlBucketMeta.getVariant()), '_');
+                sender.sendMessage("    " + ChatColor.GRAY + "Variant: " + variant);
+            }
+        }
+
         if (meta instanceof LeatherArmorMeta) {
             LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
             Color color = leatherArmorMeta.getColor();
             if (color != null) {
                 sender.sendMessage("    " + ChatColor.GRAY + "Color: " + getColorHexCode(color));
+            }
+        }
+
+        if (meta instanceof CrossbowMeta crossbowMeta) {
+            if (crossbowMeta.hasChargedProjectiles()) {
+                for (ItemStack stack : crossbowMeta.getChargedProjectiles()) {
+                    if (stack != null && !stack.getType().isAir()) {
+                        String arrow = capitalizeFirstLetter(Objects.toString(stack.getType()), '_');
+
+                        ItemMeta arrowMeta = stack.getItemMeta();
+                        if (arrowMeta instanceof PotionMeta potion) {
+                            StringBuilder message = new StringBuilder(50).append(" (");
+                            boolean first = true;
+                            PotionData base = potion.getBasePotionData();
+                            if (base != null) {
+                                if (base.isExtended()) {
+                                    message.append("Extended ");
+                                }
+                                if (type == Material.SPLASH_POTION) {
+                                    message.append("Splash ");
+                                }
+                                if (type == Material.LINGERING_POTION) {
+                                    message.append("Lingering ");
+                                }
+                                message.append(PotionNames.getName(base.getType()));
+                                if (base.isUpgraded()) {
+                                    message.append(" II");
+                                }
+                                first = false;
+                            }
+                            if (potion.hasCustomEffects()) {
+                                for (PotionEffect effect : potion.getCustomEffects()) {
+                                    if (!first) {
+                                        message.append(", ");
+                                    }
+                                    first = false;
+                                    message.append(ChatColor.GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
+                                }
+                            }
+                            if (!first) {
+                                message.append(")");
+                                arrow = arrow + message.toString();
+                            }
+                        }
+                        sender.sendMessage("    " + ChatColor.GRAY + "Projectile: " + arrow);
+                    }
+                }
             }
         }
 
