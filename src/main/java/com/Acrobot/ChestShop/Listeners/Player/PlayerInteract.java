@@ -93,7 +93,11 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (ChestShopSign.canAccess(player, sign) && (!Properties.ALLOW_OWN_SHOP_TRANSACTIONS || player.isSneaking())) {
+        boolean ownShop = ChestShopSign.canAccess(player, sign);
+        if (ownShop && action == RIGHT_CLICK_BLOCK && event.getItem() != null && BlockUtil.isSignEditMaterial(event.getItem().getType())) {
+            return;
+        }
+        if (ownShop && (!Properties.ALLOW_OWN_SHOP_TRANSACTIONS || player.isSneaking())) {
             if (!Properties.ALLOW_SIGN_CHEST_OPEN || player.isSneaking() || player.isInsideVehicle() || player.getGameMode() == GameMode.CREATIVE) {
                 return;
             }

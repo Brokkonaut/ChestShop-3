@@ -20,6 +20,7 @@ public class BlockUtil {
     private static EnumSet<Material> SIGNS = EnumSet.noneOf(Material.class);
     private static EnumSet<Material> SHULKER_BOXES = EnumSet.noneOf(Material.class);
     private static EnumSet<Material> CONTAINERS = EnumSet.noneOf(Material.class);
+    private static EnumSet<Material> SIGN_EDIT_MATERIALS = EnumSet.noneOf(Material.class);
     static {
         SIGNS.add(Material.ACACIA_SIGN);
         SIGNS.add(Material.ACACIA_WALL_SIGN);
@@ -62,6 +63,25 @@ public class BlockUtil {
         CONTAINERS.add(Material.TRAPPED_CHEST);
         CONTAINERS.add(Material.BARREL);
         CONTAINERS.addAll(SHULKER_BOXES);
+
+        SIGN_EDIT_MATERIALS.add(Material.INK_SAC);
+        SIGN_EDIT_MATERIALS.add(Material.GLOW_INK_SAC);
+        SIGN_EDIT_MATERIALS.add(Material.BLACK_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.BLUE_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.BROWN_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.CYAN_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.GRAY_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.GREEN_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.LIGHT_BLUE_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.LIGHT_GRAY_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.LIME_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.MAGENTA_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.ORANGE_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.PINK_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.PURPLE_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.RED_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.WHITE_DYE);
+        SIGN_EDIT_MATERIALS.add(Material.YELLOW_DYE);
     }
 
     /**
@@ -148,5 +168,9 @@ public class BlockUtil {
         player.openInventory(inventory);
 
         return true;
+    }
+
+    public static boolean isSignEditMaterial(Material m) {
+        return SIGN_EDIT_MATERIALS.contains(m);
     }
 }
