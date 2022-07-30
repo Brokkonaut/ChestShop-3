@@ -7,10 +7,15 @@ import static com.Acrobot.Breeze.Utils.StringUtil.capitalizeFirstLetter;
 import com.Acrobot.Breeze.Utils.EnchantmentNames;
 import com.Acrobot.Breeze.Utils.FireworkEffectTypeNames;
 import com.Acrobot.Breeze.Utils.PotionNames;
+import com.Acrobot.Breeze.Utils.StringUtil;
+import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -252,6 +257,25 @@ public class ItemInfoListener implements Listener {
                         sender.sendMessage("    " + ChatColor.GRAY + "Projectile: " + arrow);
                     }
                 }
+            }
+        }
+
+        if (type == Material.GOAT_HORN) {
+            try {
+                // {instrument:"minecraft:ponder_goat_horn"}
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.setLenient();
+                Gson gson = gsonBuilder.create();
+
+                Map<String, ?> hornJson = gson.fromJson(meta.getAsString(), Map.class);
+                String instrument = (String) hornJson.get("instrument");
+                if (instrument == null) {
+                    instrument = "minecraft:ponder_goat_horn";
+                }
+                instrument = StringUtil.capitalizeFirstLetter(instrument.substring(instrument.indexOf(":") + 1).replace("_goat_horn", ""));
+                sender.sendMessage("    " + ChatColor.GRAY + "Instrument: " + instrument);
+            } catch (Exception e) {
+                ChestShop.getBukkitLogger().log(Level.WARNING, "Could not parse instrument item data for " + meta.getAsString(), e);
             }
         }
 
