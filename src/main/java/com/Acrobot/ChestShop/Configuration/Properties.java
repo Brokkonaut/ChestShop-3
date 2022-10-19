@@ -142,4 +142,10 @@ public class Properties {
     @PrecededBySpace
     @ConfigurationComment("How much Heroes exp should people get for creating a ChestShop?")
     public static double HEROES_EXP = 100;
+
+    @ConfigurationComment("Should shulkers be allowed to store items in shops and the player inventory?")
+    public static boolean USE_SHULKERS_FOR_STORAGE = true;
+
+    @ConfigurationComment("Should shulkers in any slot in the players inventory be used or only in the selected slot?")
+    public static boolean USE_SHULKERS_IN_ANY_SLOT_IN_THE_PLAYER_INVENTORY = false;
 }

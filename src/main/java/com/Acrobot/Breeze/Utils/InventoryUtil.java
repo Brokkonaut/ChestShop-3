@@ -7,12 +7,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 
 /**
  * @author Acrobot
  */
 public class InventoryUtil {
+    public static final int REQUIRED_SHULKER_SLOT_ANY = -1;
+    public static final int REQUIRED_SHULKER_SLOT_NONE = -2;
+
     /**
      * Returns the amount of the item inside the inventory
      *
@@ -23,6 +27,23 @@ public class InventoryUtil {
      * @return amount of the item
      */
     public static int getAmount(ItemStack item, Inventory inventory) {
+        return getAmount(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Returns the amount of the item inside the inventory
+     *
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be taken from there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be taken from shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be taken from shulkers
+     * @return amount of the item
+     */
+    public static int getAmount(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return Integer.MAX_VALUE;
         }
@@ -32,9 +53,6 @@ public class InventoryUtil {
             return Integer.MAX_VALUE;
         }
 
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
-
         int itemAmount = 0;
         ItemStack[] contents = inventory.getStorageContents();
         for (int i = 0; i < contents.length; i++) {
@@ -42,7 +60,7 @@ public class InventoryUtil {
 
             if (item.isSimilar(content)) {
                 itemAmount += content.getAmount();
-            } else if ((!isPlayerInventory || playerItemSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -89,6 +107,23 @@ public class InventoryUtil {
      * @return Does the inventory contain stock of this type?
      */
     public static boolean hasItems(ItemStack item, Inventory inventory) {
+        return hasItems(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Checks if the inventory has stock of this type
+     *
+     * @param items
+     *            items
+     * @param inventory
+     *            inventory
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be taken from there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be taken from shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be taken from shulkers
+     * @return Does the inventory contain stock of this type?
+     */
+    public static boolean hasItems(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return true;
         }
@@ -97,9 +132,6 @@ public class InventoryUtil {
         if (inventory instanceof AdminInventory) {
             return true;
         }
-
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
 
         int missingAmount = item.getAmount();
         ItemStack[] contents = inventory.getStorageContents();
@@ -111,7 +143,7 @@ public class InventoryUtil {
                 if (missingAmount <= 0) {
                     return true;
                 }
-            } else if ((!isPlayerInventory || playerItemSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -144,6 +176,23 @@ public class InventoryUtil {
      * @return free space for the item
      */
     public static int getFreeSpace(ItemStack item, Inventory inventory) {
+        return getFreeSpace(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Returns the free space for items of a certain type
+     *
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be put there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be put into shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be put into shulkers
+     * @return free space for the item
+     */
+    public static int getFreeSpace(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return Integer.MAX_VALUE;
         }
@@ -152,9 +201,6 @@ public class InventoryUtil {
         if (inventory instanceof AdminInventory) {
             return Integer.MAX_VALUE;
         }
-
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
 
         boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
         int freeSpace = 0;
@@ -168,7 +214,7 @@ public class InventoryUtil {
                 freeSpace += Math.max(maxStack - content.getAmount(), 0);
             } else if (MaterialUtil.isEmpty(content)) {
                 freeSpace += maxStack;
-            } else if ((!isPlayerInventory || playerItemSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -200,6 +246,23 @@ public class InventoryUtil {
      * @return Does item fit inside inventory?
      */
     public static boolean fits(ItemStack item, Inventory inventory) {
+        return fits(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Checks if the item fits the inventory
+     *
+     * @param item
+     *            Item to check
+     * @param inventory
+     *            inventory
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be put there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be put into shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be put into shulkers
+     * @return Does item fit inside inventory?
+     */
+    public static boolean fits(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return true;
         }
@@ -212,9 +275,6 @@ public class InventoryUtil {
         if (inventory.getMaxStackSize() == Integer.MAX_VALUE) {
             return true;
         }
-
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
 
         boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
         int left = item.getAmount();
@@ -234,7 +294,7 @@ public class InventoryUtil {
                 if (left <= 0) {
                     return true;
                 }
-            } else if ((!isPlayerInventory || playerItemSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && canBeStoredInShulker && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta) {
                     BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -269,11 +329,31 @@ public class InventoryUtil {
      *            Item to add
      * @param inventory
      *            Inventory
-     * @param maxStackSize
-     *            Maximum item's stack size
+     * @param stackTo64
+     *            Force the items maximum stack size to 64
      * @return Number of leftover items
      */
-    public static int add(ItemStack item, Inventory inventory, int maxStackSize) {
+    public static int add(ItemStack item, Inventory inventory, boolean stackTo64) {
+        return add(item, inventory, stackTo64, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Adds an item to the inventory with given maximum stack size
+     * (it currently uses a custom method of adding items, because Bukkit hasn't fixed it for a year now - not even kidding)
+     *
+     * @param item
+     *            Item to add
+     * @param inventory
+     *            Inventory
+     * @param stackTo64
+     *            Force the items maximum stack size to 64
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be put there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be put into shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be put into shulkers
+     * @return Number of leftover items
+     */
+    public static int add(ItemStack item, Inventory inventory, boolean stackTo64, int requiredShulkerSlot) {
         if (item.getAmount() <= 0) {
             return 0;
         }
@@ -287,17 +367,17 @@ public class InventoryUtil {
             return 0;
         }
 
+        int maxStackSize = stackTo64 ? 64 : item.getMaxStackSize();
+
         int left = item.getAmount();
         ItemStack[] contents = inventory.getStorageContents();
         boolean contentChanged = false;
         int contentsLength = contents.length;
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
         // prefer shulker store
         if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
-                if ((!isPlayerInventory || playerItemSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+                if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
                     if (meta instanceof BlockStateMeta) {
                         BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -372,7 +452,7 @@ public class InventoryUtil {
      * @return Number of leftover items
      */
     public static int add(ItemStack item, Inventory inventory) {
-        return add(item, inventory, item.getMaxStackSize());
+        return add(item, inventory, false);
     }
 
     /**
@@ -385,6 +465,23 @@ public class InventoryUtil {
      * @return Number of items that couldn't be removed
      */
     public static int remove(ItemStack item, Inventory inventory) {
+        return remove(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    }
+
+    /**
+     * Removes an item from the inventory
+     *
+     * @param item
+     *            Item to remove
+     * @param inventory
+     *            Inventory
+     * @param requiredShulkerSlot
+     *            If a shulker is in this slot, the items can be taken from there.<br>
+     *            If this is <b>REQUIRED_SHULKER_SLOT_ANY</b>, items can be taken from shulkers in any slot<br>
+     *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be taken from shulkers
+     * @return Number of items that couldn't be removed
+     */
+    public static int remove(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
         if (item.getAmount() <= 0) {
             return 0;
         }
@@ -402,14 +499,12 @@ public class InventoryUtil {
         ItemStack[] contents = inventory.getStorageContents();
         boolean contentChanged = false;
         int contentsLength = contents.length;
-        boolean isPlayerInventory = inventory instanceof PlayerInventory;
-        int playerItemSlot = isPlayerInventory ? ((PlayerInventory) inventory).getHeldItemSlot() : -1;
 
         // prefer shulker store
         if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
-                if ((!isPlayerInventory || playerItemSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+                if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
                     if (meta instanceof BlockStateMeta) {
                         BlockStateMeta bsm = (BlockStateMeta) meta;
@@ -470,4 +565,14 @@ public class InventoryUtil {
         return left;
     }
 
+    public static int getDefaultRequiredShulkerSlot(Inventory inventory) {
+        if (!Properties.USE_SHULKERS_FOR_STORAGE) {
+            return REQUIRED_SHULKER_SLOT_NONE;
+        }
+        int requiredShulkerSlot = REQUIRED_SHULKER_SLOT_ANY;
+        if (!Properties.USE_SHULKERS_IN_ANY_SLOT_IN_THE_PLAYER_INVENTORY && inventory instanceof PlayerInventory playerInventory) {
+            requiredShulkerSlot = playerInventory.getHeldItemSlot();
+        }
+        return requiredShulkerSlot;
+    }
 }

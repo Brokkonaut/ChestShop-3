@@ -45,10 +45,6 @@ public class ItemManager implements Listener {
     }
 
     private static void addItems(Inventory inventory, ItemStack item) {
-        if (Properties.STACK_TO_64) {
-            InventoryUtil.add(item, inventory, 64);
-        } else {
-            InventoryUtil.add(item, inventory);
-        }
+        InventoryUtil.add(item, inventory, Properties.STACK_TO_64);
     }
 }
