@@ -203,6 +203,9 @@ public class InventoryUtil {
         }
 
         boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
+        if (!canBeStoredInShulker && inventory.getHolder() instanceof ShulkerBox) {
+            return 0;
+        }
         int freeSpace = 0;
         int maxStack = Math.max(item.getMaxStackSize(), 1);
 
@@ -278,6 +281,9 @@ public class InventoryUtil {
 
         boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
         int left = item.getAmount();
+        if (!canBeStoredInShulker && inventory.getHolder() instanceof ShulkerBox) {
+            return false;
+        }
         int maxStack = Math.max(item.getMaxStackSize(), 1);
 
         ItemStack[] contents = inventory.getStorageContents();
@@ -373,8 +379,13 @@ public class InventoryUtil {
         ItemStack[] contents = inventory.getStorageContents();
         boolean contentChanged = false;
         int contentsLength = contents.length;
+
+        boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
+        if (!canBeStoredInShulker && inventory.getHolder() instanceof ShulkerBox) {
+            return left;
+        }
         // prefer shulker store
-        if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
+        if (canBeStoredInShulker) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
                 if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
