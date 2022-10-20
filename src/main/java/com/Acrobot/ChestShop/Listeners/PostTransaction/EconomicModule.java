@@ -18,7 +18,7 @@ import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL
 public class EconomicModule implements Listener {
     @EventHandler
     public static void onBuyTransaction(TransactionEvent event) {
-        if (event.getTransactionType() != BUY) {
+        if (event.getTransactionType() != BUY || event.getPrice() == 0.0) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class EconomicModule implements Listener {
 
     @EventHandler
     public static void onSellTransaction(TransactionEvent event) {
-        if (event.getTransactionType() != SELL) {
+        if (event.getTransactionType() != SELL || event.getPrice() == 0.0) {
             return;
         }
 
