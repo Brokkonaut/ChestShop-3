@@ -142,8 +142,12 @@ public class ItemDatabase {
                     }
                 } catch (Throwable e) {
                     errors++;
-                    ChestShop.getPlugin().getLogger().log(Level.SEVERE, "Could not upgrade item " + item.getId() + " (" + Base62.encode(item.getId()) + "): " + e.getClass().getSimpleName());
-                    itemDao.delete(item);
+                    ChestShop.getPlugin().getLogger().log(Level.SEVERE, "Could not upgrade item " + item.getId() + " (" + Base62.encode(item.getId()) + "): " + e.getClass().getSimpleName(), e);
+                    try {
+                        itemDao.delete(item);
+                    } catch (Exception ex) {
+                        ChestShop.getPlugin().getLogger().log(Level.SEVERE, "Could not delete item " + item.getId(), ex);
+                    }
                 }
             }
             ChestShop.getPlugin().getLogger().info("Updated " + modified + "/" + items.size() + " items (" + collisions + " collisions, " + mutants + " mutants, " + errors + " errors)");
