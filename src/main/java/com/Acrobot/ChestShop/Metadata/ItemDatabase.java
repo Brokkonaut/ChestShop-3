@@ -123,6 +123,7 @@ public class ItemDatabase {
                             mutants++;
                             ChestShop.getPlugin().getLogger().info("Before:\n" + reserialized);
                             ChestShop.getPlugin().getLogger().info("After:\n" + reserialized2);
+                            itemDao.delete(item);
                         } else {
                             Item itemCollision = itemDao.queryBuilder().where().eq("code", new SelectArg(reserialized2)).queryForFirst();
                             if (itemCollision != null && fromLegacy) {
