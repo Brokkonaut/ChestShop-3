@@ -60,6 +60,12 @@ public class ItemDatabase {
                 return Base62.encode(itemEntity.getId());
             }
 
+            // different serialized data every time, encoding will not work
+            String codeCopy = encodeItemStack(decodeItemStack(code));
+            if (!codeCopy.equals(code)) {
+                return null;
+            }
+
             itemEntity = new Item(code);
 
             itemDao.create(itemEntity);

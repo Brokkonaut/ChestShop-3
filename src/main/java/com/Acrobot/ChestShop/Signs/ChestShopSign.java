@@ -103,6 +103,9 @@ public class ChestShopSign {
                                             if (!MaterialUtil.isEmpty(shulkerContent)) {
                                                 item = shulkerContent;
                                                 itemCode = MaterialUtil.getSignName(shulkerContent);
+                                                if (itemCode == null) {
+                                                    item = null;
+                                                }
                                                 break out;
                                             }
                                         }
@@ -115,6 +118,9 @@ public class ChestShopSign {
                             if (!MaterialUtil.isEmpty(stack)) {
                                 item = stack;
                                 itemCode = MaterialUtil.getSignName(stack);
+                                if (itemCode == null) {
+                                    item = null;
+                                }
                                 break;
                             }
                         }

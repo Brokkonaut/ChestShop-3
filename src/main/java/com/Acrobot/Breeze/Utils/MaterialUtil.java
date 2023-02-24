@@ -99,7 +99,11 @@ public class MaterialUtil {
     public static String getSignName(ItemStack itemStack) {
         String metaCode = "";
         if (itemStack.hasItemMeta()) {
-            metaCode = "#" + Metadata.getItemCode(itemStack);
+            metaCode = Metadata.getItemCode(itemStack);
+            if (metaCode == null) {
+                return null;
+            }
+            metaCode = "#" + metaCode;
         }
         return getSignMaterialName(itemStack.getType(), metaCode) + metaCode;
     }
