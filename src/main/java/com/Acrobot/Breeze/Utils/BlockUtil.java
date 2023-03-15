@@ -1,6 +1,6 @@
 package com.Acrobot.Breeze.Utils;
 
-import java.util.EnumSet;
+import java.util.HashSet;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,29 +17,16 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public class BlockUtil {
 
-    private static EnumSet<Material> SIGNS = EnumSet.noneOf(Material.class);
-    private static EnumSet<Material> SHULKER_BOXES = EnumSet.noneOf(Material.class);
-    private static EnumSet<Material> CONTAINERS = EnumSet.noneOf(Material.class);
-    private static EnumSet<Material> SIGN_EDIT_MATERIALS = EnumSet.noneOf(Material.class);
+    private static HashSet<Material> SIGNS = new HashSet<>();
+    private static HashSet<Material> SHULKER_BOXES = new HashSet<>();
+    private static HashSet<Material> CONTAINERS = new HashSet<>();
+    private static HashSet<Material> SIGN_EDIT_MATERIALS = new HashSet<>();
     static {
-        SIGNS.add(Material.ACACIA_SIGN);
-        SIGNS.add(Material.ACACIA_WALL_SIGN);
-        SIGNS.add(Material.BIRCH_SIGN);
-        SIGNS.add(Material.BIRCH_WALL_SIGN);
-        SIGNS.add(Material.DARK_OAK_SIGN);
-        SIGNS.add(Material.DARK_OAK_WALL_SIGN);
-        SIGNS.add(Material.JUNGLE_SIGN);
-        SIGNS.add(Material.JUNGLE_WALL_SIGN);
-        SIGNS.add(Material.OAK_SIGN);
-        SIGNS.add(Material.OAK_WALL_SIGN);
-        SIGNS.add(Material.SPRUCE_SIGN);
-        SIGNS.add(Material.SPRUCE_WALL_SIGN);
-        SIGNS.add(Material.WARPED_SIGN);
-        SIGNS.add(Material.WARPED_WALL_SIGN);
-        SIGNS.add(Material.CRIMSON_SIGN);
-        SIGNS.add(Material.CRIMSON_WALL_SIGN);
-        SIGNS.add(Material.MANGROVE_SIGN);
-        SIGNS.add(Material.MANGROVE_WALL_SIGN);
+        for (Material m : Material.values()) {
+            if (m.data == org.bukkit.block.data.type.Sign.class || m.data == WallSign.class) {
+                SIGNS.add(m);
+            }
+        }
 
         SHULKER_BOXES.add(Material.SHULKER_BOX);
         SHULKER_BOXES.add(Material.BLACK_SHULKER_BOX);
