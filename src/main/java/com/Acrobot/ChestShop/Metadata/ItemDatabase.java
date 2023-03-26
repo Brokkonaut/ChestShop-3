@@ -60,11 +60,11 @@ public class ItemDatabase {
                 return Base62.encode(itemEntity.getId());
             }
 
-            // different serialized data every time, encoding will not work
-            String codeCopy = encodeItemStack(decodeItemStack(code));
-            if (!codeCopy.equals(code)) {
-                return null;
-            }
+            // // different serialized data every time, encoding will not work
+            // String codeCopy = encodeItemStack(decodeItemStack(code));
+            // if (!codeCopy.equals(code)) {
+            // return null;
+            // }
 
             itemEntity = new Item(code);
 
@@ -129,7 +129,7 @@ public class ItemDatabase {
                             mutants++;
                             ChestShop.getPlugin().getLogger().info("Before:\n" + reserialized);
                             ChestShop.getPlugin().getLogger().info("After:\n" + reserialized2);
-                            itemDao.delete(item);
+                            // itemDao.delete(item);
                         } else {
                             Item itemCollision = itemDao.queryBuilder().where().eq("code", new SelectArg(reserialized2)).queryForFirst();
                             if (itemCollision != null && fromLegacy) {
