@@ -55,7 +55,7 @@ public class ItemInfo implements CommandExecutor {
         String signName = MaterialUtil.getSignName(item);
         TextComponent tc = new TextComponent("  ");
         tc.setColor(net.md_5.bungee.api.ChatColor.DARK_GRAY);
-        BaseComponent tcName = ComponentUtils.getLocalizedItemName(item.getType());
+        BaseComponent tcName = ComponentUtils.getLocalizedItemName(item);
         tcName.setColor(net.md_5.bungee.api.ChatColor.WHITE);
         tc.addExtra(tcName);
         tc.addExtra(" " + signName);

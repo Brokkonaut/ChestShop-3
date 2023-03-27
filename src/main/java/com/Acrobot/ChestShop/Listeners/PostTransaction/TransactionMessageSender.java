@@ -90,7 +90,7 @@ public class TransactionMessageSender implements Listener {
         // Joiner joiner = Joiner.on(' ');
 
         message.add(new TextComponent(item.getAmount() + " "));
-        message.add(ComponentUtils.getLocalizedItemName(item.getType()));
+        message.add(ComponentUtils.getLocalizedItemName(item));
 
         return message.toArray(new BaseComponent[message.size()]);
     }
