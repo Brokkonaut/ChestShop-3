@@ -9,6 +9,8 @@ import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -21,6 +23,12 @@ public class SignCreate implements Listener {
     @EventHandler
     public static void onSignChange(SignChangeEvent event) {
         Block signBlock = event.getBlock();
+        if (event.getSide() == Side.BACK) {
+            if (ChestShopSign.isValid(signBlock)) {
+                event.setCancelled(true);
+            }
+            return;
+        }
         String[] line = StringUtil.stripColourCodes(event.getLines());
 
         if (!BlockUtil.isSign(signBlock)) {
@@ -44,5 +52,12 @@ public class SignCreate implements Listener {
 
         ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(), uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines());
         ChestShop.callEvent(postEvent);
+
+        // clear back side
+        Sign sign = (Sign) signBlock.getState();
+        SignSide signSide = sign.getSide(Side.BACK);
+        for (byte i = 0; i < 4; ++i) {
+            signSide.setLine(i, "");
+        }
     }
 }

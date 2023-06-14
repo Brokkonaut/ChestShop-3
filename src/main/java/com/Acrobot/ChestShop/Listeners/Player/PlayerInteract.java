@@ -90,6 +90,7 @@ public class PlayerInteract implements Listener {
             if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
                 showShopInfo(player, sign);
             }
+            event.setCancelled(true);
             return;
         }
 
@@ -99,14 +100,15 @@ public class PlayerInteract implements Listener {
         }
         if (ownShop && (!Properties.ALLOW_OWN_SHOP_TRANSACTIONS || player.isSneaking())) {
             if (!Properties.ALLOW_SIGN_CHEST_OPEN || player.isSneaking() || player.isInsideVehicle() || player.getGameMode() == GameMode.CREATIVE) {
+                event.setCancelled(true);
                 return;
             }
 
             if (!Properties.ALLOW_LEFT_CLICK_DESTROYING || action != LEFT_CLICK_BLOCK) {
-                event.setCancelled(true);
                 showChestGUI(player, sign);
             }
 
+            event.setCancelled(true);
             return;
         }
 

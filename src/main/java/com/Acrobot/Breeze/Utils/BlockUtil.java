@@ -51,6 +51,7 @@ public class BlockUtil {
         CONTAINERS.add(Material.BARREL);
         CONTAINERS.addAll(SHULKER_BOXES);
 
+        SIGN_EDIT_MATERIALS.add(Material.HONEYCOMB);
         SIGN_EDIT_MATERIALS.add(Material.INK_SAC);
         SIGN_EDIT_MATERIALS.add(Material.GLOW_INK_SAC);
         SIGN_EDIT_MATERIALS.add(Material.BLACK_DYE);
