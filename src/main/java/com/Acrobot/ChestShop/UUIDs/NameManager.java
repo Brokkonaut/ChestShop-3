@@ -42,6 +42,17 @@ public class NameManager {
         return currentShortName.get(player.getUniqueId());
     }
 
+    public static UUID getUUIDFor(String shortName) {
+        if (Properties.ADMIN_SHOP_NAME.equalsIgnoreCase(shortName)) {
+            return adminShopUUID;
+        }
+        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0
+                && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
+            return serverAccountUUID;
+        }
+        return usedShortNames.get(shortName.toLowerCase());
+    }
+
     public static String getFullNameFor(UUID playerId) {
         if (isAdminShop(playerId)) {
             return Properties.ADMIN_SHOP_NAME;

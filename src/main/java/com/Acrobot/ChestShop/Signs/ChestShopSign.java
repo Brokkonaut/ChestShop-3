@@ -64,11 +64,10 @@ public class ChestShopSign {
 
         PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
         if (!persistentDataContainer.has(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN)) {
-            if (!isAdminShopNameString(sign.getLine(NAME_LINE))) {
-                return false;
-            }
 
-            persistentDataContainer.set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.TRUE);
+            boolean isAdminshop = isAdminShopNameString(sign.getLine(NAME_LINE));
+            persistentDataContainer.set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.valueOf(isAdminshop));
+            return isAdminshop;
         }
 
         return persistentDataContainer.get(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN).booleanValue();
@@ -104,13 +103,20 @@ public class ChestShopSign {
         PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
         String playerUUIDAsString = player.getUniqueId().toString();
 
+        if (isAdminShop(sign)) {
+            return false;
+        }
+
         if (!persistentDataContainer.has(OWNER_NAMESPACED_KEY, PersistentDataType.STRING)) {
-            if (!NameManager.canUseName(player, sign.getLine(NAME_LINE))) {
+
+            // Update old Signs
+            String ownerName = sign.getLine(NAME_LINE);
+            UUID uuidByName = NameManager.getUUIDFor(ownerName);
+            persistentDataContainer.set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, uuidByName.toString());
+
+            if (!NameManager.canUseName(player, ownerName)) {
                 return false; // Player isn't Owner
             }
-
-            // Player is Owner, but it's only saved on the sign. Update to new way of saving the shop owner.
-            persistentDataContainer.set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, playerUUIDAsString);
         }
 
         String owner = getOwner(sign);
