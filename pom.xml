@@ -20,7 +20,7 @@
         </repository>
         <repository>
             <id>sk89q-repo</id>
-            <url>http://maven.enginehub.org/repo/</url>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
