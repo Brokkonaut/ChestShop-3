@@ -87,6 +87,11 @@ public class Messages {
     public static String INVALID_AMOUNT_LINE = "You have specified an invalid amount!";
     public static String SHOP_UPDATE_FAILED = "This shop cannot be edited.";
 
+    @PrecededBySpace
+    public static final String UNKNOWN_PLAYER = "Player not found.";
+    public static final String NEW_ACCESSOR_ADDED = "New accessor added.";
+    public static final String ACCESSOR_REMOVED = "New accessor removed.";
+
     public static String prefix(String message) {
         return PREFIX + message;
     }

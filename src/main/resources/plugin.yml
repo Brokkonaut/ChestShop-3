@@ -47,6 +47,12 @@ commands:
   csSetAmount:
     description: Edit the amount of a shop
     usage: /<command>
+  csAddAccessor:
+    description: Add a accessor to a shop
+    usage: /<command> <player>
+  csRemoveAccessor:
+    description: Remove a accessor from a shop
+    usage: /<command> <player>
     
 permissions:
   ChestShop.*:

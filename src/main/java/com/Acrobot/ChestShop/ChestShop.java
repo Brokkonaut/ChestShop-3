@@ -17,8 +17,10 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Acrobot.Breeze.Configuration.Configuration;
+import com.Acrobot.ChestShop.Commands.AddAccessor;
 import com.Acrobot.ChestShop.Commands.Give;
 import com.Acrobot.ChestShop.Commands.ItemInfo;
+import com.Acrobot.ChestShop.Commands.RemoveAccessor;
 import com.Acrobot.ChestShop.Commands.SetAmount;
 import com.Acrobot.ChestShop.Commands.SetItem;
 import com.Acrobot.ChestShop.Commands.SetPrice;
@@ -144,6 +146,8 @@ public class ChestShop extends JavaPlugin {
         getCommand("csSetItem").setExecutor(new SetItem());
         getCommand("csSetPrice").setExecutor(new SetPrice());
         getCommand("csSetAmount").setExecutor(new SetAmount());
+        getCommand("csAddAccessor").setExecutor(new AddAccessor());
+        getCommand("csRemoveAccessor").setExecutor(new RemoveAccessor());
     }
 
     private void handleMigrations() {
