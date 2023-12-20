@@ -60,6 +60,10 @@ public class ChestShopSign {
         return string.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
     }
 
+    public static void setAdminshop(boolean isAdminshop, Sign sign) {
+        sign.getPersistentDataContainer().set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.valueOf(isAdminshop));
+    }
+
     public static boolean isAdminShop(Sign sign) {
 
         PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
@@ -123,7 +127,11 @@ public class ChestShopSign {
         return playerUUIDAsString.equals(owner);
     }
 
-    public static String getOwner(Sign sign) {
+    public static void setOwner(UUID player, Sign sign) {
+        sign.getPersistentDataContainer().set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, player.toString());
+    }
+
+    private static String getOwner(Sign sign) {
         return sign.getPersistentDataContainer().get(OWNER_NAMESPACED_KEY, PersistentDataType.STRING);
     }
 
