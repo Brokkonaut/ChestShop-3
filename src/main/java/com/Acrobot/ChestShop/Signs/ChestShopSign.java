@@ -41,11 +41,13 @@ public class ChestShopSign {
     public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
 
     private static NamespacedKey OWNER_NAMESPACED_KEY;
+    private static NamespacedKey ADMINSHOP_NAMESPACED_KEY;
     private static NamespacedKey ACCESSORS_NAMESPACED_KEY;
 
     public static void createNamespacedKeys(ChestShop chestShop) {
 
         OWNER_NAMESPACED_KEY = new NamespacedKey(chestShop, "owner-key");
+        ADMINSHOP_NAMESPACED_KEY = new NamespacedKey(chestShop, "adminshop-key");
         ACCESSORS_NAMESPACED_KEY = new NamespacedKey(chestShop, "accessors-key");
     }
 
@@ -53,12 +55,22 @@ public class ChestShopSign {
         return ownerInventory instanceof AdminInventory;
     }
 
-    public static boolean isAdminShop(String owner) {
+    private static boolean isAdminShop(String owner) {
         return owner.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
     }
 
     public static boolean isAdminShop(Sign sign) {
-        return isAdminShop(sign.getLine(NAME_LINE));
+
+        PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
+        if (!persistentDataContainer.has(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN)) {
+            if (!isAdminShop(sign.getLine(NAME_LINE))) {
+                return false;
+            }
+
+            persistentDataContainer.set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.TRUE);
+        }
+
+        return persistentDataContainer.get(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN).booleanValue();
     }
 
     public static boolean isValid(Sign sign) {
