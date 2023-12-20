@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -137,9 +138,11 @@ public class NameManager {
     }
 
     public static boolean canUseName(OfflinePlayer player, String name) {
-        if (ChestShopSign.isAdminShop(name)) {
+
+        if (ChestShopSign.isAdminShopNameString(name)) {
             return false;
         }
+
         UUID inUse = usedShortNames.get(name.toLowerCase());
         return inUse != null && inUse.equals(player.getUniqueId());
     }

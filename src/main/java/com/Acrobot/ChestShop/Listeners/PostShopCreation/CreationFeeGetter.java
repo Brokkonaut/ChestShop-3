@@ -1,7 +1,6 @@
 package com.Acrobot.ChestShop.Listeners.PostShopCreation;
 
 import static com.Acrobot.ChestShop.Permission.NOFEE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
 
 import java.math.BigDecimal;
 
@@ -33,7 +32,7 @@ public class CreationFeeGetter implements Listener {
             return;
         }
 
-        if (ChestShopSign.isAdminShop(event.getSignLine(NAME_LINE))) {
+        if (ChestShopSign.isAdminShop(event.getSign())) {
             return;
         }
 

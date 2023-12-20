@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
@@ -67,6 +66,6 @@ public class ChestShop implements Listener {
     }
 
     private static boolean isShopMember(Player player, Sign sign) {
-        return NameManager.canUseName(player, sign.getLine(ChestShopSign.NAME_LINE));
+        return ChestShopSign.isAccessor(player, sign);
     }
 }
