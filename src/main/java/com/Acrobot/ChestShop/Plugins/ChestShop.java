@@ -66,6 +66,6 @@ public class ChestShop implements Listener {
     }
 
     private static boolean isShopMember(Player player, Sign sign) {
-        return ChestShopSign.isAccessor(player, sign);
+        return ChestShopSign.isOwner(player, sign) || ChestShopSign.isAccessor(player, sign);
     }
 }
