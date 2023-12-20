@@ -52,20 +52,6 @@ public class NameManager {
         return lastSeenFullName.get(playerId);
     }
 
-    public static UUID getUUIDFor(String shortName) {
-        if (Properties.ADMIN_SHOP_NAME.equalsIgnoreCase(shortName)) {
-            return adminShopUUID;
-        }
-        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0 && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
-            return serverAccountUUID;
-        }
-        return usedShortNames.get(shortName.toLowerCase());
-    }
-
-    public static UUID getUUIDForFullName(String name) {
-        return fullNamesToUUID.get(name.toLowerCase());
-    }
-
     private static String createUseableShortName(String name, int id) {
         if (id == 0) {
             return name.length() > 15 ? name.substring(0, 15) : name;

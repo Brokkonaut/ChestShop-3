@@ -122,6 +122,11 @@ public class ChestShopSign {
     }
 
     public static UUID getOwnerUUID(Sign sign) {
+
+        if (isAdminShop(sign)) {
+            return NameManager.getAdminShopUUID();
+        }
+
         String owner = getOwner(sign);
         if (owner == null)
             return null;
