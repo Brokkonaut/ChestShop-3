@@ -62,6 +62,7 @@ public class ChestShopSign {
 
     public static void setAdminshop(boolean isAdminshop, Sign sign) {
         sign.getPersistentDataContainer().set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.valueOf(isAdminshop));
+        sign.update(true);
     }
 
     public static boolean isAdminShop(Sign sign) {
@@ -70,7 +71,7 @@ public class ChestShopSign {
         if (!persistentDataContainer.has(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN)) {
 
             boolean isAdminshop = isAdminShopNameString(sign.getLine(NAME_LINE));
-            persistentDataContainer.set(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN, Boolean.valueOf(isAdminshop));
+            setAdminshop(isAdminshop, sign);
             return isAdminshop;
         }
 
@@ -116,7 +117,7 @@ public class ChestShopSign {
             // Update old Signs
             String ownerName = sign.getLine(NAME_LINE);
             UUID uuidByName = NameManager.getUUIDFor(ownerName);
-            persistentDataContainer.set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, uuidByName.toString());
+            setOwner(uuidByName, sign);
 
             if (!NameManager.canUseName(player, ownerName)) {
                 return false; // Player isn't Owner
@@ -129,6 +130,7 @@ public class ChestShopSign {
 
     public static void setOwner(UUID player, Sign sign) {
         sign.getPersistentDataContainer().set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, player.toString());
+        sign.update(true);
     }
 
     private static String getOwner(Sign sign) {
@@ -181,6 +183,7 @@ public class ChestShopSign {
     private static void saveAccessors(Collection<String> accessors, Sign sign) {
         String joined = String.join(";", accessors);
         sign.getPersistentDataContainer().set(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING, joined);
+        sign.update(true);
     }
 
     public static boolean isValidPreparedSign(String[] lines) {
