@@ -61,6 +61,11 @@ public class AddAccessor implements CommandExecutor {
             return true;
         }
 
+        if (player.getUniqueId().equals(newAccessor)) {
+            sender.sendMessage(Messages.prefix(Messages.OWNER_CANT_BE_ACCESSOR));
+            return true;
+        }
+
         if (ChestShopSign.isAccessor(newAccessor, sign)) {
             sender.sendMessage(Messages.prefix(Messages.ACCESSOR_ALREADY_ADDED));
             return true;
