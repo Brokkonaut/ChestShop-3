@@ -42,6 +42,10 @@ public class NameManager {
         return currentShortName.get(player.getUniqueId());
     }
 
+    public static UUID getUUIDForFullName(String name) {
+        return fullNamesToUUID.get(name.toLowerCase());
+    }
+
     public static UUID getUUIDFor(String shortName) {
         if (Properties.ADMIN_SHOP_NAME.equalsIgnoreCase(shortName)) {
             return adminShopUUID;
