@@ -168,15 +168,20 @@ public class ChestShopSign {
         return new HashSet<>(Arrays.asList(split));
     }
 
-    public static void addAccessor(OfflinePlayer player, Sign sign) {
+    public static void addAccessor(UUID player, Sign sign) {
         Collection<String> accessors = getAccessors(sign);
-        accessors.add(player.getUniqueId().toString());
+        accessors.add(player.toString());
         saveAccessors(accessors, sign);
     }
 
-    public static void removeAccessor(OfflinePlayer player, Sign sign) {
+    public static boolean isAccessor(UUID player, Sign sign) {
         Collection<String> accessors = getAccessors(sign);
-        accessors.remove(player.getUniqueId().toString());
+        return accessors.contains(player.toString());
+    }
+
+    public static void removeAccessor(UUID player, Sign sign) {
+        Collection<String> accessors = getAccessors(sign);
+        accessors.remove(player.toString());
         saveAccessors(accessors, sign);
     }
 

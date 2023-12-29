@@ -2,7 +2,8 @@ package com.Acrobot.ChestShop.Commands;
 
 import static com.Acrobot.ChestShop.Permission.ADMIN;
 
-import org.bukkit.Bukkit;
+import java.util.UUID;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -14,6 +15,7 @@ import org.bukkit.util.RayTraceResult;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
  * @author Acrobot
@@ -53,9 +55,14 @@ public class RemoveAccessor implements CommandExecutor {
         }
 
         String playerName = args[0];
-        Player accessorToRemove = Bukkit.getPlayer(playerName);
+        UUID accessorToRemove = NameManager.getUUIDFor(playerName);
         if (accessorToRemove == null) {
             sender.sendMessage(Messages.prefix(Messages.UNKNOWN_PLAYER));
+            return true;
+        }
+
+        if (!ChestShopSign.isAccessor(accessorToRemove, sign)) {
+            sender.sendMessage(Messages.prefix(Messages.ACCESSOR_NOT_ADDED));
             return true;
         }
 
