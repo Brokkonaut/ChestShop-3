@@ -165,7 +165,7 @@ public class ChestShopSign {
         String data = persistentDataContainer.get(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING);
         String[] split = data.split(";");
 
-        return Arrays.asList(split);
+        return new HashSet<>(Arrays.asList(split));
     }
 
     public static void addAccessor(OfflinePlayer player, Sign sign) {
