@@ -10,6 +10,7 @@ import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -45,6 +46,7 @@ import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
@@ -143,6 +145,20 @@ public class PlayerInteract implements Listener {
 
         if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
             if (!ChestShopSign.isAdminShop(sign)) {
+
+                if (ChestShopSign.isOwner(player, sign) || Permission.has(player, Permission.MOD)) {
+                    player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
+                    Collection<String> accessors = ChestShopSign.getAccessors(sign);
+                    StringBuilder accessorNames = new StringBuilder();
+                    for (String string : accessors) {
+                        if (!accessorNames.isEmpty())
+                            accessorNames.append(", ");
+                        accessorNames.append(NameManager.getFullNameFor(UUID.fromString(string)));
+                    }
+
+                    player.sendMessage("  " + Messages.SHOP_ACCESSORS.replace("%accessor_list", accessorNames.toString()));
+                }
+
                 Container chest = uBlock.findConnectedChest(sign, true);
                 if (chest != null) {
                     // do not allow shulker boxes inside of shulker boxes

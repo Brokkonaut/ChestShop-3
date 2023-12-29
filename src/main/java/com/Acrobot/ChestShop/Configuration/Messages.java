@@ -11,6 +11,7 @@ public class Messages {
     public static String PREFIX = ChatColor.GREEN + "[Shop] " + ChatColor.RESET;
     public static String ITEM_INFO = ChatColor.GREEN + "Item Information: " + ChatColor.RESET;
     public static String SHOP_INFO = ChatColor.GREEN + "Shop Information: " + ChatColor.RESET;
+    public static String SHOP_OWNER_INFO = ChatColor.GREEN + "Shop-Owner Information: " + ChatColor.RESET;
 
     @PrecededBySpace
     public static String ACCESS_DENIED = "You don't have permission to do that!";
@@ -94,6 +95,9 @@ public class Messages {
     public static final String ACCESSOR_ALREADY_ADDED = "Accessor already added.";
     public static final String ACCESSOR_REMOVED = "Accessor removed.";
     public static final String ACCESSOR_NOT_ADDED = "Player isn't a accessor.";
+
+    @PrecededBySpace
+    public static String SHOP_ACCESSORS = "Accessors: %accessor_list";
 
     public static String prefix(String message) {
         return PREFIX + message;
