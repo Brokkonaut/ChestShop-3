@@ -163,6 +163,9 @@ public class ChestShopSign {
             return new HashSet<>();
 
         String data = persistentDataContainer.get(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING);
+        if (data.isEmpty())
+            return new HashSet<>();
+
         String[] split = data.split(";");
 
         return new HashSet<>(Arrays.asList(split));

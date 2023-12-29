@@ -150,10 +150,10 @@ public class PlayerInteract implements Listener {
                     player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
                     Collection<String> accessors = ChestShopSign.getAccessors(sign);
                     StringBuilder accessorNames = new StringBuilder();
-                    for (String string : accessors) {
+                    for (String accessorUUID : accessors) {
                         if (!accessorNames.isEmpty())
                             accessorNames.append(", ");
-                        accessorNames.append(NameManager.getFullNameFor(UUID.fromString(string)));
+                        accessorNames.append(NameManager.getFullNameFor(UUID.fromString(accessorUUID)));
                     }
 
                     player.sendMessage("  " + Messages.SHOP_ACCESSORS.replace("%accessor_list", accessorNames.toString()));
