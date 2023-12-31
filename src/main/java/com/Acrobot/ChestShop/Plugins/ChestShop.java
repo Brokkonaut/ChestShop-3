@@ -41,7 +41,7 @@ public class ChestShop implements Listener {
         if (isSign(block)) {
             Sign sign = (Sign) block.getState();
 
-            if (!ChestShopSign.isLegacyValid(sign)) {
+            if (!ChestShopSign.isChestShop(sign)) {
                 return true;
             }
 

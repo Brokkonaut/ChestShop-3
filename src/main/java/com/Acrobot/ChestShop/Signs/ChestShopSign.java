@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -102,6 +104,14 @@ public class ChestShopSign {
             return false;
 
         return LegacyChestShopSign.isValid(sign);
+    }
+
+    public static boolean isChestShop(Block block) {
+        BlockState state = block.getState();
+        if (!(state instanceof Sign))
+            return false;
+
+        return isChestShop((Sign) state);
     }
 
     public static boolean isChestShop(Sign sign) {

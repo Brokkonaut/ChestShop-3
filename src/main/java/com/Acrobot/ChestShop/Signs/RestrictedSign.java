@@ -52,7 +52,7 @@ public class RestrictedSign implements Listener {
             }
             Block connectedSign = event.getBlock().getRelative(BlockFace.DOWN);
 
-            if (!Permission.has(player, ADMIN) || !ChestShopSign.isLegacyValid(connectedSign)) {
+            if (!Permission.has(player, ADMIN) || !ChestShopSign.isChestShop(connectedSign)) {
                 dropSignAndCancelEvent(event);
                 return;
             }
