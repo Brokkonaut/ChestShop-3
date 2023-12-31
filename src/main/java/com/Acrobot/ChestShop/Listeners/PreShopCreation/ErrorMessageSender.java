@@ -24,8 +24,6 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.INCORRECT_ITEM_ID;
                 break;
             case INVALID_PRICE:
-                message = Messages.INVALID_SHOP_DETECTED;
-                break;
             case INVALID_QUANTITY:
                 message = Messages.INVALID_SHOP_DETECTED;
                 break;
