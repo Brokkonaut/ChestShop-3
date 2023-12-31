@@ -52,7 +52,7 @@ public class SignBreak implements Listener {
         Sign sign = (Sign) block.getState();
         Block attachedBlock = BlockUtil.getAttachedBlock(sign);
 
-        if (attachedBlock.getType() == Material.AIR && ChestShopSign.isLegacyValid(sign)) {
+        if (attachedBlock.getType() == Material.AIR && ChestShopSign.isChestShop(sign)) {
             if (!block.hasMetadata(METADATA_NAME)) {
                 return;
             }
@@ -70,7 +70,7 @@ public class SignBreak implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public static void onBrokenSign(BlockBreakEvent event) {
-        if (ChestShopSign.isLegacyValid(event.getBlock())) {
+        if (ChestShopSign.isChestShop(event.getBlock())) {
             sendShopDestroyedEvent((Sign) event.getBlock().getState(), event.getPlayer());
         }
     }

@@ -25,7 +25,7 @@ public class SignCreate implements Listener {
     public static void onSignChange(SignChangeEvent event) {
         Block signBlock = event.getBlock();
         if (event.getSide() == Side.BACK) {
-            if (ChestShopSign.isLegacyValid(signBlock)) {
+            if (ChestShopSign.isChestShop(signBlock)) {
                 event.setCancelled(true);
             }
             return;
