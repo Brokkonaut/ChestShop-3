@@ -4,8 +4,6 @@ import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 
@@ -31,7 +29,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Security;
@@ -83,7 +80,7 @@ public class PlayerInteract implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        if (!ChestShopSign.isLegacyValid(sign)) {
+        if (!ChestShopSign.isChestShop(sign)) {
             return;
         }
 
@@ -134,25 +131,28 @@ public class PlayerInteract implements Listener {
     }
 
     private static void showShopInfo(Player player, Sign sign) {
-        String material = sign.getLine(ITEM_LINE);
-        ItemStack item = MaterialUtil.getItem(material);
 
-        if (MaterialUtil.isEmpty(item)) {
-            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+        if (ChestShopSign.isChestShop(sign)) {
             return;
         }
+
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (chestShopMetaData == null)
+            return;
+
+        ItemStack item = chestShopMetaData.getItemStack();
 
         if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
             if (!ChestShopSign.isAdminShop(sign)) {
 
                 if (ChestShopSign.isOwner(player, sign) || Permission.has(player, Permission.MOD)) {
                     player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
-                    Collection<String> accessors = ChestShopSign.getAccessors(sign);
+                    Collection<UUID> accessors = chestShopMetaData.getAccessors();
                     StringBuilder accessorNames = new StringBuilder();
-                    for (String accessorUUID : accessors) {
+                    for (UUID accessorUUID : accessors) {
                         if (!accessorNames.isEmpty())
                             accessorNames.append(", ");
-                        accessorNames.append(NameManager.getFullNameFor(UUID.fromString(accessorUUID)));
+                        accessorNames.append(NameManager.getFullNameFor(accessorUUID));
                     }
 
                     player.sendMessage("  " + Messages.SHOP_ACCESSORS.replace("%accessor_list", accessorNames.toString()));
@@ -167,13 +167,12 @@ public class PlayerInteract implements Listener {
                     }
 
                     player.sendMessage(Messages.prefix(Messages.SHOP_INFO));
-                    String prices = sign.getLine(PRICE_LINE);
                     Inventory inventory = chest.getInventory();
-                    if (PriceUtil.getSellPrice(prices) != PriceUtil.NO_PRICE) {
+                    if (chestShopMetaData.doesSell()) {
                         int free = InventoryUtil.getFreeSpace(item, inventory);
                         player.sendMessage("  " + Messages.AVAILABLE_SPACE.replace("%amount", Integer.toString(free)));
                     }
-                    if (PriceUtil.getBuyPrice(prices) != PriceUtil.NO_PRICE) {
+                    if (chestShopMetaData.doesBuy()) {
                         int available = InventoryUtil.getAmount(item, inventory);
                         player.sendMessage("  " + Messages.AVAILABLE_ITEMS.replace("%amount", Integer.toString(available)));
                     }

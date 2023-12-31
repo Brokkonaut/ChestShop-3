@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
+import com.Acrobot.Breeze.Utils.PriceUtil;
+
 public class ChestShopMetaData implements ConfigurationSerializable {
 
     private UUID owner;
@@ -63,8 +65,16 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return quantity;
     }
 
+    public boolean doesBuy() {
+        return buyPrice != PriceUtil.NO_PRICE;
+    }
+
     public double getBuyPrice() {
         return buyPrice;
+    }
+
+    public boolean doesSell() {
+        return sellPrice != PriceUtil.NO_PRICE;
     }
 
     public double getSellPrice() {
