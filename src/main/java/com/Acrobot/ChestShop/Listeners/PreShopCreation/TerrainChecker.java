@@ -25,7 +25,7 @@ public class TerrainChecker implements Listener {
     @EventHandler
     public static void onPreShopCreation(PreShopCreationEvent event) {
 
-        if (ChestShopSign.isAdminShop(event.getSign())) {
+        if (ChestShopSign.isAdminshopLine(event.getOwnerName())) {
             return;
         }
 

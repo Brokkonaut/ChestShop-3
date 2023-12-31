@@ -35,6 +35,9 @@ public class ChestShopSign {
     }
 
     public static boolean isAdminShop(Sign sign) {
+        if (!isChestShop(sign)) {
+            return false;
+        }
         return getChestShopMetaData(sign).isOwner(NameManager.getAdminShopUUID());
     }
 
@@ -57,6 +60,9 @@ public class ChestShopSign {
     }
 
     public static UUID getOwner(Sign sign) {
+        if (!isChestShop(sign)) {
+            return null;
+        }
         ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
         return chestShopMetaData.getOwner();
     }
