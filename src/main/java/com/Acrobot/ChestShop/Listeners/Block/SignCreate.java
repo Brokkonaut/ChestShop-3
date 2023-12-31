@@ -52,6 +52,12 @@ public class SignCreate implements Listener {
         }
 
         PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line);
+
+        ItemStack itemStack = getItemStack(event.getLine(4), (Sign) event.getBlock().getState());
+        if (itemStack == null) {
+            preEvent.setOutcome(PreShopCreationEvent.CreationOutcome.INVALID_ITEM);
+        }
+
         ChestShop.callEvent(preEvent);
 
         if (preEvent.isCancelled()) {
@@ -72,10 +78,10 @@ public class SignCreate implements Listener {
             signSide.setLine(i, "");
         }
 
-        ChestShopSign.createShop(sign, event.getPlayer(), event.getLines());
+        ChestShopSign.createShop(sign, event.getPlayer(), event.getLines(), itemStack);
     }
 
-    private ItemStack getItemStack(String itemLine, Sign sign) {
+    private static ItemStack getItemStack(String itemLine, Sign sign) {
         Material material = MaterialUtil.getMaterial(itemLine);
         if (material != null)
             return new ItemStack(material);
