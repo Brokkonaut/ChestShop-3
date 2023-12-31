@@ -31,7 +31,7 @@ public class PreShopCreationEvent extends Event {
     }
 
     public String getQuantityLine() {
-        return signLines[2];
+        return signLines[1];
     }
 
     public ItemStack getItemStack() {
