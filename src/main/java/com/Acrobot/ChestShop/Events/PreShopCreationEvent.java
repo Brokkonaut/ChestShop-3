@@ -19,7 +19,7 @@ public class PreShopCreationEvent extends Event {
     private CreationOutcome outcome = CreationOutcome.SHOP_CREATED_SUCCESSFULLY;
     private Sign sign;
     private String[] signLines;
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
     public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
