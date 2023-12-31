@@ -57,7 +57,7 @@ public class SignCreate implements Listener {
             return;
         }
 
-        ItemStack itemStack = getItemStack(event.getLine(4), (Sign) event.getBlock().getState());
+        ItemStack itemStack = getItemStack(event.getLine(3), (Sign) event.getBlock().getState());
         PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line, itemStack);
         ChestShop.callEvent(preEvent);
 
