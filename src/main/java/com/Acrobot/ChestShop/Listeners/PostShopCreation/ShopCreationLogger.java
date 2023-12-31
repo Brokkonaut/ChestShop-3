@@ -1,8 +1,6 @@
 package com.Acrobot.ChestShop.Listeners.PostShopCreation;
 
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +22,7 @@ public class ShopCreationLogger implements Listener {
         String creator = event.getPlayer().getName();
         String typeOfShop = ChestShopSign.isAdminShop(event.getSign()) ? "an Admin Shop" : "a shop";
 
-        String item = event.getSignLine(QUANTITY_LINE) + ' ' + event.getSignLine(ITEM_LINE);
+        String item = event.getQuantity() + ' ' + event.getItemStack().getType().toString();
         String prices = event.getSignLine(PRICE_LINE);
         String location = LocationUtil.locationToString(event.getSign().getLocation());
 

@@ -124,7 +124,7 @@ public class SignBreak implements Listener {
 
         for (Sign sign : attachedSigns) {
 
-            if (!canBeBroken || !ChestShopSign.isLegacyValid(sign)) {
+            if (!canBeBroken || !ChestShopSign.isChestShop(sign)) {
                 continue;
             }
 

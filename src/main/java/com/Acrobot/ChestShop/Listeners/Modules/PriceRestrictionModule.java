@@ -1,7 +1,6 @@
 package com.Acrobot.ChestShop.Listeners.Modules;
 
 import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_PRICE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 
 import java.io.File;
@@ -12,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
@@ -50,7 +48,7 @@ public class PriceRestrictionModule implements Listener {
 
     @EventHandler
     public void onPreShopCreation(PreShopCreationEvent event) {
-        ItemStack material = MaterialUtil.getItem(event.getSignLine(ITEM_LINE));
+        ItemStack material = event.getItemStack();
 
         if (material == null) {
             return;

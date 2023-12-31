@@ -4,6 +4,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a state before shop is created
@@ -18,11 +19,23 @@ public class PreShopCreationEvent extends Event {
     private CreationOutcome outcome = CreationOutcome.SHOP_CREATED_SUCCESSFULLY;
     private Sign sign;
     private String[] signLines;
+    private ItemStack itemStack;
 
-    public PreShopCreationEvent(Player creator, Sign sign, String[] signLines) {
+    public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
         this.sign = sign;
         this.signLines = signLines.clone();
+        this.itemStack = itemStack;
+        if (itemStack == null)
+            outcome = CreationOutcome.INVALID_ITEM;
+    }
+
+    public String getQuantityLine() {
+        return signLines[2];
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack.clone();
     }
 
     /**

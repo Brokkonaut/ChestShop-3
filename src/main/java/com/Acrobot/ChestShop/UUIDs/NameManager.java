@@ -140,7 +140,7 @@ public class NameManager {
 
     public static boolean canUseName(OfflinePlayer player, String name) {
 
-        if (ChestShopSign.isAdminShopNameString(name)) {
+        if (ChestShopSign.isAdminshopLine(name)) {
             return false;
         }
 

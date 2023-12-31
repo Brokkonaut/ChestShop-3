@@ -11,12 +11,10 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
@@ -34,38 +32,6 @@ public class ChestShopSign {
 
     public static void createNamespacedKeys(ChestShop chestShop) {
         METADATA_NAMESPACED_KEY = new NamespacedKey(chestShop, "metadata");
-    }
-
-    public static void createShop(Sign sign, Player creator, String[] signLines, ItemStack itemStack) {
-
-        int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
-
-        String priceLine = signLines[3];
-        double sellPrice = PriceUtil.getSellPrice(priceLine);
-        double buyPrice = PriceUtil.getBuyPrice(priceLine);
-
-        String ownerLine = signLines[0];
-        boolean isAdminShop = ownerLine.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
-
-        if (isAdminShop) {
-            createAdminChestShop(sign, quantity, sellPrice, buyPrice, itemStack);
-        } else {
-            createChestShop(sign, creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
-        }
-
-    }
-
-    private static void createChestShop(Sign sign, UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-
-        ChestShopMetaData chestShopMetaData = new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
-        saveChestShopMetaData(sign, chestShopMetaData);
-    }
-
-    private static void createAdminChestShop(Sign sign, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-
-        ChestShopMetaData chestShopMetaData = new ChestShopMetaData(NameManager.getAdminShopUUID(), quantity, sellPrice, buyPrice,
-                itemStack);
-        saveChestShopMetaData(sign, chestShopMetaData);
     }
 
     public static boolean isAdminShop(Sign sign) {
@@ -178,7 +144,7 @@ public class ChestShopSign {
         }
     }
 
-    private static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData) {
+    public static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData) {
 
         try {
 
@@ -201,5 +167,9 @@ public class ChestShopSign {
             }
         }
         return lines[PRICE_LINE].indexOf(':') == lines[PRICE_LINE].lastIndexOf(':');
+    }
+
+    public static boolean isAdminshopLine(String ownerLine) {
+        return ownerLine.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
     }
 }

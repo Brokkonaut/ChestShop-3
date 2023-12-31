@@ -1,5 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.Block;
 
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -8,6 +10,7 @@ import org.bukkit.block.ShulkerBox;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -17,12 +20,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
@@ -51,13 +57,8 @@ public class SignCreate implements Listener {
             return;
         }
 
-        PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line);
-
         ItemStack itemStack = getItemStack(event.getLine(4), (Sign) event.getBlock().getState());
-        if (itemStack == null) {
-            preEvent.setOutcome(PreShopCreationEvent.CreationOutcome.INVALID_ITEM);
-        }
-
+        PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line, itemStack);
         ChestShop.callEvent(preEvent);
 
         if (preEvent.isCancelled()) {
@@ -68,7 +69,10 @@ public class SignCreate implements Listener {
             event.setLine(i, preEvent.getSignLine(i));
         }
 
-        ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(), uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines());
+        ChestShopMetaData chestShopMetaData = createShopMetaData(preEvent.getSign(), event.getPlayer(), event.getLines(), itemStack);
+
+        ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(),
+                uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
         ChestShop.callEvent(postEvent);
 
         // clear back side
@@ -78,7 +82,37 @@ public class SignCreate implements Listener {
             signSide.setLine(i, "");
         }
 
-        ChestShopSign.createShop(sign, event.getPlayer(), event.getLines(), itemStack);
+        ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData);
+    }
+
+    public static ChestShopMetaData createShopMetaData(Sign sign, Player creator, String[] signLines, ItemStack itemStack) {
+
+        int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
+
+        String priceLine = signLines[3];
+        double sellPrice = PriceUtil.getSellPrice(priceLine);
+        double buyPrice = PriceUtil.getBuyPrice(priceLine);
+
+        String ownerLine = signLines[0];
+        boolean isAdminShop = ChestShopSign.isAdminshopLine(ownerLine);
+
+        if (isAdminShop) {
+            return createAdminChestShop(sign, quantity, sellPrice, buyPrice, itemStack);
+        } else {
+            return createChestShop(sign, creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
+        }
+
+    }
+
+    private static ChestShopMetaData createChestShop(Sign sign, UUID owner, int quantity, double sellPrice, double buyPrice,
+            ItemStack itemStack) {
+
+        return new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
+    }
+
+    private static ChestShopMetaData createAdminChestShop(Sign sign, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
+
+        return new ChestShopMetaData(NameManager.getAdminShopUUID(), quantity, sellPrice, buyPrice, itemStack);
     }
 
     private static ItemStack getItemStack(String itemLine, Sign sign) {

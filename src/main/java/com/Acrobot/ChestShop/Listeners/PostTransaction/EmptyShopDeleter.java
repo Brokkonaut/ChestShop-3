@@ -1,12 +1,5 @@
 package com.Acrobot.ChestShop.Listeners.PostTransaction;
 
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
-import com.Acrobot.ChestShop.Events.TransactionEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
@@ -15,6 +8,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
+import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -31,7 +32,7 @@ public class EmptyShopDeleter implements Listener {
         Sign sign = event.getSign();
         Container connectedChest = uBlock.findConnectedChest(sign);
 
-        if (!shopShouldBeRemoved(ownerInventory, event.getStock())) {
+        if (!shopShouldBeRemoved(sign, ownerInventory, event.getStock())) {
             return;
         }
 
@@ -60,14 +61,14 @@ public class EmptyShopDeleter implements Listener {
         }
         sign.getBlock().setType(Material.AIR);
 
-        if (Properties.REMOVE_EMPTY_CHESTS && !ChestShopSign.isAdminShop(ownerInventory) && InventoryUtil.isEmpty(ownerInventory)) {
+        if (Properties.REMOVE_EMPTY_CHESTS && !ChestShopSign.isAdminShop(sign) && InventoryUtil.isEmpty(ownerInventory)) {
             connectedChest.getBlock().setType(Material.AIR);
         } else {
             ownerInventory.addItem(new ItemStack(signMaterial, 1));
         }
     }
 
-    private static boolean shopShouldBeRemoved(Inventory inventory, ItemStack stock) {
-        return Properties.REMOVE_EMPTY_SHOPS && !ChestShopSign.isAdminShop(inventory) && !InventoryUtil.hasItems(stock, inventory);
+    private static boolean shopShouldBeRemoved(Sign sign, Inventory inventory, ItemStack stock) {
+        return Properties.REMOVE_EMPTY_SHOPS && !ChestShopSign.isAdminShop(sign) && !InventoryUtil.hasItems(stock, inventory);
     }
 }
