@@ -2,6 +2,7 @@ package com.Acrobot.ChestShop.Signs;
 
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -15,15 +16,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
  * @author Acrobot
  */
 public class ChestShopSign {
-    public static final String AUTOFILL_CODE = "?";
-    public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
+
+    public static final byte PRICE_LINE = 2;
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
+            Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
 
@@ -31,13 +36,32 @@ public class ChestShopSign {
         METADATA_NAMESPACED_KEY = new NamespacedKey(chestShop, "metadata");
     }
 
-    public static void createChestShop(Sign sign, Player owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
+    public static void createShop(Sign sign, Player creator, String[] signLines, ItemStack itemStack) {
 
-        ChestShopMetaData chestShopMetaData = new ChestShopMetaData(owner.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
+        int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
+
+        String priceLine = signLines[3];
+        double sellPrice = PriceUtil.getSellPrice(priceLine);
+        double buyPrice = PriceUtil.getBuyPrice(priceLine);
+
+        String ownerLine = signLines[0];
+        boolean isAdminShop = ownerLine.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
+
+        if (isAdminShop) {
+            createAdminChestShop(sign, quantity, sellPrice, buyPrice, itemStack);
+        } else {
+            createChestShop(sign, creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
+        }
+
+    }
+
+    private static void createChestShop(Sign sign, UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
+
+        ChestShopMetaData chestShopMetaData = new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
         saveChestShopMetaData(sign, chestShopMetaData);
     }
 
-    public static void createAdminChestShop(Sign sign, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
+    private static void createAdminChestShop(Sign sign, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
 
         ChestShopMetaData chestShopMetaData = new ChestShopMetaData(NameManager.getAdminShopUUID(), quantity, sellPrice, buyPrice,
                 itemStack);
@@ -168,5 +192,14 @@ public class ChestShopSign {
             Bukkit.getLogger().log(Level.WARNING,
                     "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
         }
+    }
+
+    public static boolean isValidPreparedSign(String[] lines) {
+        for (int i = 0; i < 4; i++) {
+            if (!SHOP_SIGN_PATTERN[i].matcher(lines[i]).matches()) {
+                return false;
+            }
+        }
+        return lines[PRICE_LINE].indexOf(':') == lines[PRICE_LINE].lastIndexOf(':');
     }
 }

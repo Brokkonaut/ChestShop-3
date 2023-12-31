@@ -1,16 +1,25 @@
 package com.Acrobot.ChestShop.Listeners.Block;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
@@ -20,6 +29,8 @@ import com.Acrobot.ChestShop.Utils.uBlock;
  * @author Acrobot
  */
 public class SignCreate implements Listener {
+    public static final String AUTOFILL_CODE = "?";
+    public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
 
     @EventHandler
     public static void onSignChange(SignChangeEvent event) {
@@ -61,9 +72,48 @@ public class SignCreate implements Listener {
             signSide.setLine(i, "");
         }
 
-        boolean isAdminShop = ChestShopSign.isAdminShopNameString(preEvent.getOwnerName());
-        ChestShopSign.setAdminshop(isAdminShop, sign);
-        if (!isAdminShop)
-            ChestShopSign.setOwner(postEvent.getPlayer().getUniqueId(), sign);
+        ChestShopSign.createShop(sign, event.getPlayer(), event.getLines());
+    }
+
+    private ItemStack getItemStack(String itemLine, Sign sign) {
+        Material material = MaterialUtil.getMaterial(itemLine);
+        if (material != null)
+            return new ItemStack(material);
+
+        ItemStack item = null;
+        if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
+            Container connectedChest = uBlock.findConnectedChest(sign, true);
+            if (connectedChest != null) {
+                if (itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE)) {
+                    out: for (ItemStack stack : connectedChest.getInventory().getContents()) {
+                        if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
+                            ItemMeta meta = stack.getItemMeta();
+                            if (meta instanceof BlockStateMeta) {
+                                BlockStateMeta bsm = (BlockStateMeta) meta;
+                                BlockState blockState = bsm.getBlockState();
+                                if (blockState instanceof ShulkerBox) {
+                                    ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                                    for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
+                                        if (!MaterialUtil.isEmpty(shulkerContent)) {
+                                            item = shulkerContent;
+                                            break out;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (ItemStack stack : connectedChest.getInventory().getContents()) {
+                        if (!MaterialUtil.isEmpty(stack)) {
+                            item = stack;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return item;
     }
 }
