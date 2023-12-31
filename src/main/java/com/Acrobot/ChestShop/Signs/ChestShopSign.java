@@ -45,6 +45,7 @@ public class ChestShopSign {
     }
 
     public static boolean isAdminShop(Sign sign) {
+        return getChestShopMetaData(sign).isOwner(NameManager.getAdminShopUUID());
     }
 
     public static boolean canAccess(OfflinePlayer player, Sign sign) {
@@ -62,21 +63,34 @@ public class ChestShopSign {
     }
 
     public static boolean isOwner(OfflinePlayer player, Sign sign) {
+        return getChestShopMetaData(sign).isOwner(player.getUniqueId());
     }
 
     public static UUID getOwner(Sign sign) {
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        return chestShopMetaData.getOwner();
+    }
+
+
+    public static void addAccessor(UUID player, Sign sign) {
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        chestShopMetaData.addAccessor(player);
+        saveChestShopMetaData(sign, chestShopMetaData);
     }
 
     public static boolean isAccessor(OfflinePlayer player, Sign sign) {
-    }
-
-    public static void addAccessor(UUID player, Sign sign) {
+        return isAccessor(player.getUniqueId(), sign);
     }
 
     public static boolean isAccessor(UUID player, Sign sign) {
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        return chestShopMetaData.isAccessor(player);
     }
 
-    public static void removeAccessor(UUID player, Sign sign) {
+    public static void removeAccessor(UUID accessor, Sign sign) {
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        chestShopMetaData.removeAccessor(accessor);
+        saveChestShopMetaData(sign, chestShopMetaData);
     }
 
     private static void updateLegacyChestShop(Sign sign) {
