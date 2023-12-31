@@ -43,7 +43,7 @@ public class AddAccessor implements CommandExecutor {
         if (result != null) {
             signBlock = result.getHitBlock();
         }
-        if (signBlock == null || !ChestShopSign.isLegacyValid(signBlock)) {
+        if (signBlock == null || !ChestShopSign.isChestShop(signBlock)) {
             sender.sendMessage(Messages.MUST_LOOK_AT_SHOP_SIGN);
             return true;
         }
