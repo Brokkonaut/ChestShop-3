@@ -1,11 +1,7 @@
 package com.Acrobot.ChestShop.Commands;
 
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import static com.Acrobot.ChestShop.Permission.ADMIN;
 
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Permission;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -14,6 +10,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.util.RayTraceResult;
+
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Configuration.Messages;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
 
 public class SetPrice implements CommandExecutor {
     @Override
@@ -33,7 +34,7 @@ public class SetPrice implements CommandExecutor {
         if (result != null) {
             signBlock = result.getHitBlock();
         }
-        if (signBlock == null || !ChestShopSign.isValid(signBlock)) {
+        if (signBlock == null || !ChestShopSign.isLegacyValid(signBlock)) {
             sender.sendMessage(Messages.MUST_LOOK_AT_SHOP_SIGN);
             return true;
         }

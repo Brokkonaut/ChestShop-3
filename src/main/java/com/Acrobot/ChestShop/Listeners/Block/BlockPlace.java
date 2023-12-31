@@ -53,7 +53,7 @@ public class BlockPlace implements Listener {
     public static void onPlaceAgainstSign(BlockPlaceEvent event) {
         Block against = event.getBlockAgainst();
 
-        if (!ChestShopSign.isValid(against)) {
+        if (!ChestShopSign.isLegacyValid(against)) {
             return;
         }
 

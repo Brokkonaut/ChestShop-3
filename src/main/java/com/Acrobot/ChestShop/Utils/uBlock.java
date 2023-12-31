@@ -1,7 +1,5 @@
 package com.Acrobot.ChestShop.Utils;
 
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -16,6 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
 
 /**
  * @author Acrobot
@@ -164,7 +165,7 @@ public class uBlock {
             }
 
             Sign sign = (Sign) faceBlock.getState();
-            if (ChestShopSign.isValid(sign)) {
+            if (ChestShopSign.isLegacyValid(sign)) {
                 Block attachedTo = findConnectedChestBlock(sign);
                 if (attachedTo != null && attachedTo.equals(block)) {
                     return sign;

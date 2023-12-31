@@ -84,7 +84,7 @@ public class PlayerInteract implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        if (!ChestShopSign.isValid(sign)) {
+        if (!ChestShopSign.isLegacyValid(sign)) {
             return;
         }
 
