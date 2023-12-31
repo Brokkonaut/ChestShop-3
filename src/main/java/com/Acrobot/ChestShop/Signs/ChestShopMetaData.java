@@ -28,7 +28,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     private ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack, Set<UUID> accessors) {
         this.owner = owner;
-        this.quantity = quantity;
+        this.quantity = Math.max(1, quantity);
         this.sellPrice = sellPrice;
         this.buyPrice = buyPrice;
         this.itemStack = itemStack;
@@ -72,7 +72,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
     }
 
     public ItemStack getItemStack() {
-        return itemStack;
+        return itemStack.clone();
     }
 
     @Override

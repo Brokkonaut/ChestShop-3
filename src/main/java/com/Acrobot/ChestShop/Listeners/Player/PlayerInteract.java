@@ -6,7 +6,6 @@ import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 
@@ -33,7 +32,6 @@ import org.bukkit.inventory.ItemStack;
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.NumberUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Security;
@@ -45,6 +43,7 @@ import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
@@ -186,19 +185,20 @@ public class PlayerInteract implements Listener {
 
     private static PreTransactionEvent preparePreTransactionEvent(Sign sign, Player player, Action action) {
 
-        String quantity = sign.getLine(QUANTITY_LINE);
-        String prices = sign.getLine(PRICE_LINE);
-        String material = sign.getLine(ITEM_LINE);
-        UUID uuid = ChestShopSign.getOwnerUUID(sign);
-
-        if (uuid == null) {
+        if (!ChestShopSign.isChestShop(sign)) {
             return null;
         }
+
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (chestShopMetaData == null)
+            return null;
+
+        UUID uuid = chestShopMetaData.getOwner();
 
         OfflinePlayer owner = Bukkit.getOfflinePlayer(uuid);
 
         Action buy = Properties.REVERSE_BUTTONS ? LEFT_CLICK_BLOCK : RIGHT_CLICK_BLOCK;
-        double price = (action == buy ? PriceUtil.getBuyPrice(prices) : PriceUtil.getSellPrice(prices));
+        double price = (action == buy ? chestShopMetaData.getBuyPrice() : chestShopMetaData.getSellPrice());
         if (player.getUniqueId().equals(uuid)) { // own shop
             price = PriceUtil.FREE;
         }
@@ -206,23 +206,15 @@ public class PlayerInteract implements Listener {
         Container chest = uBlock.findConnectedChest(sign, true);
         Inventory ownerInventory = (ChestShopSign.isAdminShop(sign) ? new AdminInventory() : chest != null ? chest.getInventory() : null);
 
-        ItemStack item = MaterialUtil.getItem(material);
+        ItemStack item = chestShopMetaData.getItemStack();
 
-        if (item == null || !NumberUtil.isInteger(quantity)) {
-            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
-            return null;
-        }
         // do not allow shulker boxes inside of shulker boxes
         if (!ChestShopSign.isAdminShop(sign) && chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
             player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
             return null;
         }
 
-        int amount = Integer.parseInt(quantity);
-
-        if (amount < 1) {
-            amount = 1;
-        }
+        int amount = chestShopMetaData.getQuantity();
 
         if (Properties.SHIFT_SELLS_IN_STACKS && player.isSneaking() && price != PriceUtil.NO_PRICE && isAllowedForShift(action == buy)) {
             int newAmount = getStackAmount(item, ownerInventory, player, action);

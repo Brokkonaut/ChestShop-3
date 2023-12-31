@@ -124,7 +124,7 @@ public class ChestShopSign {
         return sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
     }
 
-    private static ChestShopMetaData getChestShopMetaData(Sign sign) {
+    public static ChestShopMetaData getChestShopMetaData(Sign sign) {
 
         try {
 
