@@ -6,6 +6,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+
 /**
  * Represents a state before shop is created
  *
@@ -28,6 +30,8 @@ public class PreShopCreationEvent extends Event {
         this.itemStack = itemStack;
         if (itemStack == null)
             outcome = CreationOutcome.INVALID_ITEM;
+        else
+            this.signLines[3] = MaterialUtil.getName(itemStack.getType());
     }
 
     public String getQuantityLine() {
