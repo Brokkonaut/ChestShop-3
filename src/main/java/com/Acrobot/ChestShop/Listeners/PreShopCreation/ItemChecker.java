@@ -37,11 +37,7 @@ public class ItemChecker implements Listener {
             return null;
         }
 
-        String itemName = MaterialUtil.getName(itemStack.getType());
-        if (itemName == null) {
-            return null;
-        }
-
+        String itemName = MaterialUtil.getSignMaterialName(itemStack.getType());
         boolean needsItalicEffect = false;
 
         if (itemStack.hasItemMeta()) {
