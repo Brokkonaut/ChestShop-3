@@ -4,6 +4,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Represents an event that is fired before the display name of an item in a shop is created.
+ * The final value of displayName will be displayed on the sign of the newly created shop.
+ */
 public class PreShopCreationItemDisplayNameEvent extends Event {
 
     private final ItemStack itemStack;
