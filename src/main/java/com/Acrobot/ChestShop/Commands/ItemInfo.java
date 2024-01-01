@@ -15,6 +15,10 @@ import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import com.Acrobot.ChestShop.Utils.ComponentUtils;
+
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * @author Acrobot
@@ -48,6 +52,11 @@ public class ItemInfo implements CommandExecutor {
             sender.sendMessage("  " + ChatColor.DARK_RED + INCORRECT_ITEM_ID);
             return;
         }
+
+        TextComponent tc = new TextComponent("  ");
+        BaseComponent tcName = ComponentUtils.getLocalizedItemName(item);
+        tc.addExtra(tcName);
+        sender.spigot().sendMessage(tc);
 
         ItemInfoEvent event = new ItemInfoEvent(sender, item);
         ChestShop.callEvent(event);
