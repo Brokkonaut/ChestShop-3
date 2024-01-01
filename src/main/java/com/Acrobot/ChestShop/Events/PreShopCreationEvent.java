@@ -39,6 +39,11 @@ public class PreShopCreationEvent extends Event {
     }
 
     public ItemStack getItemStack() {
+
+        if (itemStack == null) {
+            return null;
+        }
+
         return itemStack.clone();
     }
 
