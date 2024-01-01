@@ -69,7 +69,7 @@ public class SignCreate implements Listener {
             event.setLine(i, preEvent.getSignLine(i));
         }
 
-        ChestShopMetaData chestShopMetaData = createShopMetaData(preEvent.getSign(), event.getPlayer(), event.getLines(), itemStack);
+        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), event.getLines(), itemStack);
 
         ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(),
                 uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
@@ -85,7 +85,7 @@ public class SignCreate implements Listener {
         ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData);
     }
 
-    public static ChestShopMetaData createShopMetaData(Sign sign, Player creator, String[] signLines, ItemStack itemStack) {
+    public static ChestShopMetaData createShopMetaData(Player creator, String[] signLines, ItemStack itemStack) {
 
         int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
 
@@ -97,20 +97,20 @@ public class SignCreate implements Listener {
         boolean isAdminShop = ChestShopSign.isAdminshopLine(ownerLine);
 
         if (isAdminShop) {
-            return createAdminChestShop(sign, quantity, sellPrice, buyPrice, itemStack);
+            return createAdminChestShop(quantity, sellPrice, buyPrice, itemStack);
         } else {
-            return createChestShop(sign, creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
+            return createChestShop(creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
         }
 
     }
 
-    private static ChestShopMetaData createChestShop(Sign sign, UUID owner, int quantity, double sellPrice, double buyPrice,
+    private static ChestShopMetaData createChestShop(UUID owner, int quantity, double sellPrice, double buyPrice,
             ItemStack itemStack) {
 
         return new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
     }
 
-    private static ChestShopMetaData createAdminChestShop(Sign sign, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
+    private static ChestShopMetaData createAdminChestShop(int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
 
         return new ChestShopMetaData(NameManager.getAdminShopUUID(), quantity, sellPrice, buyPrice, itemStack);
     }
