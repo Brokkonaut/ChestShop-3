@@ -159,6 +159,7 @@ public class ChestShopSign {
 
             String string = yamlConfiguration.saveToString();
             sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
+            sign.update();
 
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.WARNING,
