@@ -1,11 +1,12 @@
 package com.Acrobot.ChestShop.Signs;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Containers.AdminInventory;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.regex.Pattern;
-
-import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -16,16 +17,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Containers.AdminInventory;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -39,15 +30,6 @@ public class ChestShopSign {
     public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
     public static final String AUTOFILL_CODE = "?";
     public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
-
-    private static NamespacedKey OWNER_NAMESPACED_KEY;
-    private static NamespacedKey ACCESSORS_NAMESPACED_KEY;
-
-    public static void createNamespacedKeys(ChestShop chestShop) {
-
-        OWNER_NAMESPACED_KEY = new NamespacedKey(chestShop, "owner-key");
-        ACCESSORS_NAMESPACED_KEY = new NamespacedKey(chestShop, "accessors-key");
-    }
 
     public static boolean isAdminShop(Inventory ownerInventory) {
         return ownerInventory instanceof AdminInventory;
@@ -81,63 +63,7 @@ public class ChestShopSign {
             return true;
         }
 
-        if (isOwner(player, sign))
-            return true;
-
-        return isAccessor(player, sign);
-    }
-
-    public static boolean isOwner(OfflinePlayer player, Sign sign) {
-
-        PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
-        String playerUUIDAsString = player.getUniqueId().toString();
-
-        if (!persistentDataContainer.has(OWNER_NAMESPACED_KEY, PersistentDataType.STRING)) {
-            if (!NameManager.canUseName(player, sign.getLine(NAME_LINE))) {
-                return false; // Player isn't Owner
-            }
-
-            // Player is Owner, but it's only saved on the sign. Update to new way of saving the shop owner.
-            persistentDataContainer.set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, playerUUIDAsString);
-        }
-
-        String ownerUUID = persistentDataContainer.get(OWNER_NAMESPACED_KEY, PersistentDataType.STRING);
-        return playerUUIDAsString.equals(ownerUUID);
-    }
-
-    public static boolean isAccessor(OfflinePlayer player, Sign sign) {
-
-        Collection<String> accessors = getAccessors(sign);
-        return accessors.contains(player.getUniqueId().toString());
-    }
-
-    public static Collection<String> getAccessors(Sign sign) {
-
-        PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
-        if (!persistentDataContainer.has(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING))
-            return new HashSet<>();
-
-        String data = persistentDataContainer.get(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING);
-        String[] split = data.split(";");
-
-        return Arrays.asList(split);
-    }
-
-    public static void addAccessor(OfflinePlayer player, Sign sign) {
-        Collection<String> accessors = getAccessors(sign);
-        accessors.add(player.getUniqueId().toString());
-        saveAccessors(accessors, sign);
-    }
-
-    public static void removeAccessor(OfflinePlayer player, Sign sign) {
-        Collection<String> accessors = getAccessors(sign);
-        accessors.remove(player.getUniqueId().toString());
-        saveAccessors(accessors, sign);
-    }
-
-    private static void saveAccessors(Collection<String> accessors, Sign sign) {
-        String joined = String.join(";", accessors);
-        sign.getPersistentDataContainer().set(ACCESSORS_NAMESPACED_KEY, PersistentDataType.STRING, joined);
+        return NameManager.canUseName(player, sign.getLine(NAME_LINE));
     }
 
     public static boolean isValidPreparedSign(String[] lines) {
