@@ -27,6 +27,7 @@ import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
@@ -123,38 +124,57 @@ public class SignCreate implements Listener {
 
         ItemStack item = null;
         if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
-            Container connectedChest = uBlock.findConnectedChest(sign, true);
-            if (connectedChest != null) {
-                if (itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE)) {
-                    out: for (ItemStack stack : connectedChest.getInventory().getContents()) {
-                        if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
-                            ItemMeta meta = stack.getItemMeta();
-                            if (meta instanceof BlockStateMeta) {
-                                BlockStateMeta bsm = (BlockStateMeta) meta;
-                                BlockState blockState = bsm.getBlockState();
-                                if (blockState instanceof ShulkerBox) {
-                                    ShulkerBox shulkerBox = (ShulkerBox) blockState;
-                                    for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
-                                        if (!MaterialUtil.isEmpty(shulkerContent)) {
-                                            item = shulkerContent;
-                                            break out;
-                                        }
-                                    }
-                                }
+            item = autoFillItemStack(sign, itemLine);
+        } else if (ChestShopSign.isChestShop(sign)) { // If it already was an Chest Shop.
+
+            ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+            ItemStack itemStack = chestShopMetaData.getItemStack();
+            String oldItemDisplayName = ItemChecker.getSignItemName(itemStack);
+            if (oldItemDisplayName.equals(itemLine)) // If thats true Sign got edited, but item stayed the same
+                item = itemStack;
+        }
+
+        return item;
+    }
+
+    private static ItemStack autoFillItemStack(Sign sign, String itemLine) {
+        Container connectedChest = uBlock.findConnectedChest(sign, true);
+        if (connectedChest != null) {
+            return itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE) ? autoFillItemStackFromShulker(connectedChest)
+                    : autoFillItemStackFromChest(connectedChest);
+        }
+
+        return null;
+    }
+
+    private static ItemStack autoFillItemStackFromChest(Container connectedChest) {
+        for (ItemStack stack : connectedChest.getInventory().getContents()) {
+            if (!MaterialUtil.isEmpty(stack)) {
+                return stack;
+            }
+        }
+        return null;
+    }
+
+    private static ItemStack autoFillItemStackFromShulker(Container connectedChest) {
+        for (ItemStack stack : connectedChest.getInventory().getContents()) {
+            if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
+                ItemMeta meta = stack.getItemMeta();
+                if (meta instanceof BlockStateMeta) {
+                    BlockStateMeta bsm = (BlockStateMeta) meta;
+                    BlockState blockState = bsm.getBlockState();
+                    if (blockState instanceof ShulkerBox) {
+                        ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                        for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
+                            if (!MaterialUtil.isEmpty(shulkerContent)) {
+                                return shulkerContent;
                             }
-                        }
-                    }
-                } else {
-                    for (ItemStack stack : connectedChest.getInventory().getContents()) {
-                        if (!MaterialUtil.isEmpty(stack)) {
-                            item = stack;
-                            break;
                         }
                     }
                 }
             }
         }
 
-        return item;
+        return null;
     }
 }
