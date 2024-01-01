@@ -88,8 +88,12 @@ public class ChestShopMetaData implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
-        data.put("owner", owner);
-        data.put("accessors", accessors);
+        data.put("owner", owner.toString());
+
+        Set<String> accessorsStrings = new HashSet<>();
+        this.accessors.forEach(uuid -> accessorsStrings.add(uuid.toString()));
+        data.put("accessors", accessorsStrings);
+
         data.put("amount", quantity);
         data.put("buyPrice", buyPrice);
         data.put("sellPrice", sellPrice);
@@ -99,12 +103,16 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     public static ChestShopMetaData deserialize(Map<String, Object> map) {
 
-        UUID owner = (UUID) map.get("owner");
+        UUID owner = UUID.fromString((String) map.get("owner"));
         int amount = (int) map.get("amount");
         double sellPrice = (double) map.get("sellPrice");
         double buyPrice = (double) map.get("buyPrice");
-        ItemStack itemStack = (ItemStack) map.get("itemStack");
-        Set<UUID> accessors = new HashSet<>((HashSet<UUID>) map.get("accessors"));
+        ItemStack itemStack = ItemStack.deserialize((Map<String, Object>) map.get("itemStack"));
+
+        Set<String> accessorsString = (HashSet<String>) map.get("accessors");
+        Set<UUID> accessors = new HashSet<>();
+        accessorsString.forEach(string -> accessors.add(UUID.fromString(string)));
+
         return new ChestShopMetaData(owner, amount, sellPrice, buyPrice, itemStack, accessors);
     }
 }
