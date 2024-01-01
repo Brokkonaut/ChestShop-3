@@ -74,7 +74,6 @@ import com.Acrobot.ChestShop.Listeners.ShopRemoval.ShopRefundListener;
 import com.Acrobot.ChestShop.Listeners.ShopRemoval.ShopRemovalLogger;
 import com.Acrobot.ChestShop.Logging.FileFormatter;
 import com.Acrobot.ChestShop.Metadata.ItemDatabase;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Signs.RestrictedSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 
@@ -104,7 +103,6 @@ public class ChestShop extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        ChestShopSign.createNamespacedKeys(this); // Initialize NamespacedKeys
         Dependencies.initializePluginsOnLoad();
     }
 
