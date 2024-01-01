@@ -89,7 +89,7 @@ public class SignCreate implements Listener {
 
         int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
 
-        String priceLine = signLines[3];
+        String priceLine = signLines[2];
         double sellPrice = PriceUtil.getSellPrice(priceLine);
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 

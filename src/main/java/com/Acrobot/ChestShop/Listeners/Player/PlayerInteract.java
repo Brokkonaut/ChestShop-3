@@ -132,7 +132,7 @@ public class PlayerInteract implements Listener {
 
     private static void showShopInfo(Player player, Sign sign) {
 
-        if (ChestShopSign.isChestShop(sign)) {
+        if (!ChestShopSign.isChestShop(sign)) {
             return;
         }
 
