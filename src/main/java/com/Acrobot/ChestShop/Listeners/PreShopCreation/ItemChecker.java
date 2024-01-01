@@ -10,7 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
 
 /**
  * @author Acrobot
@@ -40,15 +42,20 @@ public class ItemChecker implements Listener {
             return null;
         }
 
+        boolean needsItalicEffect = false;
+
         if (itemStack.hasItemMeta()) {
             ItemMeta itemMeta = itemStack.getItemMeta();
-            if (itemMeta.hasDisplayName()) {
-                itemName = ChatColor.stripColor(itemMeta.getDisplayName());
-            } else if (!itemMeta.equals(new ItemStack(itemStack.getType()).getItemMeta())) {
-                itemName = ChatColor.ITALIC + itemName;
+            if (!itemMeta.equals(new ItemStack(itemStack.getType()).getItemMeta())) {
+                needsItalicEffect = true;
             }
         }
 
-        return itemName.substring(0, Math.min(itemName.length(), 15));
+        PreShopCreationItemDisplayNameEvent preShopCreationItemDisplayNameEvent = new PreShopCreationItemDisplayNameEvent(itemStack,
+                itemName);
+        ChestShop.callEvent(preShopCreationItemDisplayNameEvent);
+        itemName = preShopCreationItemDisplayNameEvent.getDisplayName();
+
+        return (needsItalicEffect ? ChatColor.ITALIC : "") + itemName.substring(0, Math.min(itemName.length(), 15));
     }
 }
