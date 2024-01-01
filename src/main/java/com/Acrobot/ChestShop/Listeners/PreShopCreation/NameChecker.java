@@ -22,7 +22,7 @@ public class NameChecker implements Listener {
         String name = event.getOwnerName();
 
         Player player = event.getPlayer();
-        UUID uuidForFullName = NameManager.getUUIDFor(name);
+        UUID uuidForFullName = name.isBlank() ? player.getUniqueId() : NameManager.getUUIDFor(name);
 
         if (!uuidForFullName.equals(player.getUniqueId()) && Permission.has(player, Permission.ADMIN)) {
             name = NameManager.getFullNameFor(uuidForFullName);
