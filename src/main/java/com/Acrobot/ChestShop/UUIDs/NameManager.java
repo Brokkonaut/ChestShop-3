@@ -47,7 +47,7 @@ public class NameManager {
     }
 
     public static UUID getUUIDFor(String shortName) {
-        if (Properties.ADMIN_SHOP_NAME.equalsIgnoreCase(shortName)) {
+        if (ChestShopSign.isAdminshopLine(shortName)) {
             return adminShopUUID;
         }
         if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0

@@ -96,12 +96,16 @@ public class SignCreate implements Listener {
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 
         String ownerLine = signLines[0];
-        boolean isAdminShop = ChestShopSign.isAdminshopLine(ownerLine) && Permission.has(creator, Permission.ADMIN);
+        UUID uuidForFullName = NameManager.getUUIDFor(ownerLine);
+        boolean isAdminShop = NameManager.isAdminShop(uuidForFullName) && Permission.has(creator, Permission.ADMIN);
+
+        if (!uuidForFullName.equals(creator.getUniqueId()) && !Permission.has(creator, Permission.ADMIN))
+            return null; // Return if user wants to create a shop for someone else without permission.
 
         if (isAdminShop) {
             return createAdminChestShop(quantity, sellPrice, buyPrice, itemStack);
         } else {
-            return createChestShop(creator.getUniqueId(), quantity, sellPrice, buyPrice, itemStack);
+            return createChestShop(uuidForFullName, quantity, sellPrice, buyPrice, itemStack);
         }
 
     }
