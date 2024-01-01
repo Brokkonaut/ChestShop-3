@@ -20,16 +20,24 @@ public class ItemChecker implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public static void onPreShopCreation(PreShopCreationEvent event) {
 
-        ItemStack itemStack = event.getItemStack();
-        if (itemStack == null) {
+        String signItemName = getSignItemName(event.getItemStack());
+        if (signItemName == null) {
             event.setOutcome(INVALID_ITEM);
             return;
         }
 
+        event.setItemLine(signItemName);
+    }
+
+    public static String getSignItemName(ItemStack itemStack) {
+
+        if (itemStack == null) {
+            return null;
+        }
+
         String itemName = MaterialUtil.getName(itemStack.getType());
         if (itemName == null) {
-            event.setOutcome(INVALID_ITEM);
-            return;
+            return null;
         }
 
         if (itemStack.hasItemMeta()) {
@@ -41,6 +49,6 @@ public class ItemChecker implements Listener {
             }
         }
 
-        event.setItemLine(itemName);
+        return itemName;
     }
 }
