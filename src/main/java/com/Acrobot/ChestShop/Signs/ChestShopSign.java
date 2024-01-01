@@ -12,11 +12,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
@@ -100,12 +100,11 @@ public class ChestShopSign {
         ItemStack itemStack = LegacyChestShopSign.getItemStack(sign);
 
         ChestShopMetaData chestShopMetaData = new ChestShopMetaData(ownerUUID, quantity, sellPrice, buyPrice, itemStack);
-        PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
 
-        YamlConfiguration yamlConfiguration = new YamlConfiguration();
-        yamlConfiguration.set("metadata", chestShopMetaData);
+        sign.setLine(0, NameManager.getFullNameFor(chestShopMetaData.getOwner()));
+        sign.setLine(3, ItemChecker.getSignItemName(itemStack));
 
-        persistentDataContainer.set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, yamlConfiguration.saveToString());
+        saveChestShopMetaData(sign, chestShopMetaData);
     }
 
     private static boolean isLegacyChestShop(Sign sign) {
