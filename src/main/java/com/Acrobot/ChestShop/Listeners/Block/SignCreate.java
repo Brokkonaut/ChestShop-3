@@ -23,6 +23,7 @@ import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
@@ -94,7 +95,7 @@ public class SignCreate implements Listener {
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 
         String ownerLine = signLines[0];
-        boolean isAdminShop = ChestShopSign.isAdminshopLine(ownerLine);
+        boolean isAdminShop = ChestShopSign.isAdminshopLine(ownerLine) && Permission.has(creator, Permission.ADMIN);
 
         if (isAdminShop) {
             return createAdminChestShop(quantity, sellPrice, buyPrice, itemStack);
