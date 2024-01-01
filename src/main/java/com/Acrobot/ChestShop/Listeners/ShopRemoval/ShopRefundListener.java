@@ -1,6 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.ShopRemoval;
 
 import static com.Acrobot.ChestShop.Permission.NOFEE;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -17,7 +18,6 @@ import com.Acrobot.ChestShop.Economy.Economy;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
@@ -32,7 +32,7 @@ public class ShopRefundListener implements Listener {
             return;
         }
 
-        UUID owner = ChestShopSign.getOwnerUUID(event.getSign());
+        UUID owner = NameManager.getUUIDFor(event.getSign().getLine(NAME_LINE));
 
         CurrencyAddEvent currencyEvent = new CurrencyAddEvent(BigDecimal.valueOf(refundPrice), owner, event.getSign().getWorld());
         ChestShop.callEvent(currencyEvent);

@@ -3,7 +3,6 @@ package com.Acrobot.ChestShop.Signs;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.bukkit.NamespacedKey;
@@ -32,7 +31,7 @@ import com.Acrobot.ChestShop.Utils.uBlock;
  * @author Acrobot
  */
 public class ChestShopSign {
-    private static final byte NAME_LINE = 0;
+    public static final byte NAME_LINE = 0;
     public static final byte QUANTITY_LINE = 1;
     public static final byte PRICE_LINE = 2;
     public static final byte ITEM_LINE = 3;
@@ -56,15 +55,15 @@ public class ChestShopSign {
         return ownerInventory instanceof AdminInventory;
     }
 
-    public static boolean isAdminShopNameString(String string) {
-        return string.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
+    private static boolean isAdminShop(String owner) {
+        return owner.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
     }
 
     public static boolean isAdminShop(Sign sign) {
 
         PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
         if (!persistentDataContainer.has(ADMINSHOP_NAMESPACED_KEY, PersistentDataType.BOOLEAN)) {
-            if (!isAdminShopNameString(sign.getLine(NAME_LINE))) {
+            if (!isAdminShop(sign.getLine(NAME_LINE))) {
                 return false;
             }
 
@@ -101,6 +100,7 @@ public class ChestShopSign {
     }
 
     public static boolean isOwner(OfflinePlayer player, Sign sign) {
+
         PersistentDataContainer persistentDataContainer = sign.getPersistentDataContainer();
         String playerUUIDAsString = player.getUniqueId().toString();
 
@@ -113,20 +113,8 @@ public class ChestShopSign {
             persistentDataContainer.set(OWNER_NAMESPACED_KEY, PersistentDataType.STRING, playerUUIDAsString);
         }
 
-        String owner = getOwner(sign);
-        return playerUUIDAsString.equals(owner);
-    }
-
-    public static String getOwner(Sign sign) {
-        return sign.getPersistentDataContainer().get(OWNER_NAMESPACED_KEY, PersistentDataType.STRING);
-    }
-
-    public static UUID getOwnerUUID(Sign sign) {
-        String owner = getOwner(sign);
-        if (owner == null)
-            return null;
-
-        return UUID.fromString(owner);
+        String ownerUUID = persistentDataContainer.get(OWNER_NAMESPACED_KEY, PersistentDataType.STRING);
+        return playerUUIDAsString.equals(ownerUUID);
     }
 
     public static boolean isAccessor(OfflinePlayer player, Sign sign) {

@@ -1,18 +1,14 @@
 package com.Acrobot.ChestShop.Listeners.ShopRemoval;
 
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-
 import com.Acrobot.Breeze.Utils.LocationUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.*;
 
 /**
  * @author Acrobot
@@ -26,8 +22,8 @@ public class ShopRemovalLogger implements Listener {
             return;
         }
 
-        String shopOwner = NameManager.getFullNameFor(ChestShopSign.getOwnerUUID(event.getSign()));
-        String typeOfShop = ChestShopSign.isAdminShop(event.getSign()) ? "An Admin Shop" : "A shop belonging to " + shopOwner;
+        String shopOwner = event.getSign().getLine(NAME_LINE);
+        String typeOfShop = ChestShopSign.isAdminShop(shopOwner) ? "An Admin Shop" : "A shop belonging to " + shopOwner;
 
         String item = event.getSign().getLine(QUANTITY_LINE) + ' ' + event.getSign().getLine(ITEM_LINE);
         String prices = event.getSign().getLine(PRICE_LINE);

@@ -5,29 +5,11 @@ import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.QUANTITY_LINE;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
-
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Block;
-import org.bukkit.block.Container;
-import org.bukkit.block.ShulkerBox;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.InventoryUtil;
@@ -45,7 +27,25 @@ import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.Container;
+import org.bukkit.block.ShulkerBox;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Acrobot
@@ -169,11 +169,12 @@ public class PlayerInteract implements Listener {
     }
 
     private static PreTransactionEvent preparePreTransactionEvent(Sign sign, Player player, Action action) {
-
+        String name = sign.getLine(NAME_LINE);
         String quantity = sign.getLine(QUANTITY_LINE);
         String prices = sign.getLine(PRICE_LINE);
         String material = sign.getLine(ITEM_LINE);
-        UUID uuid = ChestShopSign.getOwnerUUID(sign);
+
+        UUID uuid = NameManager.getUUIDFor(name);
 
         if (uuid == null) {
             return null;

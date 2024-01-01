@@ -124,14 +124,6 @@ public class PreShopCreationEvent extends Event {
         return signLines[line];
     }
 
-    public String getOwnerName() {
-        return getSignLine((byte) 0);
-    }
-
-    public void setOwnerName(String name) {
-        this.setSignLine((byte) 0, name);
-    }
-
     /**
      * Returns the text on the sign
      *
