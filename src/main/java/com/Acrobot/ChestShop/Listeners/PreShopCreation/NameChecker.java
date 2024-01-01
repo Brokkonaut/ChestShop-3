@@ -29,6 +29,6 @@ public class NameChecker implements Listener {
         } else
             name = NameManager.getNameFor(player);
 
-        event.setOwnerName(name);
+        event.setOwnerName(name.substring(0, Math.min(name.length(), 15)));
     }
 }

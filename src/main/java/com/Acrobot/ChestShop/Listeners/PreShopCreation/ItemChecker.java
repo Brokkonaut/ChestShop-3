@@ -49,6 +49,6 @@ public class ItemChecker implements Listener {
             }
         }
 
-        return itemName;
+        return itemName.substring(0, Math.min(itemName.length(), 15));
     }
 }
