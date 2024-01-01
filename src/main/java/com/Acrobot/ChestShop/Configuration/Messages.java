@@ -89,7 +89,6 @@ public class Messages {
     public static String SHOP_UPDATE_FAILED = "This shop cannot be edited.";
 
     @PrecededBySpace
-    public static final String UNKNOWN_PLAYER = "Player not found.";
     public static final String OWNER_CANT_BE_ACCESSOR = "The owner of a shop can't be added as a accessor.";
     public static final String NEW_ACCESSOR_ADDED = "New accessor added.";
     public static final String ACCESSOR_ALREADY_ADDED = "Accessor already added.";

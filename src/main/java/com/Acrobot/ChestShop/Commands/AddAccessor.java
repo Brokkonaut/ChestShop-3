@@ -57,7 +57,7 @@ public class AddAccessor implements CommandExecutor {
         String playerName = args[0];
         UUID newAccessor = NameManager.getUUIDFor(playerName);
         if (newAccessor == null) {
-            sender.sendMessage(Messages.prefix(Messages.UNKNOWN_PLAYER));
+            sender.sendMessage(Messages.prefix(Messages.PLAYER_NOT_FOUND));
             return true;
         }
 
