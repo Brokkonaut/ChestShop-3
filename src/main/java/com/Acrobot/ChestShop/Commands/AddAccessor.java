@@ -61,7 +61,8 @@ public class AddAccessor implements CommandExecutor {
             return true;
         }
 
-        if (player.getUniqueId().equals(newAccessor)) {
+        UUID owner = ChestShopSign.getOwner(sign);
+        if (owner.equals(newAccessor)) {
             sender.sendMessage(Messages.prefix(Messages.OWNER_CANT_BE_ACCESSOR));
             return true;
         }
