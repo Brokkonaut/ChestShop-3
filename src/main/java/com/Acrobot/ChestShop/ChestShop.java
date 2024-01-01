@@ -53,6 +53,7 @@ import com.Acrobot.ChestShop.Listeners.PostTransaction.ItemManager;
 import com.Acrobot.ChestShop.Listeners.PostTransaction.TransactionLogger;
 import com.Acrobot.ChestShop.Listeners.PostTransaction.TransactionMessageSender;
 import com.Acrobot.ChestShop.Listeners.PreShopCreation.ChestChecker;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.Listeners.PreShopCreation.MoneyChecker;
 import com.Acrobot.ChestShop.Listeners.PreShopCreation.NameChecker;
 import com.Acrobot.ChestShop.Listeners.PreShopCreation.PriceChecker;
@@ -289,6 +290,7 @@ public class ChestShop extends JavaPlugin {
         registerEvent(new com.Acrobot.ChestShop.Listeners.PreShopCreation.ErrorMessageSender());
         registerEvent(new PriceChecker());
         registerEvent(new QuantityChecker());
+        registerEvent(new ItemChecker());
         registerEvent(new TerrainChecker());
     }
 
