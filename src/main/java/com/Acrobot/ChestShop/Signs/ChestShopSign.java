@@ -67,6 +67,13 @@ public class ChestShopSign {
         return chestShopMetaData.getOwner();
     }
 
+    public static ItemStack getItemStack(Sign sign) {
+        if (!isChestShop(sign)) {
+            return null;
+        }
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        return chestShopMetaData.getItemStack();
+    }
 
     public static void addAccessor(UUID player, Sign sign) {
         ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
