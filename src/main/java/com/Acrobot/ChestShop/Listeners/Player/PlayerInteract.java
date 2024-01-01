@@ -1,7 +1,6 @@
 package com.Acrobot.ChestShop.Listeners.Player;
 
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
-import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
@@ -74,15 +73,17 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (!isSign(block) || BlockUtil.isSign(player.getInventory().getItemInMainHand().getType())) { // Blocking accidental sign edition
+        if (!ChestShopSign.isChestShop(block)) {
             return;
         }
 
         Sign sign = (Sign) block.getState();
 
-        if (!ChestShopSign.isChestShop(sign)) {
+        if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType())
+                && (ChestShopSign.isOwner(event.getPlayer(), sign) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
             return;
         }
+
 
         if (event.getPlayer().isSneaking() && Properties.ALLOW_SHOP_INFO_ON_SNEAK_CLICK) {
             if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
