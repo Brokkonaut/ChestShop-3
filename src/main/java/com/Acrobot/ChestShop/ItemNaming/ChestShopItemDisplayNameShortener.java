@@ -50,7 +50,7 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(20, "blackstone", "blackst");
         addMapping(20, "nether", "neth");
         addMapping(20, "concrete", "concr");
-        addMapping(10, "expo", "exp");
+        addMapping(20, "expo", "exp");
         addMapping(20, "weathered", "wea");
         addMapping(20, "brick", "bri");
         addMapping(20, "prismarine", "prism");

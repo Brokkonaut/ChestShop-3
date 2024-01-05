@@ -18,7 +18,25 @@ public class ItemCheckerTest {
     }
 
     @Test
-    public void testNamingShorting() {
+    public void testNamingShortingSpacingRemoveBeforeFurtherShorting() {
+        String sut = "Netherite Chestplate";
+
+        String result = ItemChecker.shortenDisplayName(sut, 11);
+
+        assertEquals("NetherChest", result);
+    }
+
+    @Test
+    public void testNamingShortingShortAndKeepSpacing() {
+        String sut = "Netherite Chestplate";
+
+        String result = ItemChecker.shortenDisplayName(sut, 10);
+
+        assertEquals("Neth Chest", result);
+    }
+
+    @Test
+    public void testNamingShortingOnMaxValue() {
         String sut = "Netherite Chestplate";
 
         String result = ItemChecker.shortenDisplayName(sut, 12);

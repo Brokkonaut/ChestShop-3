@@ -74,7 +74,7 @@ public class ItemChecker implements Listener {
 
         String result = name.toLowerCase();
         if (result.length() <= length)
-            return result;
+            return name;
 
         if (customItemDisplayNameShortener != null) {
             result = customItemDisplayNameShortener.shorten(result, length);

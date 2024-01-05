@@ -1,9 +1,9 @@
 package com.Acrobot.ChestShop.ItemNaming;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.Acrobot.Breeze.Utils.StringUtil;
 
@@ -69,7 +69,7 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
         private final Set<StringShortenerPair> shortenerPairs;
 
         public StringShortenerPairHolder() {
-            this.shortenerPairs = new HashSet<>();
+            this.shortenerPairs = new TreeSet<>(StringShortenerPair::compareTo);
         }
 
         public void addShortenerPair(String from, String to) {
@@ -86,9 +86,19 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
         }
     }
 
-    private record StringShortenerPair(String from, String to) {
+    private record StringShortenerPair(String from, String to) implements Comparable<StringShortenerPair> {
         public String apply(String string) {
-            return string.replaceAll("(?<=\\s)" + from + "(?=( |$))", to);
+            return string.replaceAll("(?<=( |^))" + from + "(?=( |$))", to);
+        }
+
+        @Override
+        public int compareTo(StringShortenerPair o) {
+            if (equals(o))
+                return 0;
+
+            if (o.to.equals(from))
+                return -1;
+            return 1;
         }
     }
 }
