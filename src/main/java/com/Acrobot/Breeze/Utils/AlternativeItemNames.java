@@ -102,6 +102,40 @@ public class AlternativeItemNames {
 
         addItem(Material.WITHER_SKELETON_SPAWN_EGG, "WITHER_SKEL_SPAWN_EGG");
 
+        addItem(Material.WAXED_WEATHERED_CHISELED_COPPER, "WAX_WEA_CHI_COPPER");
+
+        addItem(Material.EXPOSED_COPPER_DOOR, "EXP_COPPER_DOOR");
+        addItem(Material.WEATHERED_COPPER_DOOR, "WEA_COPPER_DOOR");
+        addItem(Material.OXIDIZED_COPPER_DOOR, "OXI_COPPER_DOOR");
+        addItem(Material.WAXED_COPPER_DOOR, "WA_COPPER_DOOR");
+        addItem(Material.WAXED_EXPOSED_COPPER_DOOR, "WA_EXP_COPPER_DOOR");
+        addItem(Material.WAXED_WEATHERED_COPPER_DOOR, "WA_WEA_COPPER_DOOR");
+        addItem(Material.WAXED_OXIDIZED_COPPER_DOOR, "WA_OXI_COPPER_DOOR");
+
+        addItem(Material.EXPOSED_COPPER_TRAPDOOR, "EXP_COPPER_TRAPDOOR");
+        addItem(Material.WEATHERED_COPPER_TRAPDOOR, "WEA_COPPER_TRAPDOOR");
+        addItem(Material.OXIDIZED_COPPER_TRAPDOOR, "OXI_COPPER_TRAPDOOR");
+        addItem(Material.WAXED_COPPER_TRAPDOOR, "WA_COPPER_TRAPDOOR");
+        addItem(Material.WAXED_EXPOSED_COPPER_TRAPDOOR, "WA_EXP_COPPER_TRAPDOOR");
+        addItem(Material.WAXED_WEATHERED_COPPER_TRAPDOOR, "WA_WEA_COPPER_TRAPDOOR");
+        addItem(Material.WAXED_OXIDIZED_COPPER_TRAPDOOR, "WA_OXI_COPPER_TRAPDOOR");
+
+        addItem(Material.EXPOSED_COPPER_GRATE, "EXP_COPPER_GRATE");
+        addItem(Material.WEATHERED_COPPER_GRATE, "WEA_COPPER_GRATE");
+        addItem(Material.OXIDIZED_COPPER_GRATE, "OXI_COPPER_GRATE");
+        addItem(Material.WAXED_COPPER_GRATE, "WA_COPPER_GRATE");
+        addItem(Material.WAXED_EXPOSED_COPPER_GRATE, "WA_EXP_COPPER_GRATE");
+        addItem(Material.WAXED_WEATHERED_COPPER_GRATE, "WA_WEA_COPPER_GRATE");
+        addItem(Material.WAXED_OXIDIZED_COPPER_GRATE, "WA_OXI_COPPER_GRATE");
+
+        addItem(Material.EXPOSED_COPPER_BULB, "EXP_COPPER_BULB");
+        addItem(Material.WEATHERED_COPPER_BULB, "WEA_COPPER_BULB");
+        addItem(Material.OXIDIZED_COPPER_BULB, "OXI_COPPER_BULB");
+        addItem(Material.WAXED_COPPER_BULB, "WA_COPPER_BULB");
+        addItem(Material.WAXED_EXPOSED_COPPER_BULB, "WA_EXP_COPPER_BULB");
+        addItem(Material.WAXED_WEATHERED_COPPER_BULB, "WA_WEA_COPPER_BULB");
+        addItem(Material.WAXED_OXIDIZED_COPPER_BULB, "WA_OXI_COPPER_BULB");
+
         for (Material mat : Material.values()) {
             String name = mat.name();
             if (!name.startsWith("LEGACY_")) {
