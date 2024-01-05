@@ -108,16 +108,7 @@ public class ChestShopSign {
 
         ChestShopMetaData chestShopMetaData = new ChestShopMetaData(ownerUUID, quantity, sellPrice, buyPrice, itemStack);
 
-        UUID owner = chestShopMetaData.getOwner();
-        String fullOwnerName = NameManager.getFullNameFor(owner);
-
-        sign.setLine(0, fullOwnerName);
-        sign.setLine(3, ItemChecker.getSignItemName(itemStack));
-
         saveChestShopMetaData(sign, chestShopMetaData);
-
-        ChestShop.getPlugin().getLogger().log(Level.INFO,
-                "Converted legacy Chestshop of %s (%s) at %d %d %d".formatted(owner, fullOwnerName, sign.getX(), sign.getY(), sign.getZ()));
     }
 
     private static boolean isLegacyChestShop(Sign sign) {
@@ -143,7 +134,20 @@ public class ChestShopSign {
             return true;
         }
 
+        updateSignDisplay(sign);
+
         return sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+    }
+
+    private static void updateSignDisplay(Sign sign) {
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+
+        UUID owner = chestShopMetaData.getOwner();
+        String fullOwnerName = NameManager.getFullNameFor(owner);
+
+        sign.setLine(0, fullOwnerName);
+        sign.setLine(3, ItemChecker.getSignItemName(chestShopMetaData.getItemStack()));
+        sign.update();
     }
 
     public static ChestShopMetaData getChestShopMetaData(Sign sign) {
