@@ -36,7 +36,7 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
         } else
             pairHolder = pairHolderMap.get(priority);
 
-        pairHolder.addShortenerPair(from, to);
+        pairHolder.addShortenerPair(from.toLowerCase(), to.toLowerCase());
     }
 
     @Override

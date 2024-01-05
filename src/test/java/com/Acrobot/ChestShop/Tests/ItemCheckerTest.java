@@ -18,6 +18,15 @@ public class ItemCheckerTest {
     }
 
     @Test
+    public void testNamingShorting() {
+        String sut = "Netherite Chestplate";
+
+        String result = ItemChecker.shortenDisplayName(sut, 12);
+
+        assertEquals("Nether Chest", result);
+    }
+
+    @Test
     public void testNamingCutdownWhenSingleWordsAreShorter() {
         String sut = "Hi i am yours daughter!";
 

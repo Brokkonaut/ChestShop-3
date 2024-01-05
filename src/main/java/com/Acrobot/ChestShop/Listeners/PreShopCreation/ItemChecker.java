@@ -72,7 +72,7 @@ public class ItemChecker implements Listener {
 
     public static String shortenDisplayName(String name, int length, ItemDisplayNameShortener customItemDisplayNameShortener) {
 
-        String result = name;
+        String result = name.toLowerCase();
         if (result.length() <= length)
             return result;
 
@@ -109,7 +109,7 @@ public class ItemChecker implements Listener {
             cutdown.append(capitalized);
         }
 
-        return cutdown.substring(0, length);
+        return cutdown.substring(0, Math.min(cutdown.length(), length));
     }
 
 }
