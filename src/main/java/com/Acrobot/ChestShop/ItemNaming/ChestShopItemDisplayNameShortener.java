@@ -24,9 +24,7 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(5, "light", "lgt");
         addMapping(5, "dark", "drk");
 
-        addMapping(5, "chestplate", "chest");
         addMapping(5, "helmet", "helm");
-        addMapping(5, "leggings", "leg");
         addMapping(5, "leggings", "leg");
         addMapping(5, "chainmail", "chain");
         addMapping(5, "pickaxe", "pick");
@@ -45,10 +43,9 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(10, "diamond", "dia");
         addMapping(10, "crimson", "crim");
         addMapping(10, "nether", "neth");
-        addMapping(10, "netherite", "nether");
 
         addMapping(20, "blackstone", "blackst");
-        addMapping(20, "nether", "neth");
+        addMapping(20, "netherite", "nether");
         addMapping(20, "concrete", "concr");
         addMapping(20, "expo", "exp");
         addMapping(20, "weathered", "wea");

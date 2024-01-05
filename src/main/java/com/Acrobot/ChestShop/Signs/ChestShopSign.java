@@ -134,9 +134,11 @@ public class ChestShopSign {
             return true;
         }
 
-        updateSignDisplay(sign);
+        boolean isChestShop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+        if (isChestShop)
+            updateSignDisplay(sign);
 
-        return sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+        return isChestShop;
     }
 
     private static void updateSignDisplay(Sign sign) {
