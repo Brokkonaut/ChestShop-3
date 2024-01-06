@@ -112,8 +112,10 @@ public class ChestShopSign {
 
         if (sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING))
             return false;
+        if (!LegacyChestShopSign.isValid(sign))
+            return false;
 
-        return LegacyChestShopSign.isValid(sign);
+        return LegacyChestShopSign.getItemStack(sign) != null;
     }
 
     public static boolean isChestShop(Block block) {
