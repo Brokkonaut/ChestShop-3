@@ -23,7 +23,7 @@ import org.bukkit.persistence.PersistentDataType;
 public class ChestShopSign {
 
     public static final byte PRICE_LINE = 2;
-    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w§? #:-]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
 
