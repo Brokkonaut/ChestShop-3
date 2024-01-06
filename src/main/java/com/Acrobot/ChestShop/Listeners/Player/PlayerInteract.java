@@ -224,7 +224,7 @@ public class PlayerInteract implements Listener {
         item.setAmount(amount);
 
         TransactionType transactionType = (action == buy ? BUY : SELL);
-        return new PreTransactionEvent(ownerInventory, player.getInventory(), item, price, player, owner, sign, transactionType);
+        return new PreTransactionEvent(ownerInventory, player.getInventory(), item, price, player, owner, sign, transactionType, chestShopMetaData);
     }
 
     private static boolean isAllowedForShift(boolean buyTransaction) {

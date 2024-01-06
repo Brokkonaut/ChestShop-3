@@ -10,7 +10,6 @@ import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class ShopRefundListener implements Listener {
             return;
         }
 
-        UUID owner = ChestShopSign.getOwner(event.getSign());
+        UUID owner = event.getChestShopMetaData().getOwner();
 
         CurrencyAddEvent currencyEvent = new CurrencyAddEvent(BigDecimal.valueOf(refundPrice), owner, event.getSign().getWorld());
         ChestShop.callEvent(currencyEvent);

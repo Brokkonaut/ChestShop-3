@@ -10,7 +10,6 @@ import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
 import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.math.BigDecimal;
 import org.bukkit.entity.Player;
@@ -30,7 +29,7 @@ public class CreationFeeGetter implements Listener {
             return;
         }
 
-        if (ChestShopSign.isAdminShop(event.getSign())) {
+        if (event.isAdminshop()) {
             return;
         }
 

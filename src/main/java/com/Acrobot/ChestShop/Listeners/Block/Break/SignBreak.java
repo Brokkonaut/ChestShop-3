@@ -8,6 +8,7 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import com.google.common.collect.Lists;
@@ -155,11 +156,12 @@ public class SignBreak implements Listener {
     private static void sendShopDestroyedEvent(Sign sign, Player player) {
         Container connectedChest = null;
 
-        if (!ChestShopSign.isAdminShop(sign)) {
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (!chestShopMetaData.isAdminshop()) {
             connectedChest = uBlock.findConnectedChest(sign);
         }
 
-        Event event = new ShopDestroyedEvent(player, sign, connectedChest);
+        Event event = new ShopDestroyedEvent(player, sign, connectedChest, chestShopMetaData);
         ChestShop.callEvent(event);
     }
 

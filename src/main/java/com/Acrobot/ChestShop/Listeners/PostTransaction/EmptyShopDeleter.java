@@ -5,6 +5,7 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.Material;
@@ -35,7 +36,8 @@ public class EmptyShopDeleter implements Listener {
             return;
         }
 
-        ShopDestroyedEvent destroyedEvent = new ShopDestroyedEvent(null, event.getSign(), connectedChest);
+        ChestShopMetaData chestShopMetaData = event.getChestShopMetaData();
+        ShopDestroyedEvent destroyedEvent = new ShopDestroyedEvent(null, event.getSign(), connectedChest, chestShopMetaData);
         ChestShop.callEvent(destroyedEvent);
 
         Material signMaterial = sign.getBlock().getType();
@@ -60,7 +62,7 @@ public class EmptyShopDeleter implements Listener {
         }
         sign.getBlock().setType(Material.AIR);
 
-        if (Properties.REMOVE_EMPTY_CHESTS && !ChestShopSign.isAdminShop(sign) && InventoryUtil.isEmpty(ownerInventory)) {
+        if (Properties.REMOVE_EMPTY_CHESTS && !chestShopMetaData.isAdminshop() && InventoryUtil.isEmpty(ownerInventory)) {
             connectedChest.getBlock().setType(Material.AIR);
         } else {
             ownerInventory.addItem(new ItemStack(signMaterial, 1));

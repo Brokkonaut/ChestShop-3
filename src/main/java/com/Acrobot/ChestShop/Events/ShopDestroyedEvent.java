@@ -1,5 +1,6 @@
 package com.Acrobot.ChestShop.Events;
 
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import javax.annotation.Nullable;
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
@@ -19,11 +20,21 @@ public class ShopDestroyedEvent extends Event {
 
     private final Sign sign;
     private final Container chest;
+    private final ChestShopMetaData chestShopMetaData;
 
-    public ShopDestroyedEvent(@Nullable Player destroyer, Sign sign, @Nullable Container chest) {
+    public ShopDestroyedEvent(@Nullable Player destroyer, Sign sign, @Nullable Container chest, ChestShopMetaData chestShopMetaData) {
         this.destroyer = destroyer;
         this.sign = sign;
         this.chest = chest;
+        this.chestShopMetaData = chestShopMetaData;
+    }
+
+    public ChestShopMetaData getChestShopMetaData() {
+        return chestShopMetaData;
+    }
+
+    public boolean isAdminshop() {
+        return chestShopMetaData.isAdminshop();
     }
 
     /**

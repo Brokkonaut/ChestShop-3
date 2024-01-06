@@ -27,7 +27,7 @@ public class ShopRemovalLogger implements Listener {
             return;
 
         String shopOwner = NameManager.getFullNameFor(chestShopMetaData.getOwner());
-        String typeOfShop = ChestShopSign.isAdminShop(event.getSign()) ? "An Admin Shop" : "A shop belonging to " + shopOwner;
+        String typeOfShop = event.isAdminshop() ? "An Admin Shop" : "A shop belonging to " + shopOwner;
 
         String item = chestShopMetaData.getQuantity() + ' ' + chestShopMetaData.getItemStack().getType().toString();
         String prices = "B " + chestShopMetaData.getBuyPrice() + " : " + chestShopMetaData.getSellPrice() + " S";
