@@ -1,18 +1,16 @@
 package com.Acrobot.ChestShop.Signs;
 
-import java.util.UUID;
-
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import java.util.UUID;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 class LegacyChestShopSign {
     public static final byte NAME_LINE = 0;
@@ -53,9 +51,7 @@ class LegacyChestShopSign {
     }
 
     public static boolean isValid(String[] line) {
-        return ChestShopSign.isValidPreparedSign(line) && (line[ChestShopSign.PRICE_LINE].toUpperCase().contains("B")
-                || line[ChestShopSign.PRICE_LINE].toUpperCase().contains("S"))
-                && !line[NAME_LINE].isEmpty();
+        return ChestShopSign.isValidPreparedSign(line) && (line[ChestShopSign.PRICE_LINE].toUpperCase().contains("B") || line[ChestShopSign.PRICE_LINE].toUpperCase().contains("S")) && !line[NAME_LINE].isEmpty();
     }
 
     public static boolean isValid(Block sign) {

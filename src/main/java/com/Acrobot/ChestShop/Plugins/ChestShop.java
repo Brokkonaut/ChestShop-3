@@ -2,18 +2,16 @@ package com.Acrobot.ChestShop.Plugins;
 
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
-
+import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot

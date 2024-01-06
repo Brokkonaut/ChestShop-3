@@ -1,12 +1,18 @@
 package com.Acrobot.ChestShop.Listeners.Block.Break;
 
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
+import com.Acrobot.ChestShop.Permission;
 import static com.Acrobot.ChestShop.Permission.ADMIN;
 import static com.Acrobot.ChestShop.Permission.MOD;
-
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,22 +23,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
-import com.google.common.collect.Lists;
 
 /**
  * @author Acrobot

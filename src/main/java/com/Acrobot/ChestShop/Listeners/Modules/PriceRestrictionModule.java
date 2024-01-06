@@ -1,19 +1,16 @@
 package com.Acrobot.ChestShop.Listeners.Modules;
 
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_PRICE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
-
 import java.io.File;
 import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 
 /**
  * @author Acrobot

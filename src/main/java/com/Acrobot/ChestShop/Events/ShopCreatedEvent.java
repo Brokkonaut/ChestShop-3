@@ -1,15 +1,13 @@
 package com.Acrobot.ChestShop.Events;
 
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import javax.annotation.Nullable;
-
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 
 /**
  * Represents a state after shop creation

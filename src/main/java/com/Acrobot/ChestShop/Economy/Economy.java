@@ -1,11 +1,5 @@
 package com.Acrobot.ChestShop.Economy;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import org.bukkit.World;
-import org.bukkit.inventory.Inventory;
-
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
@@ -13,6 +7,10 @@ import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyCheckEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyFormatEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
+import java.math.BigDecimal;
+import java.util.UUID;
+import org.bukkit.World;
+import org.bukkit.inventory.Inventory;
 
 /**
  * @author Acrobot

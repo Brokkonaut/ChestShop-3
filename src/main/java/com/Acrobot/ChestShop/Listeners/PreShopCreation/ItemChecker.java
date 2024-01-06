@@ -1,20 +1,18 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import com.Acrobot.Breeze.Utils.StringUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
-
+import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
+import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
+import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import com.Acrobot.Breeze.Utils.StringUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
-import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
-import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
 
 /**
  * @author Acrobot
@@ -39,7 +37,6 @@ public class ItemChecker implements Listener {
         return getDisplayName(itemStack, 15);
     }
 
-
     public static String getDisplayName(ItemStack itemStack, int length) {
         if (itemStack == null) {
             return null;
@@ -55,8 +52,7 @@ public class ItemChecker implements Listener {
             }
         }
 
-        PreShopCreationItemDisplayNameEvent preShopCreationItemDisplayNameEvent = new PreShopCreationItemDisplayNameEvent(itemStack,
-                itemName);
+        PreShopCreationItemDisplayNameEvent preShopCreationItemDisplayNameEvent = new PreShopCreationItemDisplayNameEvent(itemStack, itemName);
         ChestShop.callEvent(preShopCreationItemDisplayNameEvent);
 
         itemName = preShopCreationItemDisplayNameEvent.getDisplayName();

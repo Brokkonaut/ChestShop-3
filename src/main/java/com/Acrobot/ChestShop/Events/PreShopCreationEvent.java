@@ -175,13 +175,17 @@ public class PreShopCreationEvent extends Event {
      * Possible outcomes
      */
     public static enum CreationOutcome {
-        INVALID_ITEM, INVALID_PRICE, INVALID_QUANTITY,
+        INVALID_ITEM,
+        INVALID_PRICE,
+        INVALID_QUANTITY,
 
         SELL_PRICE_HIGHER_THAN_BUY_PRICE,
 
         NO_CHEST,
 
-        NO_PERMISSION, NO_PERMISSION_FOR_TERRAIN, NO_PERMISSION_FOR_CHEST,
+        NO_PERMISSION,
+        NO_PERMISSION_FOR_TERRAIN,
+        NO_PERMISSION_FOR_CHEST,
 
         NOT_ENOUGH_MONEY,
 

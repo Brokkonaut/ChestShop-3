@@ -1,13 +1,11 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import com.Acrobot.Breeze.Utils.NumberUtil;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_QUANTITY;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import com.Acrobot.Breeze.Utils.NumberUtil;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 
 /**
  * @author Acrobot

@@ -1,14 +1,5 @@
 package com.Acrobot.ChestShop.UUIDs;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Database.Account;
@@ -18,6 +9,13 @@ import com.Acrobot.ChestShop.Database.PlayerName;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Lets you save/cache username and UUID relations
@@ -50,8 +48,7 @@ public class NameManager {
         if (ChestShopSign.isAdminshopLine(shortName)) {
             return adminShopUUID;
         }
-        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0
-                && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
+        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0 && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
             return serverAccountUUID;
         }
         return usedShortNames.get(shortName.toLowerCase());

@@ -1,10 +1,8 @@
 package com.Acrobot.ChestShop.Tests;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class ItemCheckerTest {
 

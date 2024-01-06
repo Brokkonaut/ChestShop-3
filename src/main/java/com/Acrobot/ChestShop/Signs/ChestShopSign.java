@@ -1,9 +1,12 @@
 package com.Acrobot.ChestShop.Signs;
 
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -14,19 +17,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
-
 /**
  * @author Acrobot
  */
 public class ChestShopSign {
 
     public static final byte PRICE_LINE = 2;
-    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
-            Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w? #:-]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
 
@@ -162,8 +159,7 @@ public class ChestShopSign {
             return (ChestShopMetaData) yamlConfiguration.get("metadata");
 
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING,
-                    "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
+            Bukkit.getLogger().log(Level.WARNING, "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             return null;
         }
     }
@@ -180,8 +176,7 @@ public class ChestShopSign {
             sign.update();
 
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING,
-                    "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
+            Bukkit.getLogger().log(Level.WARNING, "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
         }
     }
 

@@ -1,5 +1,12 @@
 package com.Acrobot.ChestShop.Listeners.PostTransaction;
 
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
+import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Container;
 import org.bukkit.block.Sign;
@@ -8,14 +15,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
-import com.Acrobot.ChestShop.Events.TransactionEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot

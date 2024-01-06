@@ -1,13 +1,22 @@
 package com.Acrobot.ChestShop.Listeners.Block;
 
+import com.Acrobot.Breeze.Utils.BlockUtil;
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.Breeze.Utils.StringUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.UUID;
-
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Container;
-import org.bukkit.block.ShulkerBox;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
@@ -17,21 +26,6 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.Breeze.Utils.StringUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
-import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
-import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -73,8 +67,7 @@ public class SignCreate implements Listener {
 
         ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), event.getLines(), itemStack);
 
-        ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(),
-                uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
+        ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(), uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
         ChestShop.callEvent(postEvent);
 
         // clear back side
@@ -110,8 +103,7 @@ public class SignCreate implements Listener {
 
     }
 
-    private static ChestShopMetaData createChestShop(UUID owner, int quantity, double sellPrice, double buyPrice,
-            ItemStack itemStack) {
+    private static ChestShopMetaData createChestShop(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
 
         return new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
     }
@@ -144,8 +136,7 @@ public class SignCreate implements Listener {
     private static ItemStack autoFillItemStack(Sign sign, String itemLine) {
         Container connectedChest = uBlock.findConnectedChest(sign, true);
         if (connectedChest != null) {
-            return itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE) ? autoFillItemStackFromShulker(connectedChest)
-                    : autoFillItemStackFromChest(connectedChest);
+            return itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE) ? autoFillItemStackFromShulker(connectedChest) : autoFillItemStackFromChest(connectedChest);
         }
 
         return null;

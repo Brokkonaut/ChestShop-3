@@ -1,15 +1,13 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
  * @author Acrobot

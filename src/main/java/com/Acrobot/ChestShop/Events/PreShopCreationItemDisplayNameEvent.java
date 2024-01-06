@@ -1,10 +1,9 @@
 package com.Acrobot.ChestShop.Events;
 
+import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
 
 /**
  * Represents an event that is fired before the display name of an item in a shop is created.

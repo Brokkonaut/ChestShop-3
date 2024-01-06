@@ -1,14 +1,27 @@
 package com.Acrobot.ChestShop.Listeners.Player;
 
+import com.Acrobot.Breeze.Utils.BlockUtil;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
+import com.Acrobot.Breeze.Utils.InventoryUtil;
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.Commands.ItemInfo;
+import com.Acrobot.ChestShop.Configuration.Messages;
+import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Containers.AdminInventory;
+import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
-import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
-import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
-
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Plugins.ChestShop;
+import com.Acrobot.ChestShop.Security;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.Collection;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
@@ -21,28 +34,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
+import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.Breeze.Utils.BlockUtil;
-import com.Acrobot.Breeze.Utils.InventoryUtil;
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Security;
-import com.Acrobot.ChestShop.Commands.ItemInfo;
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Containers.AdminInventory;
-import com.Acrobot.ChestShop.Events.PreTransactionEvent;
-import com.Acrobot.ChestShop.Events.TransactionEvent;
-import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
-import com.Acrobot.ChestShop.Plugins.ChestShop;
-import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.uBlock;
 
 /**
  * @author Acrobot
@@ -79,11 +76,9 @@ public class PlayerInteract implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType())
-                && (ChestShopSign.isOwner(event.getPlayer(), sign) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
+        if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType()) && (ChestShopSign.isOwner(event.getPlayer(), sign) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
             return;
         }
-
 
         if (event.getPlayer().isSneaking() && Properties.ALLOW_SHOP_INFO_ON_SNEAK_CLICK) {
             if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {

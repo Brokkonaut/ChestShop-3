@@ -1,8 +1,7 @@
 package com.Acrobot.ChestShop.Configuration;
 
-import org.bukkit.ChatColor;
-
 import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
+import org.bukkit.ChatColor;
 
 /**
  * @author Acrobot
