@@ -1,19 +1,21 @@
 package com.Acrobot.ChestShop.Listeners;
 
+import com.Acrobot.Breeze.Utils.EnchantmentNames;
+import com.Acrobot.Breeze.Utils.FireworkEffectTypeNames;
 import static com.Acrobot.Breeze.Utils.NumberUtil.toRoman;
 import static com.Acrobot.Breeze.Utils.NumberUtil.toTime;
+import com.Acrobot.Breeze.Utils.PotionNames;
+import com.Acrobot.Breeze.Utils.StringUtil;
 import static com.Acrobot.Breeze.Utils.StringUtil.capitalizeFirstLetter;
-
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Beehive;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
@@ -23,34 +25,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ArmorMeta;
-import org.bukkit.inventory.meta.AxolotlBucketMeta;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.*;
 import org.bukkit.inventory.meta.BookMeta.Generation;
-import org.bukkit.inventory.meta.CrossbowMeta;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
-import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.Repairable;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
-
-import com.Acrobot.Breeze.Utils.EnchantmentNames;
-import com.Acrobot.Breeze.Utils.FireworkEffectTypeNames;
-import com.Acrobot.Breeze.Utils.PotionNames;
-import com.Acrobot.Breeze.Utils.StringUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Events.ItemInfoEvent;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * @author Acrobot
