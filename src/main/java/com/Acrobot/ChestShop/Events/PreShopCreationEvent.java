@@ -26,8 +26,9 @@ public class PreShopCreationEvent extends Event {
         this.sign = sign;
         this.signLines = signLines.clone();
         this.itemStack = itemStack;
-        if (itemStack == null)
+        if (itemStack == null) {
             outcome = CreationOutcome.INVALID_ITEM;
+        }
     }
 
     public String getQuantityLine() {
