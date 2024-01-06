@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
@@ -40,12 +39,13 @@ public class ItemChecker implements Listener {
         return getDisplayName(itemStack, 15);
     }
 
+
     public static String getDisplayName(ItemStack itemStack, int length) {
         if (itemStack == null) {
             return null;
         }
 
-        String itemName = MaterialUtil.getSignMaterialName(itemStack.getType());
+        String itemName = StringUtil.capitalizeFirstLetter(itemStack.getType().name(), '_');
         boolean needsItalicEffect = false;
 
         if (itemStack.hasItemMeta()) {
