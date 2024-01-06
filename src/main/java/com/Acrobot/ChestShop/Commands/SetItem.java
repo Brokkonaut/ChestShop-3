@@ -57,13 +57,6 @@ public class SetItem implements CommandExecutor {
             sender.sendMessage(Messages.SHOP_UPDATE_FAILED);
             return true;
         }
-
-        line = event.getLines();
-
-        for (int i = 0; i < line.length; i++) {
-            sign.setLine(i, line[i]);
-        }
-        sign.update();
         return true;
     }
 }

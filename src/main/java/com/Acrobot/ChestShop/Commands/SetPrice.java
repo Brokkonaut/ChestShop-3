@@ -44,7 +44,7 @@ public class SetPrice implements CommandExecutor {
         }
 
         String newPriceLine = String.join(" ", args);
-        String[] line = sign.getLines();
+        String[] line = sign.getLines().clone();
         line[2] = newPriceLine;
         if (!ChestShopSign.isValidPreparedSign(line)) {
             sender.sendMessage(Messages.INVALID_PRICE_LINE);
@@ -57,13 +57,6 @@ public class SetPrice implements CommandExecutor {
             sender.sendMessage(Messages.SHOP_UPDATE_FAILED);
             return true;
         }
-
-        line = event.getLines();
-
-        for (int i = 0; i < line.length; i++) {
-            sign.setLine(i, line[i]);
-        }
-        sign.update();
         return true;
     }
 }

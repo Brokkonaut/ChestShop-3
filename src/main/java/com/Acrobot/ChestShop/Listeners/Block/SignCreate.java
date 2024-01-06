@@ -65,8 +65,11 @@ public class SignCreate implements Listener {
             return;
         }
 
+        Sign sign = (Sign) signBlock.getState();
+        SignSide side = sign.getSide(event.getSide());
         for (byte i = 0; i < event.getLines().length; ++i) {
             event.setLine(i, preEvent.getSignLine(i));
+            side.setLine(i, preEvent.getSignLine(i));
         }
 
         ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), event.getLines(), itemStack);
@@ -75,7 +78,6 @@ public class SignCreate implements Listener {
         ChestShop.callEvent(postEvent);
 
         // clear back side
-        Sign sign = (Sign) signBlock.getState();
         SignSide signSide = sign.getSide(Side.BACK);
         for (byte i = 0; i < 4; ++i) {
             signSide.setLine(i, "");
