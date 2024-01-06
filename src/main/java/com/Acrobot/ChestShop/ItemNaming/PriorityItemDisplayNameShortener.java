@@ -1,11 +1,10 @@
 package com.Acrobot.ChestShop.ItemNaming;
 
+import com.Acrobot.Breeze.Utils.StringUtil;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import com.Acrobot.Breeze.Utils.StringUtil;
 
 public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortener {
 

@@ -1,24 +1,21 @@
 package com.Acrobot.ChestShop.Commands;
 
+import com.Acrobot.Breeze.Utils.MaterialUtil;
+import com.Acrobot.Breeze.Utils.StringUtil;
+import com.Acrobot.ChestShop.ChestShop;
+import com.Acrobot.ChestShop.Configuration.Messages;
 import static com.Acrobot.ChestShop.Configuration.Messages.INCORRECT_ITEM_ID;
 import static com.Acrobot.ChestShop.Configuration.Messages.ITEM_INFO;
-
+import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import com.Acrobot.ChestShop.Utils.ComponentUtils;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.StringUtil;
-import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Events.ItemInfoEvent;
-import com.Acrobot.ChestShop.Utils.ComponentUtils;
-
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * @author Acrobot

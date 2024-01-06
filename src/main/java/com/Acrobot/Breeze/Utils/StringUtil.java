@@ -1,11 +1,9 @@
 package com.Acrobot.Breeze.Utils;
 
+import com.google.common.base.Joiner;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.ChatColor;
-
-import com.google.common.base.Joiner;
 
 /**
  * @author Acrobot

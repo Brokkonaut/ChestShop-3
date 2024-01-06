@@ -1,13 +1,11 @@
 package com.Acrobot.Breeze.Utils;
 
+import com.Acrobot.ChestShop.ChestShop;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.ChestShop.ChestShop;
 
 /**
  * @author Acrobot

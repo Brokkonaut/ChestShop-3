@@ -1,9 +1,11 @@
 package com.Acrobot.ChestShop.Commands;
 
+import com.Acrobot.ChestShop.Configuration.Messages;
+import com.Acrobot.ChestShop.Permission;
 import static com.Acrobot.ChestShop.Permission.ADMIN;
-
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -11,11 +13,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
-
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Configuration.Messages;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 
 /**
  * @author Acrobot
