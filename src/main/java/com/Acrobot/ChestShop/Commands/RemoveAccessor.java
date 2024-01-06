@@ -15,9 +15,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 
-/**
- * @author Acrobot
- */
 public class RemoveAccessor implements CommandExecutor {
 
     @Override
