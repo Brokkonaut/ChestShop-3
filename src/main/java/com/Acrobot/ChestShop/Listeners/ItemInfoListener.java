@@ -30,6 +30,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
@@ -45,6 +46,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 
@@ -210,6 +212,16 @@ public class ItemInfoListener implements Listener {
             Color color = leatherArmorMeta.getColor();
             if (color != null) {
                 sender.sendMessage("    " + ChatColor.GRAY + "Color: " + getColorHexCode(color));
+            }
+        }
+
+        if (meta instanceof ArmorMeta) {
+            ArmorMeta armorMeta = (ArmorMeta) meta;
+            if (armorMeta.hasTrim()) {
+                ArmorTrim trim = armorMeta.getTrim();
+                String material = trim.getMaterial().getKey().getKey().toLowerCase();
+                String trimPattern = capitalizeFirstLetter(trim.getPattern().getKey().getKey());
+                sender.sendMessage("    " + ChatColor.GRAY + "Trim: " + material + " " + trimPattern);
             }
         }
 
