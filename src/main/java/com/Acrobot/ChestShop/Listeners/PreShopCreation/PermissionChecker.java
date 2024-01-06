@@ -1,14 +1,18 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.NO_PERMISSION;
+import static com.Acrobot.ChestShop.Permission.ADMIN;
+import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_BUY;
+import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_ID;
+import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_SELL;
+import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
+import static org.bukkit.event.EventPriority.HIGH;
+
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.NO_PERMISSION;
 import com.Acrobot.ChestShop.Permission;
-import static com.Acrobot.ChestShop.Permission.*;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import static org.bukkit.event.EventPriority.HIGH;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,9 +1,10 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
+
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.INVALID_ITEM;
 import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
 import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
 import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;

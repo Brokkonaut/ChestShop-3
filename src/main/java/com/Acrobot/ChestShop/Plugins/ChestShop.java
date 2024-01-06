@@ -2,6 +2,7 @@ package com.Acrobot.ChestShop.Plugins;
 
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
+
 import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;

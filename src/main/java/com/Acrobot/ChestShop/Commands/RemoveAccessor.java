@@ -1,8 +1,9 @@
 package com.Acrobot.ChestShop.Commands;
 
+import static com.Acrobot.ChestShop.Permission.ADMIN;
+
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Permission;
-import static com.Acrobot.ChestShop.Permission.ADMIN;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;

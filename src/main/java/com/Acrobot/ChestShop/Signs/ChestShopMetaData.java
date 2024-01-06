@@ -1,7 +1,11 @@
 package com.Acrobot.ChestShop.Signs;
 
 import com.Acrobot.Breeze.Utils.PriceUtil;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,11 +1,12 @@
 package com.Acrobot.ChestShop.Commands;
 
+import static com.Acrobot.ChestShop.Configuration.Messages.INCORRECT_ITEM_ID;
+import static com.Acrobot.ChestShop.Configuration.Messages.ITEM_INFO;
+
 import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
-import static com.Acrobot.ChestShop.Configuration.Messages.INCORRECT_ITEM_ID;
-import static com.Acrobot.ChestShop.Configuration.Messages.ITEM_INFO;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import com.Acrobot.ChestShop.Utils.ComponentUtils;
 import net.md_5.bungee.api.chat.BaseComponent;

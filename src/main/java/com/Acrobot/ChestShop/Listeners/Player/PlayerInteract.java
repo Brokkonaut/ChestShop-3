@@ -1,7 +1,12 @@
 package com.Acrobot.ChestShop.Listeners.Player;
 
-import com.Acrobot.Breeze.Utils.BlockUtil;
 import static com.Acrobot.Breeze.Utils.BlockUtil.isChest;
+import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
+import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
+import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
+import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
+
+import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.Breeze.Utils.InventoryUtil;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.Commands.ItemInfo;
@@ -11,8 +16,6 @@ import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
-import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
-import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.SELL;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
 import com.Acrobot.ChestShop.Security;
@@ -34,8 +37,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import static org.bukkit.event.block.Action.LEFT_CLICK_BLOCK;
-import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;

@@ -1,12 +1,13 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
+import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.NOT_ENOUGH_MONEY;
+import static com.Acrobot.ChestShop.Permission.NOFEE;
+
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyCheckEvent;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
-import static com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome.NOT_ENOUGH_MONEY;
 import com.Acrobot.ChestShop.Permission;
-import static com.Acrobot.ChestShop.Permission.NOFEE;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import java.math.BigDecimal;
 import org.bukkit.entity.Player;

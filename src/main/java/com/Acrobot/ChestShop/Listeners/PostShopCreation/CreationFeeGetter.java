@@ -1,5 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.PostShopCreation;
 
+import static com.Acrobot.ChestShop.Permission.NOFEE;
+
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
@@ -8,7 +10,6 @@ import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
 import com.Acrobot.ChestShop.Permission;
-import static com.Acrobot.ChestShop.Permission.NOFEE;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.math.BigDecimal;
