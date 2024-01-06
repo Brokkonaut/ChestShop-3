@@ -5,7 +5,6 @@ import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import com.Acrobot.Breeze.Utils.LocationUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,7 +18,7 @@ public class ShopCreationLogger implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public static void onShopCreation(final ShopCreatedEvent event) {
         String creator = event.getPlayer().getName();
-        String typeOfShop = ChestShopSign.isAdminShop(event.getSign()) ? "an Admin Shop" : "a shop";
+        String typeOfShop = event.isAdminshop() ? "an Admin Shop" : "a shop";
 
         String item = event.getQuantity() + ' ' + event.getItemStack().getType().toString();
         String prices = event.getSignLine(PRICE_LINE);

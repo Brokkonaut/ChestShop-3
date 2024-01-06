@@ -35,7 +35,7 @@ public class ChestShopSign {
         if (!isChestShop(sign)) {
             return false;
         }
-        return getChestShopMetaData(sign).isOwner(NameManager.getAdminShopUUID());
+        return getChestShopMetaData(sign).isAdminshop();
     }
 
     public static boolean canAccess(OfflinePlayer player, Sign sign) {
@@ -118,10 +118,10 @@ public class ChestShopSign {
 
     public static boolean isChestShop(Block block) {
         BlockState state = block.getState();
-        if (!(state instanceof Sign))
+        if (!(state instanceof Sign sign))
             return false;
 
-        return isChestShop((Sign) state);
+        return isChestShop(sign);
     }
 
     public static boolean isChestShop(Sign sign) {
@@ -131,15 +131,10 @@ public class ChestShopSign {
             return true;
         }
 
-        boolean isChestShop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
-        if (isChestShop)
-            updateSignDisplay(sign);
-
-        return isChestShop;
+        return sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
     }
 
-    private static void updateSignDisplay(Sign sign) {
-        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+    private static void updateSignDisplay(ChestShopMetaData chestShopMetaData, Sign sign) {
 
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
@@ -154,9 +149,14 @@ public class ChestShopSign {
         try {
 
             String string = sign.getPersistentDataContainer().get(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             yamlConfiguration.loadFromString(string);
-            return (ChestShopMetaData) yamlConfiguration.get("metadata");
+
+            ChestShopMetaData chestShopMetaData = (ChestShopMetaData) yamlConfiguration.get("metadata");
+            updateSignDisplay(chestShopMetaData, sign);
+
+            return chestShopMetaData;
 
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.WARNING, "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);

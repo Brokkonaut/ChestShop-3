@@ -33,6 +33,10 @@ public class ShopCreatedEvent extends Event {
         this.chestShopMetaData = chestShopMetaData;
     }
 
+    public boolean isAdminshop() {
+        return chestShopMetaData.isAdminshop();
+    }
+
     public ItemStack getItemStack() {
         return chestShopMetaData.getItemStack();
     }

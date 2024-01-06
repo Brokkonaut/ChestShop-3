@@ -5,6 +5,7 @@ import static com.Acrobot.Breeze.Utils.BlockUtil.isSign;
 
 import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import org.bukkit.block.Block;
@@ -65,6 +66,9 @@ public class ChestShop implements Listener {
     }
 
     private static boolean isShopMember(Player player, Sign sign) {
-        return ChestShopSign.isOwner(player, sign) || ChestShopSign.isAccessor(player, sign);
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (chestShopMetaData == null)
+            return false;
+        return chestShopMetaData.canAccess(player);
     }
 }

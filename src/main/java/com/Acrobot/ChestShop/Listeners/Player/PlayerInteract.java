@@ -76,8 +76,9 @@ public class PlayerInteract implements Listener {
         }
 
         Sign sign = (Sign) block.getState();
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
 
-        if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType()) && (ChestShopSign.isOwner(event.getPlayer(), sign) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
+        if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType()) && (chestShopMetaData.isOwner(event.getPlayer()) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
             return;
         }
 
@@ -89,7 +90,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        boolean ownShop = ChestShopSign.canAccess(player, sign);
+        boolean ownShop = chestShopMetaData.canAccess(player);
         if (ownShop && action == RIGHT_CLICK_BLOCK && event.getItem() != null && BlockUtil.isSignEditMaterial(event.getItem().getType())) {
             return;
         }
@@ -140,9 +141,9 @@ public class PlayerInteract implements Listener {
         ItemStack item = chestShopMetaData.getItemStack();
 
         if (Properties.SHOW_SHOP_INFORMATION_ON_SHIFT_CLICK) {
-            if (!ChestShopSign.isAdminShop(sign)) {
+            if (!chestShopMetaData.isAdminshop()) {
 
-                if (ChestShopSign.isOwner(player, sign) || Permission.has(player, Permission.MOD)) {
+                if (chestShopMetaData.isOwner(player) || Permission.has(player, Permission.MOD)) {
                     player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
                     Collection<UUID> accessors = chestShopMetaData.getAccessors();
                     StringBuilder accessorNames = new StringBuilder();
@@ -200,12 +201,12 @@ public class PlayerInteract implements Listener {
         }
 
         Container chest = uBlock.findConnectedChest(sign, true);
-        Inventory ownerInventory = (ChestShopSign.isAdminShop(sign) ? new AdminInventory() : chest != null ? chest.getInventory() : null);
+        Inventory ownerInventory = (chestShopMetaData.isAdminshop() ? new AdminInventory() : chest != null ? chest.getInventory() : null);
 
         ItemStack item = chestShopMetaData.getItemStack();
 
         // do not allow shulker boxes inside of shulker boxes
-        if (!ChestShopSign.isAdminShop(sign) && chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
+        if (!chestShopMetaData.isAdminshop() && chest instanceof ShulkerBox && BlockUtil.isShulkerBox(item.getType())) {
             player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
             return null;
         }

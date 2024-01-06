@@ -1,11 +1,13 @@
 package com.Acrobot.ChestShop.Signs;
 
 import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,12 +53,32 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return accessors.contains(uuid);
     }
 
+    public boolean canAccess(OfflinePlayer player) {
+        return canAccess(player.getUniqueId());
+    }
+
+    public boolean canAccess(UUID player) {
+
+        if (isOwner(player))
+            return true;
+
+        return isAccessor(player);
+    }
+
     public UUID getOwner() {
         return owner;
     }
 
+    public boolean isOwner(OfflinePlayer player) {
+        return isOwner(player.getUniqueId());
+    }
+
     public boolean isOwner(UUID uuid) {
         return owner.equals(uuid);
+    }
+
+    public boolean isAdminshop() {
+        return isOwner(NameManager.getAdminShopUUID());
     }
 
     public int getQuantity() {
