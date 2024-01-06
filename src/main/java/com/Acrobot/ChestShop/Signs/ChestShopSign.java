@@ -171,18 +171,20 @@ public class ChestShopSign {
 
     public static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData) {
 
-        try {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShop.getPlugin(), () -> {
+            try {
 
-            YamlConfiguration yamlConfiguration = new YamlConfiguration();
-            yamlConfiguration.set("metadata", chestShopMetaData);
+                YamlConfiguration yamlConfiguration = new YamlConfiguration();
+                yamlConfiguration.set("metadata", chestShopMetaData);
 
-            String string = yamlConfiguration.saveToString();
-            sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
-            sign.update();
+                String string = yamlConfiguration.saveToString();
+                sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
+                sign.update();
 
-        } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING, "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
-        }
+            } catch (Exception e) {
+                Bukkit.getLogger().log(Level.WARNING, "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
+            }
+        }, 1L);
     }
 
     public static boolean isValidPreparedSign(String[] lines) {
