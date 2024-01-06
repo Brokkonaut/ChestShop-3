@@ -131,11 +131,17 @@ public class ChestShopSign {
             return true;
         }
 
-        return sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+        boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+        if (isChestshop) {
+            updateSignDisplay(sign);
+        }
+
+        return isChestshop;
     }
 
-    private static void updateSignDisplay(ChestShopMetaData chestShopMetaData, Sign sign) {
+    private static void updateSignDisplay(Sign sign) {
 
+        ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
 
@@ -153,10 +159,7 @@ public class ChestShopSign {
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             yamlConfiguration.loadFromString(string);
 
-            ChestShopMetaData chestShopMetaData = (ChestShopMetaData) yamlConfiguration.get("metadata");
-            updateSignDisplay(chestShopMetaData, sign);
-
-            return chestShopMetaData;
+            return (ChestShopMetaData) yamlConfiguration.get("metadata");
 
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.WARNING, "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
