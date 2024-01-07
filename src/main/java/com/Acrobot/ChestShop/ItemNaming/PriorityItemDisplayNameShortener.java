@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortener {
 
@@ -87,7 +88,7 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
 
     private record StringShortenerPair(String from, String to) implements Comparable<StringShortenerPair> {
         public String apply(String string) {
-            return string.replaceAll("(?<=( |^))" + from + "(?=( |$))", to);
+            return string.replaceAll("(?<=( |^))" + Pattern.quote(from) + "(?=( |$))", to);
         }
 
         @Override
