@@ -2,8 +2,8 @@ package com.Acrobot.ChestShop.Signs;
 
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -148,7 +148,7 @@ public class ChestShopSign {
         String fullOwnerName = NameManager.getFullNameFor(owner);
 
         sign.setLine(0, fullOwnerName);
-        sign.setLine(3, ItemChecker.getSignItemName(chestShopMetaData.getItemStack()));
+        sign.setLine(3, ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack()));
         sign.update();
     }
 

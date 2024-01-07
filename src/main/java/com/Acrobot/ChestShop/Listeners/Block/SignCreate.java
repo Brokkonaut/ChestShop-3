@@ -8,11 +8,11 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
-import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.UUID;
 import org.bukkit.Material;
@@ -131,7 +131,7 @@ public class SignCreate implements Listener {
 
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
             ItemStack itemStack = chestShopMetaData.getItemStack();
-            String oldItemDisplayName = ItemChecker.getSignItemName(itemStack);
+            String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
             if (oldItemDisplayName.equals(itemLine)) // If thats true Sign got edited, but item stayed the same
                 item = itemStack;
         }
@@ -161,11 +161,9 @@ public class SignCreate implements Listener {
         for (ItemStack stack : connectedChest.getInventory().getContents()) {
             if (!MaterialUtil.isEmpty(stack) && BlockUtil.isShulkerBox(stack.getType())) {
                 ItemMeta meta = stack.getItemMeta();
-                if (meta instanceof BlockStateMeta) {
-                    BlockStateMeta bsm = (BlockStateMeta) meta;
+                if (meta instanceof BlockStateMeta bsm) {
                     BlockState blockState = bsm.getBlockState();
-                    if (blockState instanceof ShulkerBox) {
-                        ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                    if (blockState instanceof ShulkerBox shulkerBox) {
                         for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
                             if (!MaterialUtil.isEmpty(shulkerContent)) {
                                 return shulkerContent;
