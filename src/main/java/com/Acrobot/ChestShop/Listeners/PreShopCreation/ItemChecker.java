@@ -38,6 +38,10 @@ public class ItemChecker implements Listener {
         return getDisplayName(itemStack, 15);
     }
 
+    public static String getDisplayName(ItemStack itemStack) {
+        return getDisplayName(itemStack, Integer.MAX_VALUE);
+    }
+
     public static String getDisplayName(ItemStack itemStack, int length) {
         if (itemStack == null) {
             return null;

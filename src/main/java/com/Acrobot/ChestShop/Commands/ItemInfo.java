@@ -8,8 +8,8 @@ import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import com.Acrobot.ChestShop.Listeners.PreShopCreation.ItemChecker;
 import com.Acrobot.ChestShop.Utils.ComponentUtils;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -52,9 +52,19 @@ public class ItemInfo implements CommandExecutor {
         }
 
         TextComponent tc = new TextComponent("  ");
-        BaseComponent tcName = ComponentUtils.getLocalizedItemName(item);
-        tc.addExtra(tcName);
+        tc.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+        tc.addExtra(ComponentUtils.getLocalizedItemName(item));
+
+        String fullName = ChatColor.stripColor(ItemChecker.getDisplayName(item));
+        String signItemName = ChatColor.stripColor(ItemChecker.getSignItemName(item));
+        TextComponent signNames = new TextComponent("  ");
+        signNames.setColor(net.md_5.bungee.api.ChatColor.DARK_GRAY);
+        signNames.addExtra(fullName);
+        if (!fullName.equals(signItemName))
+            signNames.addExtra(" (" + signItemName + ")");
+
         sender.spigot().sendMessage(tc);
+        sender.spigot().sendMessage(signNames);
 
         ItemInfoEvent event = new ItemInfoEvent(sender, item);
         ChestShop.callEvent(event);
