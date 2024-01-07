@@ -53,14 +53,14 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
             StringShortenerPairHolder value = integerStringShortenerPairHolderEntry.getValue();
             result = value.apply(result);
             if (result.length() <= length)
-                return StringUtil.capitalizeFirstLetter(result);
+                return StringUtil.capitalizeFirstLetter(result).strip();
 
             strippedResult = StringUtil.stripWhitespaces(result);
             if (strippedResult.length() <= length)
                 return strippedResult;
         }
 
-        return StringUtil.capitalizeFirstLetter(result);
+        return StringUtil.capitalizeFirstLetter(result).strip();
     }
 
     private static class StringShortenerPairHolder {
