@@ -95,7 +95,7 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
             if (equals(o))
                 return 0;
 
-            if (o.to.equals(from))
+            if (o.to.contains(from))
                 return -1;
             return 1;
         }
