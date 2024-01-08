@@ -23,7 +23,8 @@ import org.bukkit.persistence.PersistentDataType;
 public class ChestShopSign {
 
     public static final byte PRICE_LINE = 2;
-    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"), Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w§? #:-]+$") };
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
+            Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w§? #:-]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
 
@@ -110,10 +111,15 @@ public class ChestShopSign {
 
     private static boolean isLegacyChestShop(Sign sign) {
 
-        if (sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING))
+        if (sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING)) {
             return false;
-        if (!LegacyChestShopSign.isValid(sign))
+        }
+        if (!LegacyChestShopSign.isValid(sign)) {
             return false;
+        }
+        if (LegacyChestShopSign.getOwnerUUID(sign) == null) {
+            return false;
+        }
 
         return LegacyChestShopSign.getItemStack(sign) != null;
     }
@@ -164,7 +170,8 @@ public class ChestShopSign {
             return (ChestShopMetaData) yamlConfiguration.get("metadata");
 
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING, "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
+            Bukkit.getLogger().log(Level.WARNING,
+                    "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             return null;
         }
     }
@@ -182,7 +189,8 @@ public class ChestShopSign {
                 sign.update();
 
             } catch (Exception e) {
-                Bukkit.getLogger().log(Level.WARNING, "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
+                Bukkit.getLogger().log(Level.WARNING,
+                        "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             }
         }, 1L);
     }
