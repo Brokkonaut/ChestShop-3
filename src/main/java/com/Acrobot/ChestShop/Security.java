@@ -5,7 +5,6 @@ import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.Protection.ProtectBlockEvent;
 import com.Acrobot.ChestShop.Events.Protection.ProtectionCheckEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.UUID;
 import org.bukkit.block.Block;
@@ -45,7 +44,7 @@ public class Security {
             if (chest != null) {
                 Sign existingShopSign = uBlock.getConnectedSign(chest.getBlock(), sign.getBlock());
                 if (existingShopSign != null) {
-                    UUID existingSignUUID = NameManager.getUUIDFor(existingShopSign.getLine(ChestShopSign.NAME_LINE));
+                    UUID existingSignUUID = ChestShopSign.getOwner(sign);
                     if (existingSignUUID == null || !existingSignUUID.equals(player.getUniqueId())) {
                         return false;
                     }

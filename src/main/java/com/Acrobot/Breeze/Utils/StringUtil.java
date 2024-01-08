@@ -1,10 +1,9 @@
 package com.Acrobot.Breeze.Utils;
 
 import com.google.common.base.Joiner;
-import org.bukkit.ChatColor;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.bukkit.ChatColor;
 
 /**
  * @author Acrobot
@@ -40,6 +39,18 @@ public class StringUtil {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * Removes all whitespace characters from the given string. Also capitalizes every first character of a word.
+     *
+     * @param string
+     *            The string to remove whitespace characters from.
+     * @return The string with whitespace characters removed.
+     */
+    public static String stripWhitespaces(String string) {
+        String result = StringUtil.capitalizeFirstLetter(string);
+        return result.replace(" ", "");
     }
 
     /**

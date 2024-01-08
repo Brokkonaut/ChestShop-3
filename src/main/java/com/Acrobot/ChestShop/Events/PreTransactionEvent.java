@@ -1,5 +1,9 @@
 package com.Acrobot.ChestShop.Events;
 
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.TRANSACTION_SUCCESFUL;
+import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
+
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -7,9 +11,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.TRANSACTION_SUCCESFUL;
-import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType;
 
 /**
  * Represents a state before transaction occurs
@@ -26,6 +27,7 @@ public class PreTransactionEvent extends Event {
     private final Sign sign;
 
     private Inventory ownerInventory;
+    private final ChestShopMetaData chestShopMetaData;
     private Inventory clientInventory;
 
     private ItemStack items;
@@ -33,8 +35,9 @@ public class PreTransactionEvent extends Event {
 
     private TransactionOutcome transactionOutcome = TRANSACTION_SUCCESFUL;
 
-    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack items, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type) {
+    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack items, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type, ChestShopMetaData chestShopMetaData) {
         this.ownerInventory = ownerInventory;
+        this.chestShopMetaData = chestShopMetaData;
         this.clientInventory = (clientInventory == null ? client.getInventory() : clientInventory);
 
         this.items = items;
@@ -45,6 +48,14 @@ public class PreTransactionEvent extends Event {
 
         this.sign = sign;
         this.transactionType = type;
+    }
+
+    public ChestShopMetaData getChestShopMetaData() {
+        return chestShopMetaData;
+    }
+
+    public boolean isAdminShop() {
+        return chestShopMetaData.isAdminshop();
     }
 
     /**

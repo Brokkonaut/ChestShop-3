@@ -164,7 +164,7 @@ public class uBlock {
             }
 
             Sign sign = (Sign) faceBlock.getState();
-            if (ChestShopSign.isValid(sign)) {
+            if (ChestShopSign.isChestShop(sign)) {
                 Block attachedTo = findConnectedChestBlock(sign);
                 if (attachedTo != null && attachedTo.equals(block)) {
                     return sign;

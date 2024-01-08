@@ -4,6 +4,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a state before shop is created
@@ -18,11 +19,33 @@ public class PreShopCreationEvent extends Event {
     private CreationOutcome outcome = CreationOutcome.SHOP_CREATED_SUCCESSFULLY;
     private Sign sign;
     private String[] signLines;
+    private final ItemStack itemStack;
 
-    public PreShopCreationEvent(Player creator, Sign sign, String[] signLines) {
+    public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
         this.sign = sign;
         this.signLines = signLines.clone();
+        this.itemStack = itemStack;
+        if (itemStack == null) {
+            outcome = CreationOutcome.INVALID_ITEM;
+        }
+    }
+
+    public String getQuantityLine() {
+        return signLines[1];
+    }
+
+    public String setItemLine(String line) {
+        return signLines[3] = line;
+    }
+
+    public ItemStack getItemStack() {
+
+        if (itemStack == null) {
+            return null;
+        }
+
+        return itemStack.clone();
     }
 
     /**
@@ -124,6 +147,14 @@ public class PreShopCreationEvent extends Event {
         return signLines[line];
     }
 
+    public String getOwnerName() {
+        return getSignLine((byte) 0);
+    }
+
+    public void setOwnerName(String name) {
+        this.setSignLine((byte) 0, name);
+    }
+
     /**
      * Returns the text on the sign
      *
@@ -145,13 +176,17 @@ public class PreShopCreationEvent extends Event {
      * Possible outcomes
      */
     public static enum CreationOutcome {
-        INVALID_ITEM, INVALID_PRICE, INVALID_QUANTITY,
+        INVALID_ITEM,
+        INVALID_PRICE,
+        INVALID_QUANTITY,
 
         SELL_PRICE_HIGHER_THAN_BUY_PRICE,
 
         NO_CHEST,
 
-        NO_PERMISSION, NO_PERMISSION_FOR_TERRAIN, NO_PERMISSION_FOR_CHEST,
+        NO_PERMISSION,
+        NO_PERMISSION_FOR_TERRAIN,
+        NO_PERMISSION_FOR_CHEST,
 
         NOT_ENOUGH_MONEY,
 

@@ -1,12 +1,11 @@
 package com.Acrobot.Breeze.Utils;
 
+import com.Acrobot.ChestShop.ChestShop;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import com.Acrobot.ChestShop.ChestShop;
 
 /**
  * @author Acrobot
@@ -72,15 +71,6 @@ public class MaterialUtil {
         return material;
     }
 
-    /**
-     * Returns item's name
-     *
-     * @param itemStack
-     *            ItemStack to name
-     * @param showDataValue
-     *            Should we also show the data value?
-     * @return ItemStack's name
-     */
     public static String getName(Material material) {
         String name = AlternativeItemNames.getName(material);
         if (name == null) {
@@ -144,6 +134,10 @@ public class MaterialUtil {
         }
 
         return itemStack;
+    }
+
+    public static String getSignMaterialName(Material material) {
+        return getSignMaterialName(material, "");
     }
 
     public static String getSignMaterialName(Material material, String metadata) {

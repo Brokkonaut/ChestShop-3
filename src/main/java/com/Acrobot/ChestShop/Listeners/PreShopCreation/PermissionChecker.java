@@ -5,19 +5,16 @@ import static com.Acrobot.ChestShop.Permission.ADMIN;
 import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_BUY;
 import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_ID;
 import static com.Acrobot.ChestShop.Permission.SHOP_CREATION_SELL;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.ITEM_LINE;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import static org.bukkit.event.EventPriority.HIGH;
 
+import com.Acrobot.Breeze.Utils.PriceUtil;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-
-import com.Acrobot.Breeze.Utils.MaterialUtil;
-import com.Acrobot.Breeze.Utils.PriceUtil;
-import com.Acrobot.ChestShop.Permission;
-import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 
 /**
  * @author Acrobot
@@ -33,9 +30,8 @@ public class PermissionChecker implements Listener {
         }
 
         String priceLine = event.getSignLine(PRICE_LINE);
-        String itemLine = event.getSignLine(ITEM_LINE);
 
-        ItemStack item = MaterialUtil.getItem(itemLine);
+        ItemStack item = event.getItemStack();
 
         if (item == null || Permission.has(player, SHOP_CREATION_ID + item.getType().name().toLowerCase())) {
             return;

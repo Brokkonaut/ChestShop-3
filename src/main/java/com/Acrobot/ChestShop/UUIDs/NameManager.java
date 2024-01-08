@@ -1,13 +1,5 @@
 package com.Acrobot.ChestShop.UUIDs;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Database.Account;
@@ -17,6 +9,13 @@ import com.Acrobot.ChestShop.Database.PlayerName;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Lets you save/cache username and UUID relations
@@ -38,7 +37,21 @@ public class NameManager {
     private static UUID serverAccountUUID;
 
     public static String getNameFor(Player player) {
-        return currentShortName.get(player.getUniqueId());
+        return player.getDisplayName();
+    }
+
+    public static UUID getUUIDForFullName(String name) {
+        return fullNamesToUUID.get(name.toLowerCase());
+    }
+
+    public static UUID getUUIDFor(String shortName) {
+        if (ChestShopSign.isAdminshopLine(shortName)) {
+            return adminShopUUID;
+        }
+        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0 && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
+            return serverAccountUUID;
+        }
+        return usedShortNames.get(shortName.toLowerCase());
     }
 
     public static String getFullNameFor(UUID playerId) {
@@ -49,20 +62,6 @@ public class NameManager {
             return Properties.SERVER_ECONOMY_ACCOUNT;
         }
         return lastSeenFullName.get(playerId);
-    }
-
-    public static UUID getUUIDFor(String shortName) {
-        if (Properties.ADMIN_SHOP_NAME.equalsIgnoreCase(shortName)) {
-            return adminShopUUID;
-        }
-        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0 && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
-            return serverAccountUUID;
-        }
-        return usedShortNames.get(shortName.toLowerCase());
-    }
-
-    public static UUID getUUIDForFullName(String name) {
-        return fullNamesToUUID.get(name.toLowerCase());
     }
 
     private static String createUseableShortName(String name, int id) {
@@ -137,9 +136,11 @@ public class NameManager {
     }
 
     public static boolean canUseName(OfflinePlayer player, String name) {
-        if (ChestShopSign.isAdminShop(name)) {
+
+        if (ChestShopSign.isAdminshopLine(name)) {
             return false;
         }
+
         UUID inUse = usedShortNames.get(name.toLowerCase());
         return inUse != null && inUse.equals(player.getUniqueId());
     }

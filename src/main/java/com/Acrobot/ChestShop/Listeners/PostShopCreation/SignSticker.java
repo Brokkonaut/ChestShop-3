@@ -1,7 +1,5 @@
 package com.Acrobot.ChestShop.Listeners.PostShopCreation;
 
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
-
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
@@ -27,7 +25,7 @@ public class SignSticker implements Listener {
             return;
         }
 
-        if (ChestShopSign.isAdminShop(event.getSign().getLine(NAME_LINE))) {
+        if (ChestShopSign.isAdminShop(event.getSign())) {
             return;
         }
 

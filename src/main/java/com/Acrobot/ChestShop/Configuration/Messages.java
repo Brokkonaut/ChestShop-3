@@ -1,8 +1,7 @@
 package com.Acrobot.ChestShop.Configuration;
 
-import org.bukkit.ChatColor;
-
 import com.Acrobot.Breeze.Configuration.Annotations.PrecededBySpace;
+import org.bukkit.ChatColor;
 
 /**
  * @author Acrobot
@@ -11,6 +10,7 @@ public class Messages {
     public static String PREFIX = ChatColor.GREEN + "[Shop] " + ChatColor.RESET;
     public static String ITEM_INFO = ChatColor.GREEN + "Item Information: " + ChatColor.RESET;
     public static String SHOP_INFO = ChatColor.GREEN + "Shop Information: " + ChatColor.RESET;
+    public static String SHOP_OWNER_INFO = ChatColor.GREEN + "Shop-Owner Information: " + ChatColor.RESET;
 
     @PrecededBySpace
     public static String ACCESS_DENIED = "You don't have permission to do that!";
@@ -86,6 +86,16 @@ public class Messages {
     public static String INVALID_PRICE_LINE = "You have specified an invalid price!";
     public static String INVALID_AMOUNT_LINE = "You have specified an invalid amount!";
     public static String SHOP_UPDATE_FAILED = "This shop cannot be edited.";
+
+    @PrecededBySpace
+    public static String OWNER_CANT_BE_ACCESSOR = "The owner of a shop can't be added as a accessor.";
+    public static String NEW_ACCESSOR_ADDED = "New accessor added.";
+    public static String ACCESSOR_ALREADY_ADDED = "Accessor already added.";
+    public static String ACCESSOR_REMOVED = "Accessor removed.";
+    public static String ACCESSOR_NOT_ADDED = "Player isn't a accessor.";
+
+    @PrecededBySpace
+    public static String SHOP_ACCESSORS = "Accessors: %accessor_list";
 
     public static String prefix(String message) {
         return PREFIX + message;

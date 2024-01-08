@@ -1,5 +1,6 @@
 package com.Acrobot.ChestShop.Events;
 
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -27,12 +28,15 @@ public class TransactionEvent extends Event {
     private final double price;
 
     private final Sign sign;
+    private final ChestShopMetaData chestShopMetaData;
 
     public TransactionEvent(PreTransactionEvent event, Sign sign) {
         this.type = event.getTransactionType();
 
         this.ownerInventory = event.getOwnerInventory();
         this.clientInventory = event.getClientInventory();
+
+        this.chestShopMetaData = event.getChestShopMetaData();
 
         this.client = event.getClient();
         this.owner = event.getOwner();
@@ -43,7 +47,7 @@ public class TransactionEvent extends Event {
         this.sign = sign;
     }
 
-    public TransactionEvent(TransactionType type, Inventory ownerInventory, Inventory clientInventory, Player client, OfflinePlayer owner, ItemStack stock, double price, Sign sign) {
+    public TransactionEvent(TransactionType type, Inventory ownerInventory, Inventory clientInventory, Player client, OfflinePlayer owner, ItemStack stock, double price, Sign sign, ChestShopMetaData chestShopMetaData) {
         this.type = type;
 
         this.ownerInventory = ownerInventory;
@@ -56,6 +60,11 @@ public class TransactionEvent extends Event {
         this.price = price;
 
         this.sign = sign;
+        this.chestShopMetaData = chestShopMetaData;
+    }
+
+    public ChestShopMetaData getChestShopMetaData() {
+        return chestShopMetaData;
     }
 
     /**

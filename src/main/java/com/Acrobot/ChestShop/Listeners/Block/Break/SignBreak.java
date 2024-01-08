@@ -2,15 +2,14 @@ package com.Acrobot.ChestShop.Listeners.Block.Break;
 
 import static com.Acrobot.ChestShop.Permission.ADMIN;
 import static com.Acrobot.ChestShop.Permission.MOD;
-import static com.Acrobot.ChestShop.Signs.ChestShopSign.NAME_LINE;
 
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.ChestShop;
-import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
+import com.Acrobot.ChestShop.Permission;
+import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import com.google.common.collect.Lists;
 import java.util.Collections;
@@ -52,7 +51,7 @@ public class SignBreak implements Listener {
         Sign sign = (Sign) block.getState();
         Block attachedBlock = BlockUtil.getAttachedBlock(sign);
 
-        if (attachedBlock.getType() == Material.AIR && ChestShopSign.isValid(sign)) {
+        if (attachedBlock.getType() == Material.AIR && ChestShopSign.isChestShop(sign)) {
             if (!block.hasMetadata(METADATA_NAME)) {
                 return;
             }
@@ -70,7 +69,7 @@ public class SignBreak implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public static void onBrokenSign(BlockBreakEvent event) {
-        if (ChestShopSign.isValid(event.getBlock())) {
+        if (ChestShopSign.isChestShop(event.getBlock())) {
             sendShopDestroyedEvent((Sign) event.getBlock().getState(), event.getPlayer());
         }
     }
@@ -124,11 +123,11 @@ public class SignBreak implements Listener {
 
         for (Sign sign : attachedSigns) {
 
-            if (!canBeBroken || !ChestShopSign.isValid(sign)) {
+            if (!canBeBroken || !ChestShopSign.isChestShop(sign)) {
                 continue;
             }
 
-            if (Properties.TURN_OFF_SIGN_PROTECTION || canDestroyShop(breaker, sign.getLine(NAME_LINE))) {
+            if (Properties.TURN_OFF_SIGN_PROTECTION || canDestroyShop(breaker, sign)) {
                 brokenBlocks.add(sign);
             } else {
                 canBeBroken = false;
@@ -146,8 +145,8 @@ public class SignBreak implements Listener {
         return true;
     }
 
-    private static boolean canDestroyShop(Player player, String name) {
-        return player != null && (hasShopBreakingPermission(player) || NameManager.canUseName(player, name));
+    private static boolean canDestroyShop(Player player, Sign sign) {
+        return player != null && (hasShopBreakingPermission(player) || ChestShopSign.isOwner(player, sign));
     }
 
     private static boolean hasShopBreakingPermission(Player player) {
@@ -157,11 +156,12 @@ public class SignBreak implements Listener {
     private static void sendShopDestroyedEvent(Sign sign, Player player) {
         Container connectedChest = null;
 
-        if (!ChestShopSign.isAdminShop(sign)) {
+        ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (!chestShopMetaData.isAdminshop()) {
             connectedChest = uBlock.findConnectedChest(sign);
         }
 
-        Event event = new ShopDestroyedEvent(player, sign, connectedChest);
+        Event event = new ShopDestroyedEvent(player, sign, connectedChest, chestShopMetaData);
         ChestShop.callEvent(event);
     }
 

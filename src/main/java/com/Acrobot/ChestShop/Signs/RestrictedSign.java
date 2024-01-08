@@ -1,5 +1,8 @@
 package com.Acrobot.ChestShop.Signs;
 
+import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_IS_RESTRICTED;
+import static com.Acrobot.ChestShop.Permission.ADMIN;
+
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
@@ -14,9 +17,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
-
-import static com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome.SHOP_IS_RESTRICTED;
-import static com.Acrobot.ChestShop.Permission.ADMIN;
 
 /**
  * @author Acrobot
@@ -51,7 +51,7 @@ public class RestrictedSign implements Listener {
             }
             Block connectedSign = event.getBlock().getRelative(BlockFace.DOWN);
 
-            if (!Permission.has(player, ADMIN) || !ChestShopSign.isValid(connectedSign)) {
+            if (!Permission.has(player, ADMIN) || !ChestShopSign.isChestShop(connectedSign)) {
                 dropSignAndCancelEvent(event);
                 return;
             }

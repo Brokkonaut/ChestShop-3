@@ -2,16 +2,15 @@ package com.Acrobot.ChestShop.Economy;
 
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyAddEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyCheckEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencyFormatEvent;
 import com.Acrobot.ChestShop.Events.Economy.CurrencySubtractEvent;
-import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import org.bukkit.World;
-import org.bukkit.inventory.Inventory;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.bukkit.World;
+import org.bukkit.inventory.Inventory;
 
 /**
  * @author Acrobot
@@ -23,7 +22,7 @@ public class Economy {
     }
 
     public static boolean isOwnerEconomicallyActive(Inventory inventory) {
-        return !ChestShopSign.isAdminShop(inventory) || !getServerAccountName().isEmpty();
+        return !(inventory instanceof AdminInventory) || !getServerAccountName().isEmpty();
     }
 
     public static boolean add(UUID name, World world, double amount) {
