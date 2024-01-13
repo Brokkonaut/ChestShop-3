@@ -37,7 +37,7 @@ public class NameManager {
     private static UUID serverAccountUUID;
 
     public static String getNameFor(Player player) {
-        return player.getDisplayName();
+        return player.getName();
     }
 
     public static UUID getUUIDForFullName(String name) {
