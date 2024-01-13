@@ -47,8 +47,9 @@ public class ChestShopSign {
             return true;
         }
 
-        if (isOwner(player, sign))
+        if (isOwner(player, sign)) {
             return true;
+        }
 
         return isAccessor(player, sign);
     }
@@ -126,8 +127,9 @@ public class ChestShopSign {
 
     public static boolean isChestShop(Block block) {
         BlockState state = block.getState();
-        if (!(state instanceof Sign sign))
+        if (!(state instanceof Sign sign)) {
             return false;
+        }
 
         return isChestShop(sign);
     }
@@ -177,8 +179,11 @@ public class ChestShopSign {
     }
 
     public static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData) {
+        saveChestShopMetaData(sign, chestShopMetaData, false);
+    }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShop.getPlugin(), () -> {
+    public static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData, boolean delayUpdate) {
+        Runnable change = () -> {
             try {
 
                 YamlConfiguration yamlConfiguration = new YamlConfiguration();
@@ -192,7 +197,12 @@ public class ChestShopSign {
                 Bukkit.getLogger().log(Level.WARNING,
                         "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             }
-        }, 1L);
+        };
+        if (delayUpdate) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShop.getPlugin(), change, 1L);
+        } else {
+            change.run();
+        }
     }
 
     public static boolean isValidPreparedSign(String[] lines) {

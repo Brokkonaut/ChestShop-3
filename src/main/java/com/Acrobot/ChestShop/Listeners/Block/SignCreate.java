@@ -83,7 +83,7 @@ public class SignCreate implements Listener {
             signSide.setLine(i, "");
         }
 
-        ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData);
+        ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData, true);
     }
 
     public static ChestShopMetaData createShopMetaData(Player creator, String[] signLines, ItemStack itemStack) {
@@ -98,8 +98,9 @@ public class SignCreate implements Listener {
         UUID uuidForFullName = NameManager.getUUIDFor(ownerLine);
         boolean isAdminShop = NameManager.isAdminShop(uuidForFullName) && Permission.has(creator, Permission.ADMIN);
 
-        if (!uuidForFullName.equals(creator.getUniqueId()) && !Permission.has(creator, Permission.ADMIN))
+        if (!uuidForFullName.equals(creator.getUniqueId()) && !Permission.has(creator, Permission.ADMIN)) {
             return null; // Return if user wants to create a shop for someone else without permission.
+        }
 
         if (isAdminShop) {
             return createAdminChestShop(quantity, sellPrice, buyPrice, itemStack);
@@ -121,8 +122,9 @@ public class SignCreate implements Listener {
 
     private static ItemStack getItemStack(String itemLine, Sign sign) {
         Material material = MaterialUtil.getMaterial(itemLine);
-        if (material != null)
+        if (material != null) {
             return new ItemStack(material);
+        }
 
         ItemStack item = null;
         if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
@@ -132,8 +134,9 @@ public class SignCreate implements Listener {
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
             ItemStack itemStack = chestShopMetaData.getItemStack();
             String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
-            if (oldItemDisplayName.equals(itemLine)) // If thats true Sign got edited, but item stayed the same
+            if (oldItemDisplayName.equals(itemLine)) { // If thats true Sign got edited, but item stayed the same
                 item = itemStack;
+            }
         }
 
         return item;
