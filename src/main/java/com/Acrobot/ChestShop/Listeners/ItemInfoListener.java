@@ -133,28 +133,18 @@ public class ItemInfoListener implements Listener {
             }
         }
 
-        if (meta instanceof PotionMeta) {
-            PotionMeta potion = (PotionMeta) meta;
-            StringBuilder message = new StringBuilder(50).append("    ").append(ChatColor.GRAY);
-            PotionData base = potion.getBasePotionData();
-            if (base != null) {
-                if (base.isExtended()) {
-                    message.append("Extended ");
-                }
-                if (type == Material.SPLASH_POTION) {
-                    message.append("Splash ");
-                }
-                if (type == Material.LINGERING_POTION) {
-                    message.append("Lingering ");
-                }
-                message.append(PotionNames.getName(base.getType())).append(' ');
-                if (base.isUpgraded()) {
-                    message.append("II ");
-                }
-                sender.sendMessage(message.toString());
+        if (meta instanceof PotionMeta potionMeta) {
+            String itemName = PotionNames.getName(potionMeta.getBasePotionType());
+            if (type == Material.SPLASH_POTION) {
+                itemName = itemName.replace("Potion", "Splash Potion");
             }
-            if (potion.hasCustomEffects()) {
-                for (PotionEffect effect : potion.getCustomEffects()) {
+            if (type == Material.LINGERING_POTION) {
+                itemName = itemName.replace("Potion", "Lingering Potion");
+            }
+            sender.sendMessage("    " + ChatColor.GRAY + itemName);
+
+            if (potionMeta.hasCustomEffects()) {
+                for (PotionEffect effect : potionMeta.getCustomEffects()) {
                     sender.sendMessage("    " + ChatColor.GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
                 }
             }
