@@ -135,8 +135,9 @@ public class PlayerInteract implements Listener {
         }
 
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
-        if (chestShopMetaData == null)
+        if (chestShopMetaData == null) {
             return;
+        }
 
         ItemStack item = chestShopMetaData.getItemStack();
 
@@ -144,16 +145,19 @@ public class PlayerInteract implements Listener {
             if (!chestShopMetaData.isAdminshop()) {
 
                 if (chestShopMetaData.isOwner(player) || Permission.has(player, Permission.MOD)) {
-                    player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
                     Collection<UUID> accessors = chestShopMetaData.getAccessors();
-                    StringBuilder accessorNames = new StringBuilder();
-                    for (UUID accessorUUID : accessors) {
-                        if (!accessorNames.isEmpty())
-                            accessorNames.append(", ");
-                        accessorNames.append(NameManager.getFullNameFor(accessorUUID));
-                    }
+                    if (!accessors.isEmpty()) {
+                        player.sendMessage(Messages.prefix(Messages.SHOP_OWNER_INFO));
+                        StringBuilder accessorNames = new StringBuilder();
+                        for (UUID accessorUUID : accessors) {
+                            if (!accessorNames.isEmpty()) {
+                                accessorNames.append(", ");
+                            }
+                            accessorNames.append(NameManager.getFullNameFor(accessorUUID));
+                        }
 
-                    player.sendMessage("  " + Messages.SHOP_ACCESSORS.replace("%accessor_list", accessorNames.toString()));
+                        player.sendMessage("  " + Messages.SHOP_ACCESSORS.replace("%accessor_list", accessorNames.toString()));
+                    }
                 }
 
                 Container chest = uBlock.findConnectedChest(sign, true);
@@ -187,8 +191,9 @@ public class PlayerInteract implements Listener {
         }
 
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
-        if (chestShopMetaData == null)
+        if (chestShopMetaData == null) {
             return null;
+        }
 
         UUID uuid = chestShopMetaData.getOwner();
 
