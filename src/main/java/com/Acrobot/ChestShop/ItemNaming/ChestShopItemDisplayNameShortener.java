@@ -30,6 +30,11 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(5, "pickaxe", "pick");
         addMapping(5, "boots", "boot");
 
+        addMapping(2, "splash", "spl");
+        addMapping(2, "lingering", "ling");
+        addMapping(5, "extended", "ext");
+        addMapping(5, "potion", "pot");
+
         addMapping(10, "powder", "pdr");
         addMapping(10, "flower", "flow");
         addMapping(10, "smooth", "smo");
@@ -61,5 +66,7 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
 
         addMapping(100, "brick", "b");
         addMapping(100, "dead", "de");
+
+        addMapping(110, "of", "");
     }
 }
