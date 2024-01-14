@@ -40,6 +40,7 @@ public class EnchantmentNames {
         addEnchantment(Enchantment.FROST_WALKER, "Frost Walker");
         addEnchantment(Enchantment.QUICK_CHARGE, "Quick Charge");
         addEnchantment(Enchantment.SOUL_SPEED, "Soul Speed");
+        addEnchantment(Enchantment.SWIFT_SNEAK, "Swift Sneak");
     }
 
     private static void addEnchantment(Enchantment enchantment, String name) {
