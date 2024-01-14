@@ -1,21 +1,30 @@
 package com.Acrobot.ChestShop.Utils;
 
+import com.Acrobot.Breeze.Utils.EnchantmentNames;
+import com.Acrobot.Breeze.Utils.NumberUtil;
 import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
+import com.Acrobot.ChestShop.ItemNaming.ChestShopEnchantedBookDisplayNameShortener;
 import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
 import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class ItemNamingUtils {
     private static final ItemDisplayNameShortener CHEST_SHOP_ITEM_DISPLAY_NAME_SHORTENER = new ChestShopItemDisplayNameShortener();
+    private static final ItemDisplayNameShortener CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER = new ChestShopEnchantedBookDisplayNameShortener();
 
     public static String getSignItemName(ItemStack itemStack) {
         return getDisplayName(itemStack, 15);
@@ -29,7 +38,7 @@ public class ItemNamingUtils {
         if (itemStack == null) {
             return null;
         }
-
+        ItemDisplayNameShortener extraShortener = null;
         Material type = itemStack.getType();
         String itemName = StringUtil.capitalizeFirstLetter(type.name(), '_');
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -48,6 +57,19 @@ public class ItemNamingUtils {
             if (type == Material.LINGERING_POTION) {
                 itemName = itemName.replace("Potion", "Lingering Potion");
             }
+        } else if (itemMeta instanceof FireworkMeta fireworkMeta) {
+            if (fireworkMeta.getEffectsSize() == 0) {
+                itemName = "Rocket Strength " + fireworkMeta.getPower();
+            }
+        } else if (itemMeta instanceof EnchantmentStorageMeta enchantmentStorageMeta) {
+            Map<Enchantment, Integer> enchants = enchantmentStorageMeta.getStoredEnchants();
+            if (enchants.size() == 1) {
+                Entry<Enchantment, Integer> enchantmentAndLevel = enchants.entrySet().iterator().next();
+                Enchantment enchantment = enchantmentAndLevel.getKey();
+                int level = enchantmentAndLevel.getValue();
+                itemName = itemName + " " + EnchantmentNames.getName(enchantment) + ((enchantment.getMaxLevel() > 1 || level != 1) ? (' ' + NumberUtil.toRoman(level)) : "");
+                extraShortener = CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER;
+            }
         }
 
         boolean needsItalicEffect = false;
@@ -63,7 +85,7 @@ public class ItemNamingUtils {
 
         itemName = preShopCreationItemDisplayNameEvent.getDisplayName();
         ItemDisplayNameShortener itemDisplayNameShortener = preShopCreationItemDisplayNameEvent.getItemDisplayNameShortener();
-        itemName = shortenDisplayName(itemName, length, itemDisplayNameShortener);
+        itemName = shortenDisplayName(itemName, length, itemDisplayNameShortener != null ? itemDisplayNameShortener : extraShortener);
 
         return (needsItalicEffect ? ChatColor.ITALIC : "") + itemName.substring(0, Math.min(itemName.length(), length));
     }
