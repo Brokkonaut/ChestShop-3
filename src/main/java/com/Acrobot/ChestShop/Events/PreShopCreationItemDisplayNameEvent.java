@@ -23,7 +23,7 @@ public class PreShopCreationItemDisplayNameEvent extends Event {
     }
 
     public ItemStack getItemStack() {
-        return itemStack.clone();
+        return itemStack;
     }
 
     public String getDisplayName() {
