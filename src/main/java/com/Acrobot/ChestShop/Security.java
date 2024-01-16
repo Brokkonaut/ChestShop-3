@@ -44,7 +44,7 @@ public class Security {
             if (chest != null) {
                 Sign existingShopSign = uBlock.getConnectedSign(chest.getBlock(), sign.getBlock());
                 if (existingShopSign != null) {
-                    UUID existingSignUUID = ChestShopSign.getOwner(sign);
+                    UUID existingSignUUID = ChestShopSign.getOwner(existingShopSign);
                     if (existingSignUUID == null || !existingSignUUID.equals(player.getUniqueId())) {
                         return false;
                     }
