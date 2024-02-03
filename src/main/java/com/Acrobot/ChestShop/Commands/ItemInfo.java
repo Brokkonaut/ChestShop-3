@@ -9,7 +9,6 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.ChatColor;
@@ -55,13 +54,13 @@ public class ItemInfo implements CommandExecutor {
         String displayName = ItemNamingUtils.getDisplayName(item);
         String fullName = ChatColor.stripColor(displayName);
 
-        BaseComponent tc;
+        TextComponent tc = new TextComponent("  ");
         if (StringUtil.capitalizeFirstLetter(item.getType().name(), '_').equals(fullName)) {
             // If Itemname is identical to Material name, no plugin "claimed" that item and changed the name
             // so we can do the player a favor and translate the item name to their Language.
-            tc = new TranslatableComponent(item.getTranslationKey());
+            tc.addExtra(new TranslatableComponent(item.getTranslationKey()));
         } else {
-            tc = new TextComponent(fullName);
+            tc.addExtra(new TextComponent(fullName));
         }
         tc.setColor(net.md_5.bungee.api.ChatColor.WHITE);
         sender.spigot().sendMessage(tc);
