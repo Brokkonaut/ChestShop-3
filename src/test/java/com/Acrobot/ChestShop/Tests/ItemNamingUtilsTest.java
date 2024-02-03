@@ -54,4 +54,15 @@ public class ItemNamingUtilsTest {
         assertEquals("RegenbogenaCase", result);
         assertEquals(15, result.length());
     }
+
+    @Test(timeout = 1000)
+    public void testVeryShortWordsSoAveragesZero() {
+        String sut = "Al Bl Cl Dl El Fl Gl Hl Il Jl Kl LM Ml Nl Ol Pl Ql Rl Sl Tl Ul Vl Wl XL YL ZL";
+        assertEquals(0, 15 / sut.split(" ").length);
+
+        String result = ItemNamingUtils.shortenDisplayName(sut, 15);
+
+        assertEquals("ABCDEFGHIJKLMNO", result);
+        assertEquals(15, result.length());
+    }
 }
