@@ -54,8 +54,8 @@ public class ItemInfo implements CommandExecutor {
 
         String displayName = ItemNamingUtils.getDisplayName(item);
         String fullName = ChatColor.stripColor(displayName);
-        BaseComponent tc;
 
+        BaseComponent tc;
         if (StringUtil.capitalizeFirstLetter(item.getType().name(), '_').equals(fullName)) {
             // If Itemname is identical to Material name, no plugin "claimed" that item and changed the name
             // so we can do the player a favor and translate the item name to their Language.
