@@ -42,4 +42,13 @@ public class ItemNamingUtilsTest {
 
         assertEquals("HiIAmAllTested", result);
     }
+
+    @Test
+    public void testNamingFirstWordLongerThanSecond() {
+        String sut = "Regenbogenalphabet Case";
+
+        String result = ItemNamingUtils.shortenDisplayName(sut, 15);
+
+        assertEquals("RegenbogenaCase", result);
+    }
 }
