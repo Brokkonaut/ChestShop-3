@@ -69,6 +69,8 @@ public class ItemNamingUtils {
                 int level = enchantmentAndLevel.getValue();
                 itemName = itemName + " " + EnchantmentNames.getName(enchantment) + ((enchantment.getMaxLevel() > 1 || level != 1) ? (' ' + NumberUtil.toRoman(level)) : "");
                 extraShortener = CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER;
+            } else {
+                itemName = itemName + " " + enchants.size() + " Enchantments";
             }
         }
 
@@ -137,8 +139,9 @@ public class ItemNamingUtils {
 
             String word = words[currentWord];
             String shortened = shortenedWords[currentWord];
-            if (word.equals(shortened))
+            if (word.equals(shortened)) {
                 continue;
+            }
 
             shortenedWords[currentWord] = shortened + word.charAt(shortened.length());
             remainingLetters--;
