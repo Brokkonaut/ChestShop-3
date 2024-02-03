@@ -113,29 +113,37 @@ public class ItemNamingUtils {
             return result;
         }
 
-        String[] split = result.split(" ");
+        String[] words = result.split(" ");
+        String[] shortenedWords = new String[words.length];
 
         int remainingLetters = length;
-        StringBuilder cutdown = new StringBuilder();
-        for (int i = 0; i < split.length; i++) {
-            String currentWord = split[i];
+        int lettersPerWord = length / words.length;
 
-            int remainingWords = split.length - i;
-            int wordLength = remainingLetters / remainingWords;
-            int rest = remainingLetters % remainingWords;
+        for (int i = 0; i < words.length; i++) {
 
-            int newLength = wordLength + (0 < rest ? 1 : 0);
-            if (currentWord.length() < newLength) {
-                int currentWordLength = currentWord.length();
-                newLength = currentWordLength;
-            }
-            remainingLetters -= newLength;
-
-            String substring = currentWord.substring(0, newLength);
-            String capitalized = StringUtil.capitalizeFirstLetter(substring);
-            cutdown.append(capitalized);
+            String word = words[i];
+            int letters = Math.min(lettersPerWord, word.length());
+            shortenedWords[i] = word.substring(0, letters);
+            remainingLetters -= letters;
         }
 
-        return cutdown.substring(0, Math.min(cutdown.length(), length));
+        int currentWord = -1;
+        while (remainingLetters > 0) {
+
+            currentWord++;
+            if (currentWord >= words.length) {
+                currentWord = 0;
+            }
+
+            String word = words[currentWord];
+            String shortened = shortenedWords[currentWord];
+            if (word.equals(shortened))
+                continue;
+
+            shortenedWords[currentWord] = shortened + word.charAt(shortened.length());
+            remainingLetters--;
+        }
+
+        return String.join("", shortenedWords);
     }
 }
