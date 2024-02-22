@@ -121,21 +121,24 @@ public class SignCreate implements Listener {
     }
 
     private static ItemStack getItemStack(String itemLine, Sign sign) {
-        Material material = MaterialUtil.getMaterial(itemLine);
-        if (material != null) {
-            return new ItemStack(material);
-        }
 
-        ItemStack item = null;
-        if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
-            item = autoFillItemStack(sign, itemLine);
-        } else if (ChestShopSign.isChestShop(sign)) { // If it already was an Chest Shop.
+        if (ChestShopSign.isChestShop(sign)) { // If it already was an Chest Shop.
 
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
             ItemStack itemStack = chestShopMetaData.getItemStack();
             String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
             if (oldItemDisplayName.equals(itemLine)) { // If thats true Sign got edited, but item stayed the same
-                item = itemStack;
+                return itemStack;
+            }
+        }
+
+        ItemStack item = null;
+        if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
+            item = autoFillItemStack(sign, itemLine);
+        } else {
+            Material material = MaterialUtil.getMaterial(itemLine);
+            if (material != null) {
+                item = new ItemStack(material);
             }
         }
 

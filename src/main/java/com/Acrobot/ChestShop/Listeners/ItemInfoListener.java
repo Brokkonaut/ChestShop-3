@@ -134,13 +134,8 @@ public class ItemInfoListener implements Listener {
         }
 
         if (meta instanceof PotionMeta potionMeta) {
-            String itemName = PotionNames.getName(potionMeta.getBasePotionType());
-            if (type == Material.SPLASH_POTION) {
-                itemName = itemName.replace("Potion", "Splash Potion");
-            }
-            if (type == Material.LINGERING_POTION) {
-                itemName = itemName.replace("Potion", "Lingering Potion");
-            }
+            String baseItemName = StringUtil.capitalizeFirstLetter(type.name(), '_');
+            String itemName = PotionNames.getName(potionMeta.getBasePotionType()).replace("Potion", baseItemName);
             sender.sendMessage("    " + ChatColor.GRAY + itemName);
 
             if (potionMeta.hasCustomEffects()) {

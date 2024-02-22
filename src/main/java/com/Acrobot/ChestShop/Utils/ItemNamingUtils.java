@@ -50,13 +50,7 @@ public class ItemNamingUtils {
             String instrument = StringUtil.capitalizeFirstLetter(instrumentType.getKey().getKey().replace("_goat_horn", ""));
             itemName = itemName + " " + instrument;
         } else if (itemMeta instanceof PotionMeta potionMeta) {
-            itemName = PotionNames.getName(potionMeta.getBasePotionType());
-            if (type == Material.SPLASH_POTION) {
-                itemName = itemName.replace("Potion", "Splash Potion");
-            }
-            if (type == Material.LINGERING_POTION) {
-                itemName = itemName.replace("Potion", "Lingering Potion");
-            }
+            itemName = PotionNames.getName(potionMeta.getBasePotionType()).replace("Potion", itemName);
         } else if (itemMeta instanceof FireworkMeta fireworkMeta) {
             if (fireworkMeta.getEffectsSize() == 0) {
                 itemName = "Rocket Strength " + fireworkMeta.getPower();
