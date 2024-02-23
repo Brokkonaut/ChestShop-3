@@ -44,14 +44,20 @@ public class NameManager {
         return fullNamesToUUID.get(name.toLowerCase());
     }
 
-    public static UUID getUUIDFor(String shortName) {
-        if (ChestShopSign.isAdminshopLine(shortName)) {
+    public static UUID getUUIDFor(String name) {
+        if (ChestShopSign.isAdminshopLine(name)) {
             return adminShopUUID;
         }
-        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0 && Properties.SERVER_ECONOMY_ACCOUNT.equals(shortName)) {
+        if (Properties.SERVER_ECONOMY_ACCOUNT != null && Properties.SERVER_ECONOMY_ACCOUNT.length() > 0
+                && Properties.SERVER_ECONOMY_ACCOUNT.equals(name)) {
             return serverAccountUUID;
         }
-        return usedShortNames.get(shortName.toLowerCase());
+
+        UUID uuid = usedShortNames.get(name.toLowerCase());
+        if (uuid != null)
+            return uuid;
+
+        return getUUIDForFullName(name);
     }
 
     public static String getFullNameFor(UUID playerId) {
