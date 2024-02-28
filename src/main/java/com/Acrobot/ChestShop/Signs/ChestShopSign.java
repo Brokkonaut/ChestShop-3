@@ -169,10 +169,13 @@ public class ChestShopSign {
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             yamlConfiguration.loadFromString(string);
 
-            return (ChestShopMetaData) yamlConfiguration.get("metadata");
-
+            ChestShopMetaData metaData = (ChestShopMetaData) yamlConfiguration.get("metadata");
+            if (metaData == null) {
+                throw new NullPointerException("No metadata in:\n" + string);
+            }
+            return metaData;
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING,
+            Bukkit.getLogger().log(Level.SEVERE,
                     "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             return null;
         }
