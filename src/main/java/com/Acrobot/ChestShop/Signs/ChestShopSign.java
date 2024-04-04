@@ -24,7 +24,7 @@ public class ChestShopSign {
 
     public static final byte PRICE_LINE = 2;
     public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
-            Pattern.compile("(?i)^[\\d.bs(free) :]+$"), Pattern.compile("^[\\w§? #:-]+$") };
+            Pattern.compile("(?i)^[\\d.bs(free) :]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
 
@@ -206,7 +206,7 @@ public class ChestShopSign {
     }
 
     public static boolean isValidPreparedSign(String[] lines) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             if (!SHOP_SIGN_PATTERN[i].matcher(lines[i]).matches()) {
                 return false;
             }
