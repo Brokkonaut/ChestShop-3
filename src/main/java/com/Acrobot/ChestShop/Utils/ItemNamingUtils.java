@@ -45,7 +45,7 @@ public class ItemNamingUtils {
         if (itemMeta instanceof MusicInstrumentMeta musicInstrumentMeta) {
             MusicInstrument instrumentType = musicInstrumentMeta.getInstrument();
             if (instrumentType == null) {
-                instrumentType = MusicInstrument.PONDER;
+                instrumentType = MusicInstrument.PONDER_GOAT_HORN;
             }
             String instrument = StringUtil.capitalizeFirstLetter(instrumentType.getKey().getKey().replace("_goat_horn", ""));
             itemName = itemName + " " + instrument;

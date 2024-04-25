@@ -45,7 +45,6 @@ import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 
 /**
@@ -217,37 +216,17 @@ public class ItemInfoListener implements Listener {
                         ItemMeta arrowMeta = stack.getItemMeta();
                         if (arrowMeta instanceof PotionMeta potion) {
                             StringBuilder message = new StringBuilder(50).append(" (");
-                            boolean first = true;
-                            PotionData base = potion.getBasePotionData();
-                            if (base != null) {
-                                if (base.isExtended()) {
-                                    message.append("Extended ");
-                                }
-                                if (type == Material.SPLASH_POTION) {
-                                    message.append("Splash ");
-                                }
-                                if (type == Material.LINGERING_POTION) {
-                                    message.append("Lingering ");
-                                }
-                                message.append(PotionNames.getName(base.getType()));
-                                if (base.isUpgraded()) {
-                                    message.append(" II");
-                                }
-                                first = false;
-                            }
+                            String baseItemName = StringUtil.capitalizeFirstLetter(type.name(), '_');
+                            String itemName = PotionNames.getName(potion.getBasePotionType()).replace("Potion", baseItemName);
+                            message.append(itemName);
                             if (potion.hasCustomEffects()) {
                                 for (PotionEffect effect : potion.getCustomEffects()) {
-                                    if (!first) {
-                                        message.append(", ");
-                                    }
-                                    first = false;
+                                    message.append(", ");
                                     message.append(ChatColor.GRAY + capitalizeFirstLetter(effect.getType().getName(), '_') + ' ' + toTime(effect.getDuration() / 20));
                                 }
                             }
-                            if (!first) {
-                                message.append(")");
-                                arrow = arrow + message.toString();
-                            }
+                            message.append(")");
+                            arrow = arrow + message.toString();
                         }
                         sender.sendMessage("    " + ChatColor.GRAY + "Projectile: " + arrow);
                     }
@@ -258,7 +237,7 @@ public class ItemInfoListener implements Listener {
         if (meta instanceof MusicInstrumentMeta musicInstrumentMeta) {
             MusicInstrument instrumentType = musicInstrumentMeta.getInstrument();
             if (instrumentType == null) {
-                instrumentType = MusicInstrument.PONDER;
+                instrumentType = MusicInstrument.PONDER_GOAT_HORN;
             }
             String instrument = StringUtil.capitalizeFirstLetter(instrumentType.getKey().getKey().replace("_goat_horn", ""));
             sender.sendMessage("    " + ChatColor.GRAY + "Instrument: " + instrument);

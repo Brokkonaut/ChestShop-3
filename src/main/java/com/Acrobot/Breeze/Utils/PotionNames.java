@@ -9,7 +9,7 @@ public class PotionNames {
     static {
         potionToName = new HashMap<PotionType, String>();
 
-        addEnchantment(PotionType.UNCRAFTABLE, "Uncraftable Potion");
+        // addEnchantment(PotionType.UNCRAFTABLE, "Uncraftable Potion");
         addEnchantment(PotionType.WATER, "Water Bottle");
         addEnchantment(PotionType.MUNDANE, "Mundane Potion");
         addEnchantment(PotionType.THICK, "Thick Potion");
@@ -19,12 +19,12 @@ public class PotionNames {
         addEnchantment(PotionType.LONG_NIGHT_VISION, "Extended Potion of Night Vision");
         addEnchantment(PotionType.INVISIBILITY, "Potion of Invisibility");
         addEnchantment(PotionType.LONG_INVISIBILITY, "Extended Potion of Invisibility");
-        addEnchantment(PotionType.JUMP, "Potion of Leaping");
+        addEnchantment(PotionType.LEAPING, "Potion of Leaping");
         addEnchantment(PotionType.LONG_LEAPING, "Extended Potion of Leaping");
         addEnchantment(PotionType.STRONG_LEAPING, "Potion of Leaping II");
         addEnchantment(PotionType.FIRE_RESISTANCE, "Potion of Fire Resistance");
         addEnchantment(PotionType.LONG_FIRE_RESISTANCE, "Extended Potion of Fire Resistance");
-        addEnchantment(PotionType.SPEED, "Potion of Swiftness");
+        addEnchantment(PotionType.SWIFTNESS, "Potion of Swiftness");
         addEnchantment(PotionType.LONG_SWIFTNESS, "Extended Potion of Swiftness");
         addEnchantment(PotionType.STRONG_SWIFTNESS, "Potion of Swiftness II");
         addEnchantment(PotionType.SLOWNESS, "Potion of Slowness");
@@ -32,14 +32,14 @@ public class PotionNames {
         addEnchantment(PotionType.STRONG_SLOWNESS, "Potion of Slowness IV");
         addEnchantment(PotionType.WATER_BREATHING, "Potion of Water Breathing");
         addEnchantment(PotionType.LONG_WATER_BREATHING, "Extended Potion of Water Breathing");
-        addEnchantment(PotionType.INSTANT_HEAL, "Potion of Healing");
+        addEnchantment(PotionType.HEALING, "Potion of Healing");
         addEnchantment(PotionType.STRONG_HEALING, "Potion of Healing II");
-        addEnchantment(PotionType.INSTANT_DAMAGE, "Potion of Harming");
+        addEnchantment(PotionType.HARMING, "Potion of Harming");
         addEnchantment(PotionType.STRONG_HARMING, "Potion of Harming II");
         addEnchantment(PotionType.POISON, "Potion of Poison");
         addEnchantment(PotionType.LONG_POISON, "Extended Potion of Poison");
         addEnchantment(PotionType.STRONG_POISON, "Potion of Poison II");
-        addEnchantment(PotionType.REGEN, "Potion of Regeneration");
+        addEnchantment(PotionType.REGENERATION, "Potion of Regeneration");
         addEnchantment(PotionType.LONG_REGENERATION, "Extended Potion of Regeneration");
         addEnchantment(PotionType.STRONG_REGENERATION, "Potion of Regeneration II");
         addEnchantment(PotionType.STRENGTH, "Potion of Strength");
@@ -61,7 +61,7 @@ public class PotionNames {
 
     public static String getName(PotionType potion) {
         if (potion == null) {
-            return null;
+            return "Uncraftable Potion";
         }
         String name = potionToName.get(potion);
         if (name != null) {
