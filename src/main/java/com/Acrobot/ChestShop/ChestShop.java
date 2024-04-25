@@ -69,12 +69,10 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -175,23 +173,23 @@ public class ChestShop extends JavaPlugin {
             }
         }
 
-        boolean requireItemDatabaseUpgrade = false;
-        String oldItemStackEncoded = previousVersion.getString("itemstack");
-        try {
-            String newItemStackEncoded = itemDatabase.encodeItemStack(new ItemStack(Material.DIRT, 1));
-            if (!newItemStackEncoded.equals(oldItemStackEncoded)) {
-                previousVersion.set("itemstack", newItemStackEncoded);
-                previousVersion.save(versionFile);
-                requireItemDatabaseUpgrade = true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (requireItemDatabaseUpgrade) {
-            getLogger().info("Upgrading item database. This may take some time.");
-            itemDatabase.upgrade(oldItemStackEncoded == null);
-            getLogger().info("Upgrading item database completed.");
-        }
+        // boolean requireItemDatabaseUpgrade = false;
+        // String oldItemStackEncoded = previousVersion.getString("itemstack");
+        // try {
+        // String newItemStackEncoded = itemDatabase.encodeItemStack(new ItemStack(Material.DIRT, 1));
+        // if (!newItemStackEncoded.equals(oldItemStackEncoded)) {
+        // previousVersion.set("itemstack", newItemStackEncoded);
+        // previousVersion.save(versionFile);
+        // requireItemDatabaseUpgrade = true;
+        // }
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // if (requireItemDatabaseUpgrade) {
+        // getLogger().info("Upgrading item database. This may take some time.");
+        // itemDatabase.upgrade(oldItemStackEncoded == null);
+        // getLogger().info("Upgrading item database completed.");
+        // }
     }
 
     public static File loadFile(String string) {
