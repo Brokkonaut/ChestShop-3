@@ -91,7 +91,7 @@ public class PlayerInteract implements Listener {
         }
 
         boolean ownShop = chestShopMetaData.canAccess(player);
-        if (ownShop && action == RIGHT_CLICK_BLOCK && event.getItem() != null && BlockUtil.isSignEditMaterial(event.getItem().getType())) {
+        if (ownShop && action == RIGHT_CLICK_BLOCK && event.getItem() != null && BlockUtil.isNotCurrentlyActiveSignEditMaterial(sign, sign.getTargetSide(player), event.getItem().getType())) {
             return;
         }
         if (ownShop && (!Properties.ALLOW_OWN_SHOP_TRANSACTIONS || player.isSneaking())) {

@@ -1,6 +1,8 @@
 package com.Acrobot.Breeze.Utils;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -8,6 +10,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -21,6 +24,7 @@ public class BlockUtil {
     private static HashSet<Material> SHULKER_BOXES = new HashSet<>();
     private static HashSet<Material> CONTAINERS = new HashSet<>();
     private static HashSet<Material> SIGN_EDIT_MATERIALS = new HashSet<>();
+    private static HashMap<Material, DyeColor> DYE_MATERIAL_TO_COLOR = new HashMap<>();
     static {
         for (Material m : Material.values()) {
             if (m.data == org.bukkit.block.data.type.Sign.class || m.data == WallSign.class) {
@@ -70,6 +74,23 @@ public class BlockUtil {
         SIGN_EDIT_MATERIALS.add(Material.RED_DYE);
         SIGN_EDIT_MATERIALS.add(Material.WHITE_DYE);
         SIGN_EDIT_MATERIALS.add(Material.YELLOW_DYE);
+
+        DYE_MATERIAL_TO_COLOR.put(Material.BLACK_DYE, DyeColor.BLACK);
+        DYE_MATERIAL_TO_COLOR.put(Material.BLUE_DYE, DyeColor.BLUE);
+        DYE_MATERIAL_TO_COLOR.put(Material.BROWN_DYE, DyeColor.BROWN);
+        DYE_MATERIAL_TO_COLOR.put(Material.CYAN_DYE, DyeColor.CYAN);
+        DYE_MATERIAL_TO_COLOR.put(Material.GRAY_DYE, DyeColor.GRAY);
+        DYE_MATERIAL_TO_COLOR.put(Material.GREEN_DYE, DyeColor.GREEN);
+        DYE_MATERIAL_TO_COLOR.put(Material.LIGHT_BLUE_DYE, DyeColor.LIGHT_BLUE);
+        DYE_MATERIAL_TO_COLOR.put(Material.LIGHT_GRAY_DYE, DyeColor.LIGHT_GRAY);
+        DYE_MATERIAL_TO_COLOR.put(Material.LIME_DYE, DyeColor.LIME);
+        DYE_MATERIAL_TO_COLOR.put(Material.MAGENTA_DYE, DyeColor.MAGENTA);
+        DYE_MATERIAL_TO_COLOR.put(Material.ORANGE_DYE, DyeColor.ORANGE);
+        DYE_MATERIAL_TO_COLOR.put(Material.PINK_DYE, DyeColor.PINK);
+        DYE_MATERIAL_TO_COLOR.put(Material.PURPLE_DYE, DyeColor.PURPLE);
+        DYE_MATERIAL_TO_COLOR.put(Material.RED_DYE, DyeColor.RED);
+        DYE_MATERIAL_TO_COLOR.put(Material.WHITE_DYE, DyeColor.WHITE);
+        DYE_MATERIAL_TO_COLOR.put(Material.YELLOW_DYE, DyeColor.YELLOW);
     }
 
     /**
@@ -158,7 +179,24 @@ public class BlockUtil {
         return true;
     }
 
-    public static boolean isSignEditMaterial(Material m) {
+    public static boolean isNotCurrentlyActiveSignEditMaterial(Sign sign, SignSide signSide, Material m) {
+        if (m == Material.GLOW_INK_SAC && signSide.isGlowingText()) {
+            return false;
+        }
+        if (m == Material.INK_SAC && !signSide.isGlowingText()) {
+            return false;
+        }
+        if (m == Material.HONEYCOMB && sign.isWaxed()) {
+            return false;
+        }
+        DyeColor dyeColor = DYE_MATERIAL_TO_COLOR.get(m);
+        DyeColor signColor = signSide.getColor();
+        if (signColor == null) {
+            signColor = DyeColor.BLACK;
+        }
+        if (dyeColor != null && dyeColor == signColor) {
+            return false;
+        }
         return SIGN_EDIT_MATERIALS.contains(m);
     }
 }
