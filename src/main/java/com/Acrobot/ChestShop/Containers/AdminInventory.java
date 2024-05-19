@@ -170,10 +170,12 @@ public class AdminInventory implements Inventory {
         return null;
     }
 
+    @Override
     public InventoryHolder getHolder(boolean useSnapshot) {
         return null;
     }
 
+    @Override
     public HashMap<Integer, ItemStack> removeItemAnySlot(ItemStack... items) throws IllegalArgumentException {
         return new HashMap<Integer, ItemStack>();
     }
@@ -181,5 +183,10 @@ public class AdminInventory implements Inventory {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    @Override
+    public int close() {
+        return 0;
     }
 }
