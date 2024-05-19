@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.acrobot.chestshop</groupId>
@@ -9,14 +11,15 @@
 
     <scm>
         <connection>scm:git:git://github.com/Acrobot/ChestShop-3</connection>
-        <developerConnection>scm:git:ssh://git@github.com/Acrobot/ChestShop-3.git</developerConnection>
+        <developerConnection>
+            scm:git:ssh://git@github.com/Acrobot/ChestShop-3.git</developerConnection>
         <url>https://github.com/Acrobot/ChestShop-3</url>
     </scm>
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sk89q-repo</id>
@@ -59,8 +62,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.20.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -170,11 +173,13 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>javax.persistence</pattern>
-                                    <shadedPattern>com.Acrobot.ChestShop.javax.persistence</shadedPattern>
+                                    <shadedPattern>
+                                        com.Acrobot.ChestShop.javax.persistence</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.json.simple</pattern>
-                                    <shadedPattern>com.Acrobot.ChestShop.jsonsimple</shadedPattern>
+                                    <shadedPattern>
+                                        com.Acrobot.ChestShop.jsonsimple</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -203,7 +208,7 @@
             <url>https://www.iani.de/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
