@@ -59,8 +59,9 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     public boolean canAccess(UUID player) {
 
-        if (isOwner(player))
+        if (isOwner(player)) {
             return true;
+        }
 
         return isAccessor(player);
     }
@@ -117,7 +118,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         data.put("amount", quantity);
         data.put("buyPrice", buyPrice);
         data.put("sellPrice", sellPrice);
-        data.put("itemStack", itemStack.serialize());
+        data.put("itemStack", itemStack == null ? null : itemStack.serializeAsBytes());
         return data;
     }
 
@@ -127,7 +128,8 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         int amount = (int) map.get("amount");
         double sellPrice = (double) map.get("sellPrice");
         double buyPrice = (double) map.get("buyPrice");
-        ItemStack itemStack = ItemStack.deserialize((Map<String, Object>) map.get("itemStack"));
+        Object stackSerialized = map.get("itemStack");
+        ItemStack itemStack = stackSerialized instanceof Map<?, ?> stackMap ? ItemStack.deserialize((Map<String, Object>) stackMap) : stackSerialized instanceof byte[] bytes ? ItemStack.deserializeBytes(bytes) : null;
 
         Set<String> accessorsString = (HashSet<String>) map.get("accessors");
         Set<UUID> accessors = new HashSet<>();
