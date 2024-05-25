@@ -77,6 +77,10 @@ public class PlayerInteract implements Listener {
 
         Sign sign = (Sign) block.getState();
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
+        if (chestShopMetaData == null) {
+            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
+            return;
+        }
 
         if (BlockUtil.isSign(player.getInventory().getItemInMainHand().getType()) && (chestShopMetaData.isOwner(event.getPlayer()) || Permission.has(event.getPlayer(), Permission.ADMIN))) { // Blocking accidental sign edition
             return;
@@ -136,6 +140,7 @@ public class PlayerInteract implements Listener {
 
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
         if (chestShopMetaData == null) {
+            player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));
             return;
         }
 

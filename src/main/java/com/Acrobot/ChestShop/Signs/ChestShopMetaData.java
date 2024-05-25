@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -118,7 +119,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         data.put("amount", quantity);
         data.put("buyPrice", buyPrice);
         data.put("sellPrice", sellPrice);
-        data.put("itemStack", itemStack == null ? null : itemStack.serializeAsBytes());
+        data.put("itemStack", itemStack == null || itemStack.getType() == Material.AIR ? null : itemStack.serializeAsBytes());
         return data;
     }
 
