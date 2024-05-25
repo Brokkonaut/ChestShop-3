@@ -53,7 +53,7 @@ public class ItemNamingUtils {
             itemName = PotionNames.getName(potionMeta.getBasePotionType()).replace("Potion", itemName);
         } else if (itemMeta instanceof FireworkMeta fireworkMeta) {
             if (fireworkMeta.getEffectsSize() == 0) {
-                itemName = "Rocket Strength " + fireworkMeta.getPower();
+                itemName = "Rocket Strength " + (fireworkMeta.getPower() == 0 ? 1 : fireworkMeta.getPower());
             }
         } else if (itemMeta instanceof EnchantmentStorageMeta enchantmentStorageMeta) {
             Map<Enchantment, Integer> enchants = enchantmentStorageMeta.getStoredEnchants();

@@ -96,8 +96,7 @@ public class ItemInfoListener implements Listener {
             sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ((enchantment.getKey().getMaxLevel() > 1 || enchantment.getValue() != 1) ? (' ' + toRoman(enchantment.getValue())) : ""));
         }
 
-        if (meta instanceof EnchantmentStorageMeta) {
-            EnchantmentStorageMeta ench = (EnchantmentStorageMeta) meta;
+        if (meta instanceof EnchantmentStorageMeta ench) {
             if (ench.hasStoredEnchants()) {
                 for (Map.Entry<Enchantment, Integer> enchantment : ench.getStoredEnchants().entrySet()) {
                     sender.sendMessage("    " + ChatColor.GRAY + EnchantmentNames.getName(enchantment.getKey()) + ((enchantment.getKey().getMaxLevel() > 1 || enchantment.getValue() != 1) ? (' ' + toRoman(enchantment.getValue())) : ""));
@@ -105,24 +104,21 @@ public class ItemInfoListener implements Listener {
             }
         }
 
-        if (meta instanceof FireworkMeta) {
-            FireworkMeta firework = (FireworkMeta) meta;
-            sender.sendMessage("    " + ChatColor.GRAY + "Flight Duration: " + firework.getPower());
+        if (meta instanceof FireworkMeta firework) {
+            sender.sendMessage("    " + ChatColor.GRAY + "Flight Duration: " + (firework.getPower() == 0 ? 1 : firework.getPower()));
             for (FireworkEffect effect : firework.getEffects()) {
                 sendFireworkEffect(sender, effect);
             }
         }
 
-        if (meta instanceof FireworkEffectMeta) {
-            FireworkEffectMeta fireworkEffect = (FireworkEffectMeta) meta;
+        if (meta instanceof FireworkEffectMeta fireworkEffect) {
             if (fireworkEffect.hasEffect()) {
                 FireworkEffect effect = fireworkEffect.getEffect();
                 sendFireworkEffect(sender, effect);
             }
         }
 
-        if (meta instanceof SkullMeta) {
-            SkullMeta skull = (SkullMeta) meta;
+        if (meta instanceof SkullMeta skull) {
             if (skull.hasOwner()) {
                 @SuppressWarnings("deprecation")
                 String owner = skull.getOwner();
