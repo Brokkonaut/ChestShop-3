@@ -123,12 +123,13 @@ public class SignCreate implements Listener {
     private static ItemStack getItemStack(String itemLine, Sign sign) {
 
         if (ChestShopSign.isChestShop(sign)) { // If it already was an Chest Shop.
-
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
-            ItemStack itemStack = chestShopMetaData.getItemStack();
-            String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
-            if (oldItemDisplayName.equals(itemLine)) { // If thats true Sign got edited, but item stayed the same
-                return itemStack;
+            if (chestShopMetaData != null) {
+                ItemStack itemStack = chestShopMetaData.getItemStack();
+                String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
+                if (oldItemDisplayName.equals(itemLine)) { // If thats true Sign got edited, but item stayed the same
+                    return itemStack;
+                }
             }
         }
 

@@ -108,7 +108,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
     }
 
     public ItemStack getItemStack() {
-        return itemStack.clone();
+        return itemStack == null ? null : itemStack.clone();
     }
 
     public boolean shouldUpdate() {

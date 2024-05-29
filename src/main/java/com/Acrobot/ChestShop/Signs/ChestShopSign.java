@@ -4,8 +4,6 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
-import com.google.gson.Gson;
-import java.util.LinkedHashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -183,8 +181,8 @@ public class ChestShopSign {
                 throw new NullPointerException("No metadata in:\n" + string);
             }
             if (metaData.getItemStack() == null) {
-                LinkedHashMap<?, ?> map = new Gson().fromJson(string, LinkedHashMap.class);
-                throw new IllegalStateException("No ItemStack found in:\n" + map);
+                ChestShop.getBukkitLogger().log(Level.WARNING, "No ItemStack found in:\n" + string);
+                return null;
             }
             if (metaData.shouldUpdate()) {
                 saveChestShopMetaData(sign, metaData);
