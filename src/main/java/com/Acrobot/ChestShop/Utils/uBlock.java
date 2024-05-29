@@ -99,9 +99,9 @@ public class uBlock {
             signFace = signData.getFacing().getOppositeFace();
             Block faceBlock = block.getRelative(signFace);
             if (BlockUtil.isChest(faceBlock)) {
-                if (upgradeItems) {
-                    upgradeContainerItems(faceBlock);
-                }
+                // if (upgradeItems) {
+                // upgradeContainerItems(faceBlock);
+                // }
                 return faceBlock;
             }
         }
@@ -109,9 +109,9 @@ public class uBlock {
             if (bf != signFace) {
                 Block faceBlock = block.getRelative(bf);
                 if (BlockUtil.isChest(faceBlock)) {
-                    if (upgradeItems) {
-                        upgradeContainerItems(faceBlock);
-                    }
+                    // if (upgradeItems) {
+                    // upgradeContainerItems(faceBlock);
+                    // }
                     return faceBlock;
                 }
             }
@@ -119,6 +119,12 @@ public class uBlock {
         return null;
     }
 
+    /**
+     * Never call this method! It will destroy itemstacks!
+     *
+     * @param chestBlock
+     */
+    @Deprecated(forRemoval = true)
     private static void upgradeContainerItems(Block chestBlock) {
         BlockState blockState = chestBlock.getState();
         if (blockState instanceof Container) {
