@@ -122,7 +122,8 @@ public class ChestShopSign {
             return false;
         }
 
-        return LegacyChestShopSign.getItemStack(sign) != null;
+        ItemStack stack = LegacyChestShopSign.getItemStack(sign);
+        return stack != null && !stack.isEmpty();
     }
 
     public static boolean isChestShop(Block block) {
@@ -138,12 +139,11 @@ public class ChestShopSign {
         try {
             if (isLegacyChestShop(sign)) {
                 updateLegacyChestShop(sign);
-                return true;
             }
 
             boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
             if (isChestshop) {
-                updateSignDisplay(sign);
+                isChestshop = updateSignDisplay(sign);
             }
 
             return isChestshop;
@@ -153,11 +153,11 @@ public class ChestShopSign {
         }
     }
 
-    private static void updateSignDisplay(Sign sign) {
+    private static boolean updateSignDisplay(Sign sign) {
 
         ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
         if (chestShopMetaData == null || chestShopMetaData.getItemStack() == null) {
-            return;
+            return false;
         }
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
@@ -165,6 +165,7 @@ public class ChestShopSign {
         sign.setLine(0, fullOwnerName);
         sign.setLine(3, ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack()));
         sign.update();
+        return true;
     }
 
     public static ChestShopMetaData getChestShopMetaData(Sign sign) {
@@ -181,7 +182,9 @@ public class ChestShopSign {
                 throw new NullPointerException("No metadata in:\n" + string);
             }
             if (metaData.getItemStack() == null) {
-                ChestShop.getBukkitLogger().log(Level.WARNING, "No ItemStack found in:\n" + string);
+                ChestShop.getBukkitLogger().log(Level.WARNING, "No ItemStack found in Shop at: \n" + sign.getLocation());
+                sign.getPersistentDataContainer().remove(METADATA_NAMESPACED_KEY);
+                sign.update();
                 return null;
             }
             if (metaData.shouldUpdate()) {
