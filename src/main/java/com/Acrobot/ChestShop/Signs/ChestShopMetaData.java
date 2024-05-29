@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -25,17 +26,20 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     private ItemStack itemStack;
 
+    private boolean shouldUpdate;
+
     public ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-        this(owner, quantity, sellPrice, buyPrice, itemStack, new HashSet<>());
+        this(owner, quantity, sellPrice, buyPrice, itemStack, new HashSet<>(), false);
     }
 
-    private ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack, Set<UUID> accessors) {
+    private ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack, Set<UUID> accessors, boolean shouldUpdate) {
         this.owner = owner;
         this.quantity = Math.max(1, quantity);
         this.sellPrice = sellPrice;
         this.buyPrice = buyPrice;
-        this.itemStack = itemStack;
+        this.itemStack = itemStack == null ? null : itemStack.ensureServerConversions();
         this.accessors = accessors;
+        this.shouldUpdate = shouldUpdate;
     }
 
     public HashSet<UUID> getAccessors() {
@@ -107,6 +111,10 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return itemStack.clone();
     }
 
+    public boolean shouldUpdate() {
+        return shouldUpdate;
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
@@ -114,6 +122,8 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
         Set<String> accessorsStrings = new HashSet<>();
         this.accessors.forEach(uuid -> accessorsStrings.add(uuid.toString()));
+        data.put("csversion", 1);
+        data.put("dataversion", Bukkit.getUnsafe().getDataVersion());
         data.put("accessors", accessorsStrings);
 
         data.put("amount", quantity);
@@ -124,7 +134,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
     }
 
     public static ChestShopMetaData deserialize(Map<String, Object> map) {
-
+        boolean shouldUpdate = ((int) map.getOrDefault("csversion", 0) < 1) || ((int) map.getOrDefault("dataversion", 0) < Bukkit.getUnsafe().getDataVersion());
         UUID owner = UUID.fromString((String) map.get("owner"));
         int amount = (int) map.get("amount");
         double sellPrice = (double) map.get("sellPrice");
@@ -136,6 +146,6 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         Set<UUID> accessors = new HashSet<>();
         accessorsString.forEach(string -> accessors.add(UUID.fromString(string)));
 
-        return new ChestShopMetaData(owner, amount, sellPrice, buyPrice, itemStack, accessors);
+        return new ChestShopMetaData(owner, amount, sellPrice, buyPrice, itemStack, accessors, shouldUpdate);
     }
 }

@@ -4,6 +4,8 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
+import com.google.gson.Gson;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -135,23 +137,30 @@ public class ChestShopSign {
     }
 
     public static boolean isChestShop(Sign sign) {
+        try {
+            if (isLegacyChestShop(sign)) {
+                updateLegacyChestShop(sign);
+                return true;
+            }
 
-        if (isLegacyChestShop(sign)) {
-            updateLegacyChestShop(sign);
-            return true;
+            boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+            if (isChestshop) {
+                updateSignDisplay(sign);
+            }
+
+            return isChestshop;
+        } catch (Exception e) {
+            ChestShop.getBukkitLogger().log(Level.SEVERE, "Could not load shop info at " + sign.getLocation(), e);
+            return false;
         }
-
-        boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
-        if (isChestshop) {
-            updateSignDisplay(sign);
-        }
-
-        return isChestshop;
     }
 
     private static void updateSignDisplay(Sign sign) {
 
         ChestShopMetaData chestShopMetaData = getChestShopMetaData(sign);
+        if (chestShopMetaData == null || chestShopMetaData.getItemStack() == null) {
+            return;
+        }
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
 
@@ -173,9 +182,16 @@ public class ChestShopSign {
             if (metaData == null) {
                 throw new NullPointerException("No metadata in:\n" + string);
             }
+            if (metaData.getItemStack() == null) {
+                LinkedHashMap<?, ?> map = new Gson().fromJson(string, LinkedHashMap.class);
+                throw new IllegalStateException("No ItemStack found in:\n" + map);
+            }
+            if (metaData.shouldUpdate()) {
+                saveChestShopMetaData(sign, metaData);
+            }
             return metaData;
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.SEVERE,
+            ChestShop.getBukkitLogger().log(Level.SEVERE,
                     "Exception loading Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             return null;
         }
@@ -197,7 +213,7 @@ public class ChestShopSign {
                 sign.update();
 
             } catch (Exception e) {
-                Bukkit.getLogger().log(Level.WARNING,
+                ChestShop.getBukkitLogger().log(Level.WARNING,
                         "Exception saving Chestshop Metadata (" + sign.getX() + " " + sign.getY() + " " + sign.getZ() + ").", e);
             }
         };
