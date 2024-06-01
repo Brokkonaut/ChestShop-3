@@ -12,6 +12,7 @@ import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -55,10 +56,27 @@ public class ItemInfo implements CommandExecutor {
         String fullName = ChatColor.stripColor(displayName);
 
         TextComponent tc = new TextComponent("  ");
-        if (StringUtil.capitalizeFirstLetter(item.getType().name(), '_').equals(fullName)) {
+        String typeName = item.getType().name();
+        if (StringUtil.capitalizeFirstLetter(typeName, '_').equals(fullName)) {
             // If Itemname is identical to Material name, no plugin "claimed" that item and changed the name
             // so we can do the player a favor and translate the item name to their Language.
-            tc.addExtra(new TranslatableComponent(item.getTranslationKey()));
+            tc.addExtra(new TranslatableComponent(item.translationKey()));
+            if (item.getType() == Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE) {
+                // "item.minecraft.netherite_upgrade_smithing_template": "Smithing Template",
+                // "upgrade.minecraft.netherite_upgrade": "Netherite Upgrade"
+                tc.addExtra(" ");
+                tc.addExtra(new TranslatableComponent("upgrade.minecraft.netherite_upgrade"));
+            } else if (typeName.endsWith("_SMITHING_TEMPLATE")) {
+                // "item.minecraft.bolt_armor_trim_smithing_template": "Smithing Template",
+                // "trim_pattern.minecraft.bolt": "Bolt Armor Trim",
+                String key = item.getType().getItemTranslationKey();
+                key = key.replace("item.minecraft.", "").replace("_armor_trim_smithing_template", "");
+                tc.addExtra(" ");
+                tc.addExtra(new TranslatableComponent("trim_pattern.minecraft." + key));
+            } else if (typeName.startsWith("MUSIC_DISC_") || typeName.endsWith("_BANNER_PATTERN")) {
+                tc.addExtra(" ");
+                tc.addExtra(new TranslatableComponent(item.getType().translationKey() + ".desc"));
+            }
         } else {
             tc.addExtra(new TextComponent(fullName));
         }
