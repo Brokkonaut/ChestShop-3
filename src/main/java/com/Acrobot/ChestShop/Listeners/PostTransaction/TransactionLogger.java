@@ -1,6 +1,5 @@
 package com.Acrobot.ChestShop.Listeners.PostTransaction;
 
-import static com.Acrobot.Breeze.Utils.MaterialUtil.getSignName;
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 
 import org.bukkit.event.EventHandler;
@@ -12,6 +11,7 @@ import com.Acrobot.Breeze.Utils.LocationUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 
 /**
  * @author Acrobot
@@ -27,7 +27,7 @@ public class TransactionLogger implements Listener {
         StringBuilder items = new StringBuilder(50);
 
         ItemStack item = event.getStock();
-        items.append(item.getAmount()).append(' ').append(getSignName(item));
+        items.append(item.getAmount()).append(' ').append(ItemNamingUtils.getDisplayName(item));
 
         String message = String.format(template, event.getClient().getUniqueId().toString(), event.getClient().getName(), items.toString(), event.getPrice(), event.getOwner().getUniqueId().toString(), NameManager.getFullNameFor(event.getOwner().getUniqueId()),
                 LocationUtil.locationToString(event.getSign().getLocation()));
