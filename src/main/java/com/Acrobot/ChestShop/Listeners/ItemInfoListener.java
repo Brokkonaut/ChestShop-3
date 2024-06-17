@@ -11,7 +11,10 @@ import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -21,6 +24,8 @@ import org.bukkit.MusicInstrument;
 import org.bukkit.block.Beehive;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
+import org.bukkit.block.DecoratedPot;
+import org.bukkit.block.DecoratedPot.Side;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -40,6 +45,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
+import org.bukkit.inventory.meta.OminousBottleMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -145,8 +151,8 @@ public class ItemInfoListener implements Listener {
             if (blockStateMeta.hasBlockState()) {
                 BlockState blockState = blockStateMeta.getBlockState();
                 if (blockState != null) {
-                    if (blockState instanceof Container) {
-                        Inventory inv = ((Container) blockState).getInventory();
+                    if (blockState instanceof Container container) {
+                        Inventory inv = container.getInventory();
                         int stacks = 0;
                         for (ItemStack stack : inv.getContents()) {
                             if (stack != null && stack.getType() != Material.AIR) {
@@ -157,12 +163,21 @@ public class ItemInfoListener implements Listener {
                             sender.sendMessage("    " + ChatColor.GRAY + "Content: " + stacks + " Stacks");
                         }
                     }
-                    if (blockState instanceof Beehive) {
-                        Beehive beehive = (Beehive) blockState;
+                    if (blockState instanceof Beehive beehive) {
                         // int honeyLevel = ((org.bukkit.block.data.type.Beehive) beehive.getBlockData()).getHoneyLevel();
                         // sender.sendMessage(" " + ChatColor.GRAY + "Honey Level: " + honeyLevel);
                         int bees = beehive.getEntityCount();
                         sender.sendMessage("    " + ChatColor.GRAY + "Bees: " + bees);
+                    }
+                    if (blockState instanceof DecoratedPot pot) {
+                        for (Entry<Side, Material> e : pot.getSherds().entrySet()) {
+                            Material material = e.getValue();
+                            if (material != null) {
+                                Component c = Component.text("    ").color(NamedTextColor.GRAY);
+                                c = c.append(Component.translatable(material.getItemTranslationKey()));
+                                sender.sendMessage(c);
+                            }
+                        }
                     }
                 }
             }
@@ -251,6 +266,11 @@ public class ItemInfoListener implements Listener {
                     }
                 }
             }
+        }
+
+        if (meta instanceof OminousBottleMeta ominousBottleMeta) {
+            int amplifier = (ominousBottleMeta.hasAmplifier() ? ominousBottleMeta.getAmplifier() : 0) + 1;
+            sender.sendMessage("    " + ChatColor.GRAY + "Bad Omen" + ((amplifier > 1) ? (' ' + toRoman(amplifier)) : ""));
         }
     }
 
