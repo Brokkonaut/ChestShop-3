@@ -27,17 +27,13 @@ public class ItemInfo implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         ItemStack item;
 
-        if (args.length == 0) {
-            if (!(sender instanceof HumanEntity)) {
-                return false;
-            }
+        if (!(sender instanceof HumanEntity)) {
+            return false;
+        }
 
-            item = ((HumanEntity) sender).getInventory().getItemInMainHand();
-            if (MaterialUtil.isEmpty(item)) {
-                return false;
-            }
-        } else {
-            item = MaterialUtil.getItem(StringUtil.joinArray(args));
+        item = ((HumanEntity) sender).getInventory().getItemInMainHand();
+        if (MaterialUtil.isEmpty(item)) {
+            return false;
         }
 
         showItemInfo(sender, item);
@@ -85,13 +81,5 @@ public class ItemInfo implements CommandExecutor {
 
         ItemInfoEvent event = new ItemInfoEvent(sender, item);
         ChestShop.callEvent(event);
-    }
-
-    public static String getMetadata(ItemStack item) {
-        if (!item.hasItemMeta()) {
-            return "";
-        }
-
-        return ChatColor.GOLD + "#" + MaterialUtil.Metadata.getItemCode(item);
     }
 }

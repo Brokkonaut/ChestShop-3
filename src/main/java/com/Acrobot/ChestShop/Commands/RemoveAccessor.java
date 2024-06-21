@@ -50,7 +50,7 @@ public class RemoveAccessor implements CommandExecutor {
         }
 
         String playerName = args[0];
-        UUID accessorToRemove = NameManager.getUUIDFor(playerName);
+        UUID accessorToRemove = NameManager.getUUIDForFullName(playerName);
         if (accessorToRemove == null) {
             sender.sendMessage(Messages.prefix(Messages.PLAYER_NOT_FOUND));
             return true;

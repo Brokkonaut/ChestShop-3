@@ -2,7 +2,6 @@ package com.Acrobot.ChestShop;
 
 import com.Acrobot.Breeze.Configuration.Configuration;
 import com.Acrobot.ChestShop.Commands.AddAccessor;
-import com.Acrobot.ChestShop.Commands.Give;
 import com.Acrobot.ChestShop.Commands.ItemInfo;
 import com.Acrobot.ChestShop.Commands.RemoveAccessor;
 import com.Acrobot.ChestShop.Commands.SetAmount;
@@ -12,7 +11,6 @@ import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Commands.Version;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
-import com.Acrobot.ChestShop.Database.Migrations;
 import com.Acrobot.ChestShop.Listeners.AuthMeChestShopListener;
 import com.Acrobot.ChestShop.Listeners.Block.BlockPlace;
 import com.Acrobot.ChestShop.Listeners.Block.Break.ChestBreak;
@@ -25,7 +23,6 @@ import com.Acrobot.ChestShop.Listeners.Item.ItemMoveListener;
 import com.Acrobot.ChestShop.Listeners.ItemInfoListener;
 import com.Acrobot.ChestShop.Listeners.Modules.DiscountModule;
 import com.Acrobot.ChestShop.Listeners.Modules.PriceRestrictionModule;
-import com.Acrobot.ChestShop.Listeners.Player.PlayerConnect;
 import com.Acrobot.ChestShop.Listeners.Player.PlayerInteract;
 import com.Acrobot.ChestShop.Listeners.Player.PlayerInventory;
 import com.Acrobot.ChestShop.Listeners.Player.PlayerLeave;
@@ -59,10 +56,8 @@ import com.Acrobot.ChestShop.Listeners.PreTransaction.StockFittingChecker;
 import com.Acrobot.ChestShop.Listeners.ShopRemoval.ShopRefundListener;
 import com.Acrobot.ChestShop.Listeners.ShopRemoval.ShopRemovalLogger;
 import com.Acrobot.ChestShop.Logging.FileFormatter;
-import com.Acrobot.ChestShop.Metadata.ItemDatabase;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Signs.RestrictedSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -70,7 +65,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -87,7 +81,6 @@ public class ChestShop extends JavaPlugin {
     private static PluginDescriptionFile description;
 
     private static File dataFolder;
-    private static ItemDatabase itemDatabase;
 
     private static Logger logger;
     private FileHandler handler;
@@ -111,12 +104,6 @@ public class ChestShop extends JavaPlugin {
         Configuration.pairFileAndClass(loadFile("config.yml"), Properties.class);
         Configuration.pairFileAndClass(loadFile("local.yml"), Messages.class);
 
-        itemDatabase = new ItemDatabase();
-
-        handleMigrations();
-
-        NameManager.load();
-
         Dependencies.loadPlugins();
 
         registerEvents();
@@ -137,59 +124,12 @@ public class ChestShop extends JavaPlugin {
 
         getCommand("iteminfo").setExecutor(new ItemInfo());
         getCommand("csVersion").setExecutor(new Version());
-        getCommand("csGive").setExecutor(new Give());
         getCommand("cstoggle").setExecutor(new Toggle());
         getCommand("csSetItem").setExecutor(new SetItem());
         getCommand("csSetPrice").setExecutor(new SetPrice());
         getCommand("csSetAmount").setExecutor(new SetAmount());
         getCommand("csAddAccessor").setExecutor(new AddAccessor());
         getCommand("csRemoveAccessor").setExecutor(new RemoveAccessor());
-    }
-
-    private void handleMigrations() {
-        File versionFile = loadFile("version");
-        YamlConfiguration previousVersion = YamlConfiguration.loadConfiguration(versionFile);
-
-        if (previousVersion.get("version") == null) {
-            previousVersion.set("version", Migrations.CURRENT_DATABASE_VERSION);
-
-            try {
-                previousVersion.save(versionFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        int lastVersion = previousVersion.getInt("version");
-        int newVersion = Migrations.migrate(lastVersion);
-
-        if (lastVersion != newVersion) {
-            previousVersion.set("version", newVersion);
-
-            try {
-                previousVersion.save(versionFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // boolean requireItemDatabaseUpgrade = false;
-        // String oldItemStackEncoded = previousVersion.getString("itemstack");
-        // try {
-        // String newItemStackEncoded = itemDatabase.encodeItemStack(new ItemStack(Material.DIRT, 1));
-        // if (!newItemStackEncoded.equals(oldItemStackEncoded)) {
-        // previousVersion.set("itemstack", newItemStackEncoded);
-        // previousVersion.save(versionFile);
-        // requireItemDatabaseUpgrade = true;
-        // }
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // if (requireItemDatabaseUpgrade) {
-        // getLogger().info("Upgrading item database. This may take some time.");
-        // itemDatabase.upgrade(oldItemStackEncoded == null);
-        // getLogger().info("Upgrading item database completed.");
-        // }
     }
 
     public static File loadFile(String string) {
@@ -255,7 +195,6 @@ public class ChestShop extends JavaPlugin {
         registerEvent(new ChestBreak());
 
         registerEvent(new BlockPlace());
-        registerEvent(new PlayerConnect());
         registerEvent(new PlayerInteract());
         registerEvent(new PlayerInventory());
         registerEvent(new PlayerLeave());
@@ -344,10 +283,6 @@ public class ChestShop extends JavaPlugin {
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-
-    public static ItemDatabase getItemDatabase() {
-        return itemDatabase;
-    }
 
     public static File getFolder() {
         return dataFolder;

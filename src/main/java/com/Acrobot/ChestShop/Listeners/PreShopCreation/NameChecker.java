@@ -1,6 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.PreShopCreation;
 
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;
@@ -20,12 +21,17 @@ public class NameChecker implements Listener {
         String name = event.getOwnerName();
 
         Player player = event.getPlayer();
-        UUID uuidForFullName = name.isBlank() ? player.getUniqueId() : NameManager.getUUIDFor(name);
+        UUID uuidForFullName = name.isBlank() ? player.getUniqueId() : NameManager.getUUIDForFullName(name);
 
-        if (!uuidForFullName.equals(player.getUniqueId()) && Permission.has(player, Permission.ADMIN)) {
+        if (uuidForFullName == null) {
+            event.setOutcome(CreationOutcome.PLAYER_NOT_FOUND);
+            return;
+        } else if (!uuidForFullName.equals(player.getUniqueId()) && Permission.has(player, Permission.ADMIN)) {
+            event.setShopOwnerId(uuidForFullName);
             name = NameManager.getFullNameFor(uuidForFullName);
-        } else
+        } else {
             name = NameManager.getNameFor(player);
+        }
 
         event.setOwnerName(name);
     }

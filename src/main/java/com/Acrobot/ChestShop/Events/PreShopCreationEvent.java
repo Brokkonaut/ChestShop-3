@@ -1,5 +1,6 @@
 package com.Acrobot.ChestShop.Events;
 
+import java.util.UUID;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -20,9 +21,11 @@ public class PreShopCreationEvent extends Event {
     private Sign sign;
     private String[] signLines;
     private final ItemStack itemStack;
+    private UUID shopOwnerId;
 
     public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
+        this.shopOwnerId = this.creator.getUniqueId();
         this.sign = sign;
         this.signLines = signLines.clone();
         this.itemStack = itemStack;
@@ -155,6 +158,14 @@ public class PreShopCreationEvent extends Event {
         this.setSignLine((byte) 0, name);
     }
 
+    public UUID getShopOwnerId() {
+        return shopOwnerId;
+    }
+
+    public void setShopOwnerId(UUID shopOwnerId) {
+        this.shopOwnerId = shopOwnerId;
+    }
+
     /**
      * Returns the text on the sign
      *
@@ -164,6 +175,7 @@ public class PreShopCreationEvent extends Event {
         return signLines;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }
@@ -179,6 +191,7 @@ public class PreShopCreationEvent extends Event {
         INVALID_ITEM,
         INVALID_PRICE,
         INVALID_QUANTITY,
+        PLAYER_NOT_FOUND,
 
         SELL_PRICE_HIGHER_THAN_BUY_PRICE,
 
@@ -195,6 +208,6 @@ public class PreShopCreationEvent extends Event {
          */
         OTHER,
 
-        SHOP_CREATED_SUCCESSFULLY
+        SHOP_CREATED_SUCCESSFULLY,
     }
 }

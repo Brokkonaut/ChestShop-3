@@ -21,8 +21,11 @@ import org.bukkit.persistence.PersistentDataType;
  * @author Acrobot
  */
 public class ChestShopSign {
-
+    public static final byte NAME_LINE = 0;
+    public static final byte QUANTITY_LINE = 1;
     public static final byte PRICE_LINE = 2;
+    public static final byte ITEM_LINE = 3;
+
     public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
             Pattern.compile("(?i)^[\\d.bs(free) :]+$") };
 
@@ -95,37 +98,6 @@ public class ChestShopSign {
         saveChestShopMetaData(sign, chestShopMetaData);
     }
 
-    private static void updateLegacyChestShop(Sign sign) {
-
-        UUID ownerUUID = LegacyChestShopSign.getOwnerUUID(sign);
-
-        int quantity = LegacyChestShopSign.getQuantity(sign);
-        double buyPrice = LegacyChestShopSign.getBuyPrice(sign);
-        double sellPrice = LegacyChestShopSign.getSellPrice(sign);
-
-        ItemStack itemStack = LegacyChestShopSign.getItemStack(sign);
-
-        ChestShopMetaData chestShopMetaData = new ChestShopMetaData(ownerUUID, quantity, sellPrice, buyPrice, itemStack);
-
-        saveChestShopMetaData(sign, chestShopMetaData);
-    }
-
-    private static boolean isLegacyChestShop(Sign sign) {
-
-        if (sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING)) {
-            return false;
-        }
-        if (!LegacyChestShopSign.isValid(sign)) {
-            return false;
-        }
-        if (LegacyChestShopSign.getOwnerUUID(sign) == null) {
-            return false;
-        }
-
-        ItemStack stack = LegacyChestShopSign.getItemStack(sign);
-        return stack != null && !stack.isEmpty();
-    }
-
     public static boolean isChestShop(Block block) {
         BlockState state = block.getState();
         if (!(state instanceof Sign sign)) {
@@ -137,10 +109,6 @@ public class ChestShopSign {
 
     public static boolean isChestShop(Sign sign) {
         try {
-            if (isLegacyChestShop(sign)) {
-                updateLegacyChestShop(sign);
-            }
-
             boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
             if (isChestshop) {
                 isChestshop = updateSignDisplay(sign);
@@ -162,8 +130,8 @@ public class ChestShopSign {
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
 
-        sign.setLine(0, fullOwnerName);
-        sign.setLine(3, ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack()));
+        sign.setLine(NAME_LINE, fullOwnerName);
+        sign.setLine(ITEM_LINE, ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack()));
         sign.update();
         return true;
     }
@@ -205,12 +173,15 @@ public class ChestShopSign {
     public static void saveChestShopMetaData(Sign sign, ChestShopMetaData chestShopMetaData, boolean delayUpdate) {
         Runnable change = () -> {
             try {
+                if (chestShopMetaData == null) {
+                    sign.getPersistentDataContainer().remove(METADATA_NAMESPACED_KEY);
+                } else {
+                    YamlConfiguration yamlConfiguration = new YamlConfiguration();
+                    yamlConfiguration.set("metadata", chestShopMetaData);
 
-                YamlConfiguration yamlConfiguration = new YamlConfiguration();
-                yamlConfiguration.set("metadata", chestShopMetaData);
-
-                String string = yamlConfiguration.saveToString();
-                sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
+                    String string = yamlConfiguration.saveToString();
+                    sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
+                }
                 sign.update();
 
             } catch (Exception e) {

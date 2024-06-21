@@ -12,11 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.Acrobot.Breeze.Utils.MaterialUtil;
 import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 
 /**
  * @author Acrobot
@@ -96,7 +96,7 @@ public class ErrorMessageSender implements Listener {
     private static String getItemNames(ItemStack stock) {
         StringBuilder names = new StringBuilder(50);
 
-        names.append(MaterialUtil.getName(stock.getType()));
+        names.append(ItemNamingUtils.getDisplayName(stock));
 
         return names.toString();
     }

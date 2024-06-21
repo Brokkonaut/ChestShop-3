@@ -9,6 +9,7 @@ import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
 import com.Acrobot.ChestShop.ItemNaming.ChestShopEnchantedBookDisplayNameShortener;
 import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
 import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.bukkit.ChatColor;
@@ -25,6 +26,24 @@ import org.bukkit.inventory.meta.PotionMeta;
 public class ItemNamingUtils {
     private static final ItemDisplayNameShortener CHEST_SHOP_ITEM_DISPLAY_NAME_SHORTENER = new ChestShopItemDisplayNameShortener();
     private static final ItemDisplayNameShortener CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER = new ChestShopEnchantedBookDisplayNameShortener();
+
+    private static final HashMap<String, Material> materialNameToMaterial = new HashMap<>();
+    static {
+        try {
+            for (Material m : Material.values()) {
+                if (m.isItem()) {
+                    String name = getSignItemName(new ItemStack(m));
+                    materialNameToMaterial.putIfAbsent(name.toLowerCase(), m);
+                }
+            }
+        } catch (ExceptionInInitializerError e) {
+            // happens in a test environment because materials dont work without a registry
+        }
+    }
+
+    public static Material getItemFromSignName(String name) {
+        return materialNameToMaterial.get(name.toLowerCase());
+    }
 
     public static String getSignItemName(ItemStack itemStack) {
         return getDisplayName(itemStack, 15);

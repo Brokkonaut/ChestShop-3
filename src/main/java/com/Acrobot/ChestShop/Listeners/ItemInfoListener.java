@@ -21,6 +21,8 @@ import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.Beehive;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
@@ -212,8 +214,11 @@ public class ItemInfoListener implements Listener {
             ArmorMeta armorMeta = (ArmorMeta) meta;
             if (armorMeta.hasTrim()) {
                 ArmorTrim trim = armorMeta.getTrim();
-                String material = trim.getMaterial().getKey().getKey().toLowerCase();
-                String trimPattern = capitalizeFirstLetter(trim.getPattern().getKey().getKey());
+                NamespacedKey materialKey = Registry.TRIM_MATERIAL.getKey(trim.getMaterial());
+                NamespacedKey patternKey = Registry.TRIM_PATTERN.getKey(trim.getPattern());
+
+                String material = materialKey != null ? materialKey.getKey().toLowerCase() : "Unknown Material";
+                String trimPattern = patternKey != null ? capitalizeFirstLetter(patternKey.getKey()) : "Unknown Pattern";
                 sender.sendMessage("    " + ChatColor.GRAY + "Trim: " + material + " " + trimPattern);
             }
         }

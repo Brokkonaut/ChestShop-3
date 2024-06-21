@@ -8,10 +8,8 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
-import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
-import com.Acrobot.ChestShop.UUIDs.NameManager;
 import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.UUID;
@@ -57,7 +55,7 @@ public class SignCreate implements Listener {
             return;
         }
 
-        ItemStack itemStack = getItemStack(event.getLine(3), (Sign) event.getBlock().getState());
+        ItemStack itemStack = getItemStack(event.getLine(ChestShopSign.ITEM_LINE), (Sign) event.getBlock().getState());
         if (itemStack == null || itemStack.isEmpty()) {
             return;
         }
@@ -75,7 +73,11 @@ public class SignCreate implements Listener {
             side.setLine(i, preEvent.getSignLine(i));
         }
 
-        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), event.getLines(), itemStack);
+        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), preEvent.getShopOwnerId(), event.getLines(), itemStack);
+        if (chestShopMetaData == null) {
+            ChestShopSign.saveChestShopMetaData(sign, null, true);
+            return;
+        }
 
         ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(), uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
         ChestShop.callEvent(postEvent);
@@ -89,42 +91,18 @@ public class SignCreate implements Listener {
         ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData, true);
     }
 
-    public static ChestShopMetaData createShopMetaData(Player creator, String[] signLines, ItemStack itemStack) {
+    public static ChestShopMetaData createShopMetaData(Player creator, UUID shopOwnerId, String[] signLines, ItemStack itemStack) {
 
         int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
 
-        String priceLine = signLines[2];
+        String priceLine = signLines[ChestShopSign.PRICE_LINE];
         double sellPrice = PriceUtil.getSellPrice(priceLine);
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 
-        String ownerLine = signLines[0];
-        UUID uuidForFullName = NameManager.getUUIDFor(ownerLine);
-        boolean isAdminShop = NameManager.isAdminShop(uuidForFullName) && Permission.has(creator, Permission.ADMIN);
-
-        if (!uuidForFullName.equals(creator.getUniqueId()) && !Permission.has(creator, Permission.ADMIN)) {
-            return null; // Return if user wants to create a shop for someone else without permission.
-        }
-
-        if (isAdminShop) {
-            return createAdminChestShop(quantity, sellPrice, buyPrice, itemStack);
-        } else {
-            return createChestShop(uuidForFullName, quantity, sellPrice, buyPrice, itemStack);
-        }
-
-    }
-
-    private static ChestShopMetaData createChestShop(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-
-        return new ChestShopMetaData(owner, quantity, sellPrice, buyPrice, itemStack);
-    }
-
-    private static ChestShopMetaData createAdminChestShop(int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-
-        return new ChestShopMetaData(NameManager.getAdminShopUUID(), quantity, sellPrice, buyPrice, itemStack);
+        return new ChestShopMetaData(shopOwnerId, quantity, sellPrice, buyPrice, itemStack);
     }
 
     private static ItemStack getItemStack(String itemLine, Sign sign) {
-
         if (ChestShopSign.isChestShop(sign)) { // If it already was an Chest Shop.
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
             if (chestShopMetaData != null) {
@@ -140,7 +118,7 @@ public class SignCreate implements Listener {
         if (Properties.ALLOW_AUTO_ITEM_FILL && (itemLine.equals(AUTOFILL_CODE) || itemLine.equals(AUTOFILL_SHULKER_CONTENT_CODE))) {
             item = autoFillItemStack(sign, itemLine);
         } else {
-            Material material = MaterialUtil.getMaterial(itemLine);
+            Material material = ItemNamingUtils.getItemFromSignName(itemLine);
             if (material != null) {
                 item = new ItemStack(material);
             }
