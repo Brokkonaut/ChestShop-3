@@ -14,6 +14,8 @@ import org.json.simple.JSONValue;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
@@ -214,8 +216,8 @@ public class Updater {
         this.apiKey = key;
 
         try {
-            this.url = new URL(Updater.HOST + Updater.QUERY + id);
-        } catch (final MalformedURLException e) {
+            this.url = new URI(Updater.HOST + Updater.QUERY + id).toURL();
+        } catch (final MalformedURLException | URISyntaxException e) {
             plugin.getLogger().log(Level.SEVERE, "The project ID provided for updating, " + id + " is invalid.", e);
             this.result = UpdateResult.FAIL_BADID;
         }
@@ -315,7 +317,7 @@ public class Updater {
         FileOutputStream fout = null;
         try {
             // Download the file
-            final URL url = new URL(link);
+            final URL url = new URI(link).toURL();
             final int fileLength = url.openConnection().getContentLength();
             in = new BufferedInputStream(url.openStream());
             fout = new FileOutputStream(folder.getAbsolutePath() + File.separator + file);
@@ -510,7 +512,7 @@ public class Updater {
      * Without revision, this method will always consider a remote version at all different from
      * that of the local version a new update.
      * </p>
-     * 
+     *
      * @param localVersion
      *            the current version
      * @param remoteVersion

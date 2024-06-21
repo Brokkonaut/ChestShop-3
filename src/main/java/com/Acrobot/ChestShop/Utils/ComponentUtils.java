@@ -27,7 +27,7 @@ public class ComponentUtils {
             } else if (materialName.startsWith("MUSIC_DISC_")) {
                 suffix = new TranslatableComponent("item.minecraft." + materialName.toLowerCase() + ".desc");
             }
-            TranslatableComponent main = new TranslatableComponent(stack.getTranslationKey());
+            TranslatableComponent main = new TranslatableComponent(stack.translationKey());
             if (suffix == null) {
                 return main;
             }

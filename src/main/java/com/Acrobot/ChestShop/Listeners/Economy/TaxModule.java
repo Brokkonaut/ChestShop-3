@@ -1,6 +1,7 @@
 package com.Acrobot.ChestShop.Listeners.Economy;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ import com.Acrobot.ChestShop.UUIDs.NameManager;
 public class TaxModule implements Listener {
 
     private static BigDecimal getTax(BigDecimal price, float taxAmount) {
-        return price.multiply(BigDecimal.valueOf(taxAmount).divide(BigDecimal.valueOf(100), BigDecimal.ROUND_DOWN));
+        return price.multiply(BigDecimal.valueOf(taxAmount).divide(BigDecimal.valueOf(100), RoundingMode.DOWN));
     }
 
     private static boolean isServerAccount(UUID name) {

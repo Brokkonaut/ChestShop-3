@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -35,6 +36,7 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
         this.names = ImmutableList.of(name);
     }
 
+    @Override
     public Map<String, UUID> call() throws Exception {
         Map<String, UUID> uuidMap = new HashMap<String, UUID>();
         String body = buildBody(names);
@@ -76,7 +78,7 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
     }
 
     private static HttpURLConnection createConnection(int page) throws Exception {
-        URL url = new URL(PROFILE_URL + page);
+        URL url = new URI(PROFILE_URL + page).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("POST");
