@@ -137,10 +137,11 @@ public class ChestShopSign {
     }
 
     public static ChestShopMetaData getChestShopMetaData(Sign sign) {
-
         try {
-
             String string = sign.getPersistentDataContainer().get(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
+            if (string == null) {
+                return null;
+            }
 
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             yamlConfiguration.loadFromString(string);
