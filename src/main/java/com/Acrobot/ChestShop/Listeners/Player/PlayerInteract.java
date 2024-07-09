@@ -90,7 +90,9 @@ public class PlayerInteract implements Listener {
             if ((action == LEFT_CLICK_BLOCK || action == RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
                 showShopInfo(player, sign);
             }
-            event.setCancelled(true);
+            if (action == RIGHT_CLICK_BLOCK) {
+                event.setCancelled(true);
+            }
             return;
         }
 
