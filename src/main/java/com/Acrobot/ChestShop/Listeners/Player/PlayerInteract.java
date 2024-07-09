@@ -70,12 +70,13 @@ public class PlayerInteract implements Listener {
 
             return;
         }
-
-        if (!ChestShopSign.isChestShop(block)) {
+        if (!(block.getState() instanceof Sign sign)) {
             return;
         }
 
-        Sign sign = (Sign) block.getState();
+        if (!ChestShopSign.isChestShop(sign, true)) {
+            return;
+        }
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
         if (chestShopMetaData == null) {
             player.sendMessage(Messages.prefix(Messages.INVALID_SHOP_DETECTED));

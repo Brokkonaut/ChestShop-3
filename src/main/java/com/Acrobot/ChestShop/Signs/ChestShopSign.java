@@ -108,9 +108,13 @@ public class ChestShopSign {
     }
 
     public static boolean isChestShop(Sign sign) {
+        return isChestShop(sign, false);
+    }
+
+    public static boolean isChestShop(Sign sign, boolean updateSign) {
         try {
             boolean isChestshop = sign.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY, PersistentDataType.STRING);
-            if (isChestshop) {
+            if (updateSign && isChestshop) {
                 isChestshop = updateSignDisplay(sign);
             }
 
