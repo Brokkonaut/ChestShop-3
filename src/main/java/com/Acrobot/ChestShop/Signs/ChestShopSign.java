@@ -2,8 +2,8 @@ package com.Acrobot.ChestShop.Signs;
 
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;

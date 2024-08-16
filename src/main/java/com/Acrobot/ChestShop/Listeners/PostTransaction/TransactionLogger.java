@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import com.Acrobot.Breeze.Utils.LocationUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 
 /**
  * @author Acrobot

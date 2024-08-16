@@ -16,8 +16,8 @@ import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Economy.Economy;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 
 /**
  * @author Acrobot

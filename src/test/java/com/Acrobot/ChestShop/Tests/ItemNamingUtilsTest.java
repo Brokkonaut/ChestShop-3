@@ -2,7 +2,7 @@ package com.Acrobot.ChestShop.Tests;
 
 import static org.junit.Assert.assertEquals;
 
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import org.junit.Test;
 
 public class ItemNamingUtilsTest {

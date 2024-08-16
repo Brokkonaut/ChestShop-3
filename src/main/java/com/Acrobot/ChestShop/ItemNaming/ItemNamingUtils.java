@@ -1,4 +1,4 @@
-package com.Acrobot.ChestShop.Utils;
+package com.Acrobot.ChestShop.ItemNaming;
 
 import com.Acrobot.Breeze.Utils.EnchantmentNames;
 import com.Acrobot.Breeze.Utils.NumberUtil;
@@ -6,9 +6,6 @@ import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
-import com.Acrobot.ChestShop.ItemNaming.ChestShopEnchantedBookDisplayNameShortener;
-import com.Acrobot.ChestShop.ItemNaming.ChestShopItemDisplayNameShortener;
-import com.Acrobot.ChestShop.ItemNaming.ItemDisplayNameShortener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

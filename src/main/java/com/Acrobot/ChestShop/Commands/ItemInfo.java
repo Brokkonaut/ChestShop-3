@@ -8,7 +8,7 @@ import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.ChatColor;

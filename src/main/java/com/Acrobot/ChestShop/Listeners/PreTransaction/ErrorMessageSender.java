@@ -16,7 +16,7 @@ import com.Acrobot.ChestShop.Commands.Toggle;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
-import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
+import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 
 /**
  * @author Acrobot
