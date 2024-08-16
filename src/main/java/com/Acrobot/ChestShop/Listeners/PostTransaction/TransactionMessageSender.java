@@ -1,9 +1,9 @@
 package com.Acrobot.ChestShop.Listeners.PostTransaction;
 
-import java.util.ArrayList;
 import java.util.UUID;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Economy.Economy;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
-import com.Acrobot.ChestShop.Utils.ComponentUtils;
+import com.Acrobot.ChestShop.Utils.ItemNamingUtils;
 
 /**
  * @author Acrobot
@@ -33,7 +33,7 @@ public class TransactionMessageSender implements Listener {
     }
 
     protected static void sendBuyMessage(TransactionEvent event) {
-        BaseComponent[] itemName = parseItemInformation(event.getStock(), event.getAmount());
+        Component itemName = parseItemInformation(event.getStock(), event.getAmount());
         String owner = NameManager.getFullNameFor(event.getOwner().getUniqueId());
 
         Player player = event.getClient();
@@ -42,24 +42,22 @@ public class TransactionMessageSender implements Listener {
             String price = Economy.formatBalance(event.getPrice());
 
             if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
-                BaseComponent[] message = formatMessage(Messages.YOU_BOUGHT_FROM_SHOP.replace("%owner", owner), itemName, price);
-
-                player.spigot().sendMessage(message);
+                Component message = formatMessage(Messages.YOU_BOUGHT_FROM_SHOP.replace("%owner", owner), itemName, price);
+                player.sendMessage(message);
             }
 
             if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
-                BaseComponent[] message = formatMessage(Messages.SOMEBODY_BOUGHT_FROM_YOUR_SHOP.replace("%buyer", player.getName()), itemName, price);
-
+                Component message = formatMessage(Messages.SOMEBODY_BOUGHT_FROM_YOUR_SHOP.replace("%buyer", player.getName()), itemName, price);
                 sendMessageToOwner(message, event);
             }
         } else {
-            BaseComponent[] message = formatMessage(Messages.YOU_TOOK_FROM_SHOP, itemName, "");
-            player.spigot().sendMessage(message);
+            Component message = formatMessage(Messages.YOU_TOOK_FROM_SHOP, itemName, "");
+            player.sendMessage(message);
         }
     }
 
     protected static void sendSellMessage(TransactionEvent event) {
-        BaseComponent[] itemName = parseItemInformation(event.getStock(), event.getAmount());
+        Component itemName = parseItemInformation(event.getStock(), event.getAmount());
         String owner = NameManager.getFullNameFor(event.getOwner().getUniqueId());
 
         Player player = event.getClient();
@@ -68,56 +66,48 @@ public class TransactionMessageSender implements Listener {
             String price = Economy.formatBalance(event.getPrice());
 
             if (Properties.SHOW_TRANSACTION_INFORMATION_CLIENT) {
-                BaseComponent[] message = formatMessage(Messages.YOU_SOLD_TO_SHOP.replace("%buyer", owner), itemName, price);
-
-                player.spigot().sendMessage(message);
+                Component message = formatMessage(Messages.YOU_SOLD_TO_SHOP.replace("%buyer", owner), itemName, price);
+                player.sendMessage(message);
             }
 
             if (Properties.SHOW_TRANSACTION_INFORMATION_OWNER && !Toggle.isIgnoring(event.getOwner())) {
-                BaseComponent[] message = formatMessage(Messages.SOMEBODY_SOLD_TO_YOUR_SHOP.replace("%seller", player.getName()), itemName, price);
-
+                Component message = formatMessage(Messages.SOMEBODY_SOLD_TO_YOUR_SHOP.replace("%seller", player.getName()), itemName, price);
                 sendMessageToOwner(message, event);
             }
         } else {
-            BaseComponent[] message = formatMessage(Messages.YOU_PUT_TO_SHOP, itemName, "");
-            player.spigot().sendMessage(message);
+            Component message = formatMessage(Messages.YOU_PUT_TO_SHOP, itemName, "");
+            player.sendMessage(message);
         }
     }
 
-    private static BaseComponent[] parseItemInformation(ItemStack item, int amount) {
-        ArrayList<BaseComponent> message = new ArrayList<>();
-        // StringBuilder message = new StringBuilder(15);
-        // Joiner joiner = Joiner.on(' ');
-
-        message.add(new TextComponent(amount + " "));
-        message.add(ComponentUtils.getLocalizedItemName(item));
-
-        return message.toArray(new BaseComponent[message.size()]);
+    private static Component parseItemInformation(ItemStack item, int amount) {
+        Component message = Component.text(amount + " ");
+        String name = ItemNamingUtils.getDisplayName(item);
+        TextComponent nameComponent = LegacyComponentSerializer.legacySection().deserialize(name);
+        message = message.append(nameComponent).hoverEvent(item);
+        return message;
     }
 
-    private static void sendMessageToOwner(BaseComponent[] message, TransactionEvent event) {
+    private static void sendMessageToOwner(Component message, TransactionEvent event) {
         UUID owner = event.getOwner().getUniqueId();
 
         Player player = Bukkit.getPlayer(owner);
 
         if (player != null) {
-            player.spigot().sendMessage(message);
+            player.sendMessage(message);
         }
     }
 
-    private static BaseComponent[] formatMessage(String message, BaseComponent[] itemName, String price) {
+    private static Component formatMessage(String message, Component itemName, String price) {
         message = Messages.prefix(message).replace("%price", price);
         String search = "%item";
         int start = message.indexOf(search);
         if (start < 0) {
-            return TextComponent.fromLegacyText(message);
+            return LegacyComponentSerializer.legacySection().deserialize(message);
         }
-        BaseComponent[] messageComponents = TextComponent.fromLegacyText(message.substring(0, start));
-        BaseComponent last = messageComponents[messageComponents.length - 1];
-        if (itemName.length > 0) {
-            last.addExtra(new TextComponent(itemName));
-        }
-        last.addExtra(new TextComponent(TextComponent.fromLegacyText(message.substring(start + search.length()))));
-        return messageComponents;
+        Component messageComponent = LegacyComponentSerializer.legacySection().deserialize(message.substring(0, start));
+        messageComponent = messageComponent.append(itemName);
+        messageComponent = messageComponent.append(LegacyComponentSerializer.legacySection().deserialize(message.substring(start + search.length())));
+        return messageComponent;
     }
 }
