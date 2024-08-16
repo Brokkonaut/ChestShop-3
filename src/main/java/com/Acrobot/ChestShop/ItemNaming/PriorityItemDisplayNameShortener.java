@@ -19,7 +19,7 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
      * Adds a mapping from a 'from' string to a 'to' string with a specified priority.
      * If the priority already exists in the map, the mapping is added to the existing priority level.
      * The lowest priority will be mapped first
-     * 
+     *
      * @param priority
      *            the priority level of the mapping
      * @param from
@@ -33,35 +33,40 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
         if (!pairHolderMap.containsKey(priority)) {
             pairHolder = new StringShortenerPairHolder();
             pairHolderMap.put(priority, pairHolder);
-        } else
+        } else {
             pairHolder = pairHolderMap.get(priority);
+        }
 
-        pairHolder.addShortenerPair(from.toLowerCase(), to.toLowerCase());
+        pairHolder.addShortenerPair(from, to);
     }
 
     @Override
     public String shorten(String string, int length) {
 
-        if (string.length() <= length)
+        if (string.length() <= length) {
             return string;
+        }
 
         String result = string;
         String strippedResult = StringUtil.stripWhitespaces(result);
-        if (strippedResult.length() <= length)
+        if (strippedResult.length() <= length) {
             return strippedResult;
+        }
 
         for (Map.Entry<Integer, StringShortenerPairHolder> integerStringShortenerPairHolderEntry : pairHolderMap.entrySet()) {
             StringShortenerPairHolder value = integerStringShortenerPairHolderEntry.getValue();
-            result = value.apply(result);
-            if (result.length() <= length)
-                return StringUtil.capitalizeFirstLetter(result).strip();
+            result = value.apply(result).strip();
+            if (result.length() <= length) {
+                return result;
+            }
 
             strippedResult = StringUtil.stripWhitespaces(result);
-            if (strippedResult.length() <= length)
+            if (strippedResult.length() <= length) {
                 return strippedResult;
+            }
         }
 
-        return StringUtil.capitalizeFirstLetter(result).strip();
+        return result;
     }
 
     private static class StringShortenerPairHolder {
@@ -93,11 +98,13 @@ public class PriorityItemDisplayNameShortener implements ItemDisplayNameShortene
 
         @Override
         public int compareTo(StringShortenerPair o) {
-            if (equals(o))
+            if (equals(o)) {
                 return 0;
+            }
 
-            if (o.to.contains(from))
+            if (o.to.contains(from)) {
                 return -1;
+            }
             return 1;
         }
     }

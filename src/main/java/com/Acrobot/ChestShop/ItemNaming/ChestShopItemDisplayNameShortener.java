@@ -4,69 +4,69 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
 
     public ChestShopItemDisplayNameShortener() {
 
-        addMapping(0, "polished", "pol");
-        addMapping(0, "waxed", "wax");
-        addMapping(0, "tropical", "trop");
-        addMapping(0, "stripped", "strip");
-        addMapping(0, "flowering", "flower");
-        addMapping(0, "stained", "");
+        addMapping(0, "Polished", "Pol");
+        addMapping(0, "Waxed", "Wax");
+        addMapping(0, "Tropical", "Trop");
+        addMapping(0, "Stripped", "Strip");
+        addMapping(0, "Flowering", "Flower");
+        addMapping(0, "Stained", "");
 
-        addMapping(5, "yellow", "yel");
-        addMapping(5, "blue", "blu");
-        addMapping(5, "purple", "purp");
-        addMapping(5, "black", "blk");
-        addMapping(5, "magenta", "mag");
-        addMapping(5, "cyan", "cyn");
-        addMapping(5, "white", "wht");
-        addMapping(5, "orange", "orng");
-        addMapping(5, "pink", "pnk");
-        addMapping(5, "brown", "brn");
-        addMapping(5, "light", "lgt");
-        addMapping(5, "dark", "drk");
+        addMapping(5, "Yellow", "Yel");
+        addMapping(5, "Blue", "Blu");
+        addMapping(5, "Purple", "Purp");
+        addMapping(5, "Black", "Blk");
+        addMapping(5, "Magenta", "Mag");
+        addMapping(5, "Cyan", "Cyn");
+        addMapping(5, "White", "Wht");
+        addMapping(5, "Orange", "Orng");
+        addMapping(5, "Pink", "Pnk");
+        addMapping(5, "Brown", "Brn");
+        addMapping(5, "Light", "Lgt");
+        addMapping(5, "Dark", "Drk");
 
-        addMapping(5, "helmet", "helm");
-        addMapping(5, "leggings", "leg");
-        addMapping(5, "chainmail", "chain");
-        addMapping(5, "pickaxe", "pick");
-        addMapping(5, "boots", "boot");
+        addMapping(5, "Helmet", "Helm");
+        addMapping(5, "Leggings", "Leg");
+        addMapping(5, "Chainmail", "Chain");
+        addMapping(5, "Pickaxe", "Pick");
+        addMapping(5, "Boots", "Boot");
 
-        addMapping(2, "splash", "spl");
-        addMapping(2, "lingering", "ling");
-        addMapping(5, "extended", "ext");
-        addMapping(5, "potion", "pot");
+        addMapping(2, "Splash", "Spl");
+        addMapping(2, "Lingering", "Ling");
+        addMapping(5, "Extended", "Ext");
+        addMapping(5, "Potion", "Pot");
 
-        addMapping(10, "powder", "pdr");
-        addMapping(10, "flower", "flow");
-        addMapping(10, "smooth", "smo");
-        addMapping(10, "pressure", "press");
-        addMapping(10, "weathered", "weath");
-        addMapping(10, "oxidized", "oxi");
-        addMapping(10, "trop", "tro");
-        addMapping(10, "skeleton", "skel");
-        addMapping(10, "strip", "str");
-        addMapping(10, "exposed", "expo");
-        addMapping(10, "diamond", "dia");
-        addMapping(10, "crimson", "crim");
-        addMapping(10, "nether", "neth");
+        addMapping(10, "Powder", "Pdr");
+        addMapping(10, "Flower", "Flow");
+        addMapping(10, "Smooth", "Smo");
+        addMapping(10, "Pressure", "Press");
+        addMapping(10, "Weathered", "Weath");
+        addMapping(10, "Oxidized", "Oxi");
+        addMapping(10, "Trop", "Tro");
+        addMapping(10, "Skeleton", "Skel");
+        addMapping(10, "Strip", "Str");
+        addMapping(10, "Exposed", "Expo");
+        addMapping(10, "Diamond", "Dia");
+        addMapping(10, "Crimson", "Crim");
+        addMapping(10, "Nether", "Neth");
 
-        addMapping(20, "blackstone", "blackst");
-        addMapping(20, "netherite", "nether");
-        addMapping(20, "concrete", "concr");
-        addMapping(20, "expo", "exp");
-        addMapping(20, "weathered", "wea");
-        addMapping(20, "brick", "bri");
-        addMapping(20, "prismarine", "prism");
+        addMapping(20, "Blackstone", "Blackst");
+        addMapping(20, "Netherite", "Nether");
+        addMapping(20, "Concrete", "Concr");
+        addMapping(20, "Expo", "Exp");
+        addMapping(20, "Weathered", "Wea");
+        addMapping(20, "Brick", "Bri");
+        addMapping(20, "Prismarine", "Prism");
 
-        addMapping(30, "prism", "pris");
-        addMapping(30, "concr", "con");
+        addMapping(30, "Prism", "Pris");
+        addMapping(30, "Concr", "Con");
 
-        addMapping(50, "copper", "cop");
-        addMapping(50, "blacks", "blst");
-        addMapping(50, "bri", "br");
+        addMapping(50, "Copper", "Cop");
+        addMapping(50, "Blacks", "Blst");
+        addMapping(50, "Bri", "Br");
 
-        addMapping(100, "brick", "b");
-        addMapping(100, "dead", "de");
+        addMapping(100, "Brick", "B");
+        addMapping(100, "Dead", "De");
 
-        addMapping(110, "of", "");
+        addMapping(110, "Of", "");
     }
 }

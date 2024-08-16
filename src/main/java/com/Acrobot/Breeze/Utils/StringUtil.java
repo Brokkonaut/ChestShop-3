@@ -9,6 +9,9 @@ import org.bukkit.ChatColor;
  * @author Acrobot
  */
 public class StringUtil {
+    public static String capitalizeFirstLetter(String string, char separator) {
+        return capitalizeFirstLetter(string, separator, true);
+    }
 
     /**
      * Capitalizes every first letter of a word
@@ -19,7 +22,7 @@ public class StringUtil {
      *            Word separator
      * @return Reformatted string
      */
-    public static String capitalizeFirstLetter(String string, char separator) {
+    public static String capitalizeFirstLetter(String string, char separator, boolean lowerCaseOther) {
         if (string == null || string.length() == 0) {
             return string;
         }
@@ -35,7 +38,11 @@ public class StringUtil {
                 builder.append(Character.toTitleCase(ch));
                 capitalizeNext = false;
             } else {
-                builder.append(Character.toLowerCase(ch));
+                if (lowerCaseOther) {
+                    builder.append(Character.toLowerCase(ch));
+                } else {
+                    builder.append(ch);
+                }
             }
         }
         return builder.toString();
@@ -49,8 +56,8 @@ public class StringUtil {
      * @return The string with whitespace characters removed.
      */
     public static String stripWhitespaces(String string) {
-        String result = StringUtil.capitalizeFirstLetter(string);
-        return result.replace(" ", "");
+        // String result = StringUtil.capitalizeFirstLetter(string, ' ', false);
+        return string.replace(" ", "");
     }
 
     /**

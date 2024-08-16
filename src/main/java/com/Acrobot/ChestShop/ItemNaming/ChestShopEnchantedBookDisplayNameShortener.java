@@ -2,6 +2,6 @@ package com.Acrobot.ChestShop.ItemNaming;
 
 public class ChestShopEnchantedBookDisplayNameShortener extends PriorityItemDisplayNameShortener {
     public ChestShopEnchantedBookDisplayNameShortener() {
-        addMapping(0, "enchanted book", "");
+        addMapping(0, "Enchanted Book", "");
     }
 }

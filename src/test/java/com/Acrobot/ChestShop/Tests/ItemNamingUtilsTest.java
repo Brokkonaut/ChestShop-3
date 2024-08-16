@@ -13,7 +13,7 @@ public class ItemNamingUtilsTest {
 
         String result = ItemNamingUtils.shortenDisplayName(sut, 15);
 
-        assertEquals("HelTheDidYoTeFa", result);
+        assertEquals("HeltheDidyotefa", result);
         assertEquals(15, result.length());
     }
 
@@ -23,7 +23,7 @@ public class ItemNamingUtilsTest {
 
         String result = ItemNamingUtils.shortenDisplayName(sut, 15);
 
-        assertEquals("HiIAmYour,Teste", result);
+        assertEquals("Hiiamyour,teste", result);
         assertEquals(15, result.length());
     }
 
@@ -38,11 +38,11 @@ public class ItemNamingUtilsTest {
 
     @Test(timeout = 1000)
     public void testNamingOnlyRemoveWhitespaces() {
-        String sut = "Hi i am all tested";
+        String sut = "Hi I am all tested";
 
         String result = ItemNamingUtils.shortenDisplayName(sut, 15);
 
-        assertEquals("HiIAmAllTested", result);
+        assertEquals("HiIamalltested", result);
     }
 
     @Test(timeout = 1000)
