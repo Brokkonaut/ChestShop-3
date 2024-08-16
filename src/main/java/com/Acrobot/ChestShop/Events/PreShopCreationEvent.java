@@ -1,5 +1,7 @@
 package com.Acrobot.ChestShop.Events;
 
+import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import java.util.Objects;
 import java.util.UUID;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -23,6 +25,8 @@ public class PreShopCreationEvent extends Event {
     private final ItemStack itemStack;
     private UUID shopOwnerId;
 
+    private int amount;
+
     public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
         this.shopOwnerId = this.creator.getUniqueId();
@@ -35,11 +39,15 @@ public class PreShopCreationEvent extends Event {
     }
 
     public String getQuantityLine() {
-        return signLines[1];
+        return signLines[ChestShopSign.QUANTITY_LINE];
+    }
+
+    public void setQuantityLine(String line) {
+        signLines[ChestShopSign.QUANTITY_LINE] = Objects.requireNonNull(line);
     }
 
     public String setItemLine(String line) {
-        return signLines[3] = line;
+        return signLines[ChestShopSign.ITEM_LINE] = line;
     }
 
     public ItemStack getItemStack() {
@@ -49,6 +57,14 @@ public class PreShopCreationEvent extends Event {
         }
 
         return itemStack.clone();
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
     /**

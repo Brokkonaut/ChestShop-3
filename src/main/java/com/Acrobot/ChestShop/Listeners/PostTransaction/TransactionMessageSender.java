@@ -33,7 +33,7 @@ public class TransactionMessageSender implements Listener {
     }
 
     protected static void sendBuyMessage(TransactionEvent event) {
-        BaseComponent[] itemName = parseItemInformation(event.getStock());
+        BaseComponent[] itemName = parseItemInformation(event.getStock(), event.getAmount());
         String owner = NameManager.getFullNameFor(event.getOwner().getUniqueId());
 
         Player player = event.getClient();
@@ -59,7 +59,7 @@ public class TransactionMessageSender implements Listener {
     }
 
     protected static void sendSellMessage(TransactionEvent event) {
-        BaseComponent[] itemName = parseItemInformation(event.getStock());
+        BaseComponent[] itemName = parseItemInformation(event.getStock(), event.getAmount());
         String owner = NameManager.getFullNameFor(event.getOwner().getUniqueId());
 
         Player player = event.getClient();
@@ -84,12 +84,12 @@ public class TransactionMessageSender implements Listener {
         }
     }
 
-    private static BaseComponent[] parseItemInformation(ItemStack item) {
+    private static BaseComponent[] parseItemInformation(ItemStack item, int amount) {
         ArrayList<BaseComponent> message = new ArrayList<>();
         // StringBuilder message = new StringBuilder(15);
         // Joiner joiner = Joiner.on(' ');
 
-        message.add(new TextComponent(item.getAmount() + " "));
+        message.add(new TextComponent(amount + " "));
         message.add(ComponentUtils.getLocalizedItemName(item));
 
         return message.toArray(new BaseComponent[message.size()]);

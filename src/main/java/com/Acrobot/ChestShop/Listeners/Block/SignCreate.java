@@ -59,6 +59,7 @@ public class SignCreate implements Listener {
         if (itemStack == null || itemStack.isEmpty()) {
             return;
         }
+        itemStack.setAmount(1);
         PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line, itemStack);
         ChestShop.callEvent(preEvent);
 
@@ -73,7 +74,7 @@ public class SignCreate implements Listener {
             side.setLine(i, preEvent.getSignLine(i));
         }
 
-        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), preEvent.getShopOwnerId(), event.getLines(), itemStack);
+        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), preEvent.getShopOwnerId(), event.getLines(), itemStack, preEvent.getAmount());
         if (chestShopMetaData == null) {
             ChestShopSign.saveChestShopMetaData(sign, null, true);
             return;
@@ -91,10 +92,7 @@ public class SignCreate implements Listener {
         ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData, true);
     }
 
-    public static ChestShopMetaData createShopMetaData(Player creator, UUID shopOwnerId, String[] signLines, ItemStack itemStack) {
-
-        int quantity = Integer.parseInt(signLines[1].replaceAll("[^0-9]", ""));
-
+    public static ChestShopMetaData createShopMetaData(Player creator, UUID shopOwnerId, String[] signLines, ItemStack itemStack, int quantity) {
         String priceLine = signLines[ChestShopSign.PRICE_LINE];
         double sellPrice = PriceUtil.getSellPrice(priceLine);
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
@@ -139,6 +137,8 @@ public class SignCreate implements Listener {
     private static ItemStack autoFillItemStackFromChest(Container connectedChest) {
         for (ItemStack stack : connectedChest.getInventory().getContents()) {
             if (!MaterialUtil.isEmpty(stack)) {
+                stack = stack.clone();
+                stack.setAmount(1);
                 return stack;
             }
         }
@@ -154,6 +154,8 @@ public class SignCreate implements Listener {
                     if (blockState instanceof ShulkerBox shulkerBox) {
                         for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
                             if (!MaterialUtil.isEmpty(shulkerContent)) {
+                                shulkerContent = shulkerContent.clone();
+                                shulkerContent.setAmount(1);
                                 return shulkerContent;
                             }
                         }

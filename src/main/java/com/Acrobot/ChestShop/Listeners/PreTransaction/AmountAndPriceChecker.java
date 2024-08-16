@@ -37,7 +37,7 @@ public class AmountAndPriceChecker implements Listener {
             return;
         }
 
-        if (!InventoryUtil.hasItems(stock, ownerInventory)) {
+        if (!InventoryUtil.hasItems(stock, event.getAmount(), ownerInventory)) {
             event.setCancelled(NOT_ENOUGH_STOCK_IN_CHEST);
         }
     }
@@ -59,7 +59,7 @@ public class AmountAndPriceChecker implements Listener {
             return;
         }
 
-        if (!InventoryUtil.hasItems(stock, clientInventory)) {
+        if (!InventoryUtil.hasItems(stock, event.getAmount(), clientInventory)) {
             event.setCancelled(NOT_ENOUGH_STOCK_IN_INVENTORY);
         }
     }

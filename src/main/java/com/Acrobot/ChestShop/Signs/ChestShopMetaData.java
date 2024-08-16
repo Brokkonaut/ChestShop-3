@@ -38,6 +38,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         this.sellPrice = sellPrice;
         this.buyPrice = buyPrice;
         this.itemStack = itemStack == null ? null : itemStack.ensureServerConversions();
+        this.itemStack.setAmount(1);
         this.accessors = accessors;
         this.shouldUpdate = shouldUpdate;
     }

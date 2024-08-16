@@ -22,8 +22,8 @@ public class ItemManager implements Listener {
             return;
         }
 
-        removeItems(event.getOwnerInventory(), event.getStock());
-        addItems(event.getClientInventory(), event.getStock());
+        removeItems(event.getOwnerInventory(), event.getStock(), event.getAmount());
+        addItems(event.getClientInventory(), event.getStock(), event.getAmount());
 
         event.getClient().updateInventory();
     }
@@ -34,17 +34,17 @@ public class ItemManager implements Listener {
             return;
         }
 
-        removeItems(event.getClientInventory(), event.getStock());
-        addItems(event.getOwnerInventory(), event.getStock());
+        removeItems(event.getClientInventory(), event.getStock(), event.getAmount());
+        addItems(event.getOwnerInventory(), event.getStock(), event.getAmount());
 
         event.getClient().updateInventory();
     }
 
-    private static void removeItems(Inventory inventory, ItemStack item) {
-        InventoryUtil.remove(item, inventory);
+    private static void removeItems(Inventory inventory, ItemStack item, int amount) {
+        InventoryUtil.remove(item, amount, inventory);
     }
 
-    private static void addItems(Inventory inventory, ItemStack item) {
-        InventoryUtil.add(item, inventory, Properties.STACK_TO_64);
+    private static void addItems(Inventory inventory, ItemStack item, int amount) {
+        InventoryUtil.add(item, amount, inventory, Properties.STACK_TO_64);
     }
 }

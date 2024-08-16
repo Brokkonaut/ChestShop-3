@@ -30,17 +30,19 @@ public class PreTransactionEvent extends Event {
     private final ChestShopMetaData chestShopMetaData;
     private Inventory clientInventory;
 
-    private ItemStack items;
+    private ItemStack item;
+    private int amount;
     private double price;
 
     private TransactionOutcome transactionOutcome = TRANSACTION_SUCCESFUL;
 
-    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack items, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type, ChestShopMetaData chestShopMetaData) {
+    public PreTransactionEvent(Inventory ownerInventory, Inventory clientInventory, ItemStack item, int amount, double price, Player client, OfflinePlayer owner, Sign sign, TransactionType type, ChestShopMetaData chestShopMetaData) {
         this.ownerInventory = ownerInventory;
         this.chestShopMetaData = chestShopMetaData;
         this.clientInventory = (clientInventory == null ? client.getInventory() : clientInventory);
 
-        this.items = items;
+        this.item = item;
+        this.amount = amount;
         this.price = price;
 
         this.client = client;
@@ -89,14 +91,22 @@ public class PreTransactionEvent extends Event {
      *            Stock
      */
     public void setStock(ItemStack stock) {
-        items = stock;
+        item = stock;
     }
 
     /**
      * @return Stock available
      */
     public ItemStack getStock() {
-        return items;
+        return item;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     /**

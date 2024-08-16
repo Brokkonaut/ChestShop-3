@@ -106,8 +106,8 @@ public class InventoryUtil {
      *            inventory
      * @return Does the inventory contain stock of this type?
      */
-    public static boolean hasItems(ItemStack item, Inventory inventory) {
-        return hasItems(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    public static boolean hasItems(ItemStack item, int amount, Inventory inventory) {
+        return hasItems(item, amount, inventory, getDefaultRequiredShulkerSlot(inventory));
     }
 
     /**
@@ -123,7 +123,7 @@ public class InventoryUtil {
      *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be taken from shulkers
      * @return Does the inventory contain stock of this type?
      */
-    public static boolean hasItems(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
+    public static boolean hasItems(ItemStack item, int amount, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return true;
         }
@@ -133,7 +133,7 @@ public class InventoryUtil {
             return true;
         }
 
-        int missingAmount = item.getAmount();
+        int missingAmount = amount;
         ItemStack[] contents = inventory.getStorageContents();
         for (int i = 0; i < contents.length; i++) {
             ItemStack content = contents[i];
@@ -248,8 +248,8 @@ public class InventoryUtil {
      *            inventory
      * @return Does item fit inside inventory?
      */
-    public static boolean fits(ItemStack item, Inventory inventory) {
-        return fits(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    public static boolean fits(ItemStack item, int amount, Inventory inventory) {
+        return fits(item, amount, inventory, getDefaultRequiredShulkerSlot(inventory));
     }
 
     /**
@@ -265,7 +265,7 @@ public class InventoryUtil {
      *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be put into shulkers
      * @return Does item fit inside inventory?
      */
-    public static boolean fits(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
+    public static boolean fits(ItemStack item, int amount, Inventory inventory, int requiredShulkerSlot) {
         if (inventory.getType() == null) {
             return true;
         }
@@ -280,7 +280,7 @@ public class InventoryUtil {
         }
 
         boolean canBeStoredInShulker = BlockUtil.canBeStoredInShulkerBox(item.getType());
-        int left = item.getAmount();
+        int left = amount;
         if (!canBeStoredInShulker && inventory.getHolder() instanceof ShulkerBox) {
             return false;
         }
@@ -339,8 +339,8 @@ public class InventoryUtil {
      *            Force the items maximum stack size to 64
      * @return Number of leftover items
      */
-    public static int add(ItemStack item, Inventory inventory, boolean stackTo64) {
-        return add(item, inventory, stackTo64, getDefaultRequiredShulkerSlot(inventory));
+    public static int add(ItemStack item, int amount, Inventory inventory, boolean stackTo64) {
+        return add(item, amount, inventory, stackTo64, getDefaultRequiredShulkerSlot(inventory));
     }
 
     /**
@@ -359,8 +359,8 @@ public class InventoryUtil {
      *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be put into shulkers
      * @return Number of leftover items
      */
-    public static int add(ItemStack item, Inventory inventory, boolean stackTo64, int requiredShulkerSlot) {
-        if (item.getAmount() <= 0) {
+    public static int add(ItemStack item, int amount, Inventory inventory, boolean stackTo64, int requiredShulkerSlot) {
+        if (amount <= 0) {
             return 0;
         }
 
@@ -375,7 +375,7 @@ public class InventoryUtil {
 
         int maxStackSize = stackTo64 ? 64 : item.getMaxStackSize();
 
-        int left = item.getAmount();
+        int left = amount;
         ItemStack[] contents = inventory.getStorageContents();
         boolean contentChanged = false;
         int contentsLength = contents.length;
@@ -462,8 +462,8 @@ public class InventoryUtil {
      *            Inventory
      * @return Number of leftover items
      */
-    public static int add(ItemStack item, Inventory inventory) {
-        return add(item, inventory, false);
+    public static int add(ItemStack item, int amount, Inventory inventory) {
+        return add(item, amount, inventory, false);
     }
 
     /**
@@ -475,8 +475,8 @@ public class InventoryUtil {
      *            Inventory
      * @return Number of items that couldn't be removed
      */
-    public static int remove(ItemStack item, Inventory inventory) {
-        return remove(item, inventory, getDefaultRequiredShulkerSlot(inventory));
+    public static int remove(ItemStack item, int amount, Inventory inventory) {
+        return remove(item, amount, inventory, getDefaultRequiredShulkerSlot(inventory));
     }
 
     /**
@@ -492,8 +492,8 @@ public class InventoryUtil {
      *            If it is <b>REQUIRED_SHULKER_SLOT_NONE</b>, no items can be taken from shulkers
      * @return Number of items that couldn't be removed
      */
-    public static int remove(ItemStack item, Inventory inventory, int requiredShulkerSlot) {
-        if (item.getAmount() <= 0) {
+    public static int remove(ItemStack item, int amount, Inventory inventory, int requiredShulkerSlot) {
+        if (amount <= 0) {
             return 0;
         }
 
@@ -506,7 +506,7 @@ public class InventoryUtil {
             return 0;
         }
 
-        int left = item.getAmount();
+        int left = amount;
         ItemStack[] contents = inventory.getStorageContents();
         boolean contentChanged = false;
         int contentsLength = contents.length;

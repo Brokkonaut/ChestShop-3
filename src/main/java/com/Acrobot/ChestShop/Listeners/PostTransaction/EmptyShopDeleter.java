@@ -70,6 +70,6 @@ public class EmptyShopDeleter implements Listener {
     }
 
     private static boolean shopShouldBeRemoved(Sign sign, Inventory inventory, ItemStack stock) {
-        return Properties.REMOVE_EMPTY_SHOPS && !ChestShopSign.isAdminShop(sign) && !InventoryUtil.hasItems(stock, inventory);
+        return Properties.REMOVE_EMPTY_SHOPS && !ChestShopSign.isAdminShop(sign) && !InventoryUtil.hasItems(stock, 1, inventory);
     }
 }

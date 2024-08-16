@@ -25,6 +25,7 @@ public class TransactionEvent extends Event {
     private final OfflinePlayer owner;
 
     private final ItemStack stock;
+    private final int amount;
     private final double price;
 
     private final Sign sign;
@@ -42,12 +43,13 @@ public class TransactionEvent extends Event {
         this.owner = event.getOwner();
 
         this.stock = event.getStock();
+        this.amount = event.getAmount();
         this.price = event.getPrice();
 
         this.sign = sign;
     }
 
-    public TransactionEvent(TransactionType type, Inventory ownerInventory, Inventory clientInventory, Player client, OfflinePlayer owner, ItemStack stock, double price, Sign sign, ChestShopMetaData chestShopMetaData) {
+    public TransactionEvent(TransactionType type, Inventory ownerInventory, Inventory clientInventory, Player client, OfflinePlayer owner, ItemStack stock, int amount, double price, Sign sign, ChestShopMetaData chestShopMetaData) {
         this.type = type;
 
         this.ownerInventory = ownerInventory;
@@ -57,6 +59,7 @@ public class TransactionEvent extends Event {
         this.owner = owner;
 
         this.stock = stock;
+        this.amount = amount;
         this.price = price;
 
         this.sign = sign;
@@ -107,6 +110,10 @@ public class TransactionEvent extends Event {
      */
     public ItemStack getStock() {
         return stock;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
     /**

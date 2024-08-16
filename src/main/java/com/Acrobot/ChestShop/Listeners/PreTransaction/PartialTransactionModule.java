@@ -43,7 +43,7 @@ public class PartialTransactionModule implements Listener {
         ItemStack stock = event.getStock();
 
         double price = event.getPrice();
-        double pricePerItem = event.getPrice() / stock.getAmount();
+        double pricePerItem = event.getPrice() / event.getAmount();
 
         CurrencyAmountEvent currencyAmountEvent = new CurrencyAmountEvent(client);
         ChestShop.callEvent(currencyAmountEvent);
@@ -62,9 +62,7 @@ public class PartialTransactionModule implements Listener {
             }
 
             event.setPrice(amountAffordable * pricePerItem);
-            stock = new ItemStack(stock);
-            stock.setAmount(amountAffordable);
-            event.setStock(stock);
+            event.setAmount(amountAffordable);
         }
 
         UUID seller = event.getOwner().getUniqueId();
@@ -77,36 +75,26 @@ public class PartialTransactionModule implements Listener {
             return;
         }
 
-        stock = event.getStock();
-
-        if (!InventoryUtil.hasItems(stock, event.getOwnerInventory())) {
+        if (!InventoryUtil.hasItems(stock, event.getAmount(), event.getOwnerInventory())) {
             int posessedItemCount = InventoryUtil.getAmount(stock, event.getOwnerInventory());
             if (posessedItemCount <= 0) {
                 event.setCancelled(NOT_ENOUGH_STOCK_IN_CHEST);
                 return;
             }
 
-            ItemStack itemsHad = new ItemStack(stock);
-            itemsHad.setAmount(posessedItemCount);
-
+            event.setAmount(posessedItemCount);
             event.setPrice(pricePerItem * posessedItemCount);
-            event.setStock(itemsHad);
         }
 
-        stock = event.getStock();
-
-        if (!InventoryUtil.fits(stock, event.getClientInventory())) {
+        if (!InventoryUtil.fits(stock, event.getAmount(), event.getClientInventory())) {
             int freeSpace = InventoryUtil.getFreeSpace(stock, event.getClientInventory());
             if (freeSpace <= 0) {
                 event.setCancelled(NOT_ENOUGH_SPACE_IN_INVENTORY);
                 return;
             }
 
-            stock = new ItemStack(stock);
-            stock.setAmount(freeSpace);
-
+            event.setAmount(freeSpace);
             event.setPrice(pricePerItem * freeSpace);
-            event.setStock(stock);
         }
     }
 
@@ -121,7 +109,7 @@ public class PartialTransactionModule implements Listener {
         ItemStack stock = event.getStock();
 
         double price = event.getPrice();
-        double pricePerItem = event.getPrice() / stock.getAmount();
+        double pricePerItem = event.getPrice() / event.getAmount();
 
         CurrencyAmountEvent currencyAmountEvent = new CurrencyAmountEvent(owner, client.getWorld());
         ChestShop.callEvent(currencyAmountEvent);
@@ -141,9 +129,7 @@ public class PartialTransactionModule implements Listener {
                 }
 
                 event.setPrice(amountAffordable * pricePerItem);
-                stock = new ItemStack(stock);
-                stock.setAmount(amountAffordable);
-                event.setStock(stock);
+                event.setAmount(amountAffordable);
             }
         }
 
@@ -157,34 +143,28 @@ public class PartialTransactionModule implements Listener {
             return;
         }
 
-        if (!InventoryUtil.hasItems(stock, event.getClientInventory())) {
+        if (!InventoryUtil.hasItems(stock, event.getAmount(), event.getClientInventory())) {
             int posessedItemCount = InventoryUtil.getAmount(stock, event.getClientInventory());
             if (posessedItemCount <= 0) {
                 event.setCancelled(NOT_ENOUGH_STOCK_IN_INVENTORY);
                 return;
             }
 
-            ItemStack itemsHad = new ItemStack(stock);
-            itemsHad.setAmount(posessedItemCount);
-
+            event.setAmount(posessedItemCount);
             event.setPrice(pricePerItem * posessedItemCount);
-            event.setStock(itemsHad);
         }
 
         stock = event.getStock();
 
-        if (!InventoryUtil.fits(stock, event.getOwnerInventory())) {
+        if (!InventoryUtil.fits(stock, event.getAmount(), event.getOwnerInventory())) {
             int freeSpace = InventoryUtil.getFreeSpace(stock, event.getOwnerInventory());
             if (freeSpace <= 0) {
                 event.setCancelled(NOT_ENOUGH_SPACE_IN_CHEST);
                 return;
             }
 
-            stock = new ItemStack(stock);
-            stock.setAmount(freeSpace);
-
+            event.setAmount(freeSpace);
             event.setPrice(pricePerItem * freeSpace);
-            event.setStock(stock);
         }
     }
 

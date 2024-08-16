@@ -6,6 +6,7 @@ import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
 import com.Acrobot.Breeze.Utils.PriceUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
+import com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome;
 import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,6 +47,10 @@ public class PriceRestrictionModule implements Listener {
 
     @EventHandler
     public void onPreShopCreation(PreShopCreationEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
         ItemStack material = event.getItemStack();
 
         if (material == null) {
@@ -53,7 +58,10 @@ public class PriceRestrictionModule implements Listener {
         }
 
         String itemID = material.getType().name().toLowerCase();
-        int amount = material.getAmount();
+        int amount = event.getAmount();
+        if (amount <= 0) {
+            event.setOutcome(CreationOutcome.INVALID_QUANTITY);
+        }
 
         if (PriceUtil.hasBuyPrice(event.getSignLine(PRICE_LINE))) {
             double buyPrice = PriceUtil.getBuyPrice(event.getSignLine(PRICE_LINE));
