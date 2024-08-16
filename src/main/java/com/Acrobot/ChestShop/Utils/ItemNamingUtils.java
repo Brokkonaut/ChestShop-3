@@ -15,6 +15,8 @@ import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -66,7 +68,8 @@ public class ItemNamingUtils {
             if (instrumentType == null) {
                 instrumentType = MusicInstrument.PONDER_GOAT_HORN;
             }
-            String instrument = StringUtil.capitalizeFirstLetter(instrumentType.getKey().getKey().replace("_goat_horn", ""));
+            NamespacedKey instrumentKey = Registry.INSTRUMENT.getKey(instrumentType);
+            String instrument = instrumentKey == null ? "(unknown instrument)" : StringUtil.capitalizeFirstLetter(instrumentKey.getKey().replace("_goat_horn", ""));
             itemName = itemName + " " + instrument;
         } else if (itemMeta instanceof PotionMeta potionMeta) {
             itemName = PotionNames.getName(potionMeta.getBasePotionType()).replace("Potion", itemName);
