@@ -9,6 +9,8 @@ import com.Acrobot.Breeze.Utils.FireworkEffectTypeNames;
 import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +24,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.block.Beehive;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
@@ -214,8 +215,8 @@ public class ItemInfoListener implements Listener {
             ArmorMeta armorMeta = (ArmorMeta) meta;
             if (armorMeta.hasTrim()) {
                 ArmorTrim trim = armorMeta.getTrim();
-                NamespacedKey materialKey = Registry.TRIM_MATERIAL.getKey(trim.getMaterial());
-                NamespacedKey patternKey = Registry.TRIM_PATTERN.getKey(trim.getPattern());
+                NamespacedKey materialKey = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).getKey(trim.getMaterial());
+                NamespacedKey patternKey = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN).getKey(trim.getPattern());
 
                 String material = materialKey != null ? materialKey.getKey().toLowerCase() : "Unknown Material";
                 String trimPattern = patternKey != null ? capitalizeFirstLetter(patternKey.getKey()) : "Unknown Pattern";
