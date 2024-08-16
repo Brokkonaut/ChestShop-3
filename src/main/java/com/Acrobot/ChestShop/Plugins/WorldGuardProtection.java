@@ -13,7 +13,6 @@ import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.internal.permission.RegionPermissionModel;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -53,6 +52,6 @@ public class WorldGuardProtection implements Listener {
     }
 
     private boolean hasBypass(LocalPlayer wgPlayer, World world) {
-        return new RegionPermissionModel(wgPlayer).mayIgnoreRegionProtection(BukkitAdapter.adapt(world));
+        return WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(wgPlayer, BukkitAdapter.adapt(world));
     }
 }
