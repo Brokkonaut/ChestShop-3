@@ -116,6 +116,16 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return shouldUpdate;
     }
 
+    /**
+     * This will hopefully stay
+     *
+     * @return the current minecraft data version
+     */
+    @SuppressWarnings("deprecation")
+    private static int getMinecraftDataVersion() {
+        return Bukkit.getUnsafe().getDataVersion();
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
@@ -124,7 +134,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         Set<String> accessorsStrings = new HashSet<>();
         this.accessors.forEach(uuid -> accessorsStrings.add(uuid.toString()));
         data.put("csversion", 1);
-        data.put("dataversion", Bukkit.getUnsafe().getDataVersion());
+        data.put("dataversion", getMinecraftDataVersion());
         data.put("accessors", accessorsStrings);
 
         data.put("amount", quantity);
@@ -135,7 +145,7 @@ public class ChestShopMetaData implements ConfigurationSerializable {
     }
 
     public static ChestShopMetaData deserialize(Map<String, Object> map) {
-        boolean shouldUpdate = ((int) map.getOrDefault("csversion", 0) < 1) || ((int) map.getOrDefault("dataversion", 0) < Bukkit.getUnsafe().getDataVersion());
+        boolean shouldUpdate = ((int) map.getOrDefault("csversion", 0) < 1) || ((int) map.getOrDefault("dataversion", 0) < getMinecraftDataVersion());
         UUID owner = UUID.fromString((String) map.get("owner"));
         int amount = (int) map.get("amount");
         double sellPrice = (double) map.get("sellPrice");
