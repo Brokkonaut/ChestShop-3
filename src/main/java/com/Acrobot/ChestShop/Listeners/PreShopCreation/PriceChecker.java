@@ -22,27 +22,50 @@ public class PriceChecker implements Listener {
 
         String[] part = line.split(":");
 
-        if (part.length > 1 && (isInvalid(part[0]) ^ isInvalid(part[1]))) {
-            line = line.replace(':', ' ');
-            part = new String[] { line };
-        }
-
-        if (part[0].split(" ").length > 2) {
+        if (part.length > 2) {
             event.setOutcome(INVALID_PRICE);
             return;
         }
 
-        if (line.indexOf('B') != line.lastIndexOf('B') || line.indexOf('S') != line.lastIndexOf('S')) {
+        if (part.length > 1 && (part[0].contains("S") || part[1].contains("B"))) {
+            String temp = part[0];
+            part[0] = part[1];
+            part[1] = temp;
+        }
+
+        String buyPriceString = null;
+        String sellPriceString = null;
+        if (part[0].contains("S")) {
+            sellPriceString = part[0].replace("S", "").trim();
+        } else {
+            buyPriceString = part[0].replace("B", "").trim();
+            if (part.length > 1) {
+                sellPriceString = part[1].replace("S", "").trim();
+            }
+        }
+
+        if (buyPriceString != null && !isPrice(buyPriceString)) {
             event.setOutcome(INVALID_PRICE);
             return;
         }
 
-        if (isPrice(part[0])) {
-            line = "B " + line;
+        if (sellPriceString != null && !isPrice(sellPriceString)) {
+            event.setOutcome(INVALID_PRICE);
+            return;
         }
 
-        if (part.length > 1 && isPrice(part[1])) {
-            line += " S";
+        if (buyPriceString != null && sellPriceString != null) {
+            line = "B " + buyPriceString + " : " + sellPriceString + " S";
+            if (line.length() > 15) {
+                line = "B" + buyPriceString + " : " + sellPriceString + "S";
+            }
+        } else if (buyPriceString != null) {
+            line = "B " + buyPriceString;
+        } else if (sellPriceString != null) {
+            line = sellPriceString + " S";
+        } else {
+            event.setOutcome(INVALID_PRICE);
+            return;
         }
 
         if (line.length() > 15) {
@@ -59,17 +82,5 @@ public class PriceChecker implements Listener {
         if (!PriceUtil.hasBuyPrice(line) && !PriceUtil.hasSellPrice(line)) {
             event.setOutcome(INVALID_PRICE);
         }
-    }
-
-    private static boolean isInvalid(String part) {
-        char characters[] = { 'B', 'S' };
-
-        for (char character : characters) {
-            if (part.contains(Character.toString(character))) {
-                return !PriceUtil.hasPrice(part, character);
-            }
-        }
-
-        return false;
     }
 }
