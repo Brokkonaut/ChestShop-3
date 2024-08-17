@@ -1,5 +1,7 @@
 package com.Acrobot.Breeze.Utils;
 
+import java.util.regex.Pattern;
+
 /**
  * @author Acrobot
  */
@@ -11,6 +13,8 @@ public class PriceUtil {
 
     public static final char BUY_INDICATOR = 'b';
     public static final char SELL_INDICATOR = 's';
+
+    public static final Pattern VALID_PRICE_PATTERN = Pattern.compile("^[0-9]*(\\.[0-9]*)?$");
 
     /**
      * Gets the price from the text
@@ -115,10 +119,21 @@ public class PriceUtil {
      * @return Is the string a valid price
      */
     public static boolean isPrice(String text) {
-        if (NumberUtil.isDouble(text)) {
+        text = text.trim();
+        if (text.equalsIgnoreCase(FREE_TEXT)) {
             return true;
         }
-
-        return text.trim().equalsIgnoreCase(FREE_TEXT);
+        if (!VALID_PRICE_PATTERN.matcher(text).matches()) {
+            return false;
+        }
+        try {
+            double value = Double.parseDouble(text);
+            if (!Double.isFinite(value) || value < 0.0) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }
