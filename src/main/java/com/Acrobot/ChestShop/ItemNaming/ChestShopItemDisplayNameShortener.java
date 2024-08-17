@@ -67,6 +67,6 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(100, "Brick", "B");
         addMapping(100, "Dead", "De");
 
-        addMapping(110, "Of", "");
+        addMapping(110, "of", "");
     }
 }
