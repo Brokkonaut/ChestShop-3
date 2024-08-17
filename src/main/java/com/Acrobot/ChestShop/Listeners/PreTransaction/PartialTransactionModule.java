@@ -38,6 +38,9 @@ public class PartialTransactionModule implements Listener {
         if (event.isCancelled() || event.getTransactionType() != BUY) {
             return;
         }
+        if (event.getChestShopMetaData().isEnforceQuantity()) {
+            return;
+        }
 
         Player client = event.getClient();
         ItemStack stock = event.getStock();
@@ -101,6 +104,9 @@ public class PartialTransactionModule implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public static void onPreSellTransaction(PreTransactionEvent event) {
         if (event.isCancelled() || event.getTransactionType() != SELL) {
+            return;
+        }
+        if (event.getChestShopMetaData().isEnforceQuantity()) {
             return;
         }
 

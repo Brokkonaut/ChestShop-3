@@ -20,6 +20,10 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     private int quantity;
 
+    private boolean enforceQuantity;
+
+    private boolean noAutofill;
+
     private double buyPrice;
 
     private double sellPrice;
@@ -28,13 +32,15 @@ public class ChestShopMetaData implements ConfigurationSerializable {
 
     private boolean shouldUpdate;
 
-    public ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack) {
-        this(owner, quantity, sellPrice, buyPrice, itemStack, new HashSet<>(), false);
+    public ChestShopMetaData(UUID owner, int quantity, boolean enforceQuantity, double sellPrice, double buyPrice, ItemStack itemStack, boolean noAutofill) {
+        this(owner, quantity, enforceQuantity, sellPrice, buyPrice, itemStack, noAutofill, new HashSet<>(), false);
     }
 
-    private ChestShopMetaData(UUID owner, int quantity, double sellPrice, double buyPrice, ItemStack itemStack, Set<UUID> accessors, boolean shouldUpdate) {
+    private ChestShopMetaData(UUID owner, int quantity, boolean enforceQuantity, double sellPrice, double buyPrice, ItemStack itemStack, boolean noAutofill, Set<UUID> accessors, boolean shouldUpdate) {
         this.owner = owner;
         this.quantity = Math.max(1, quantity);
+        this.enforceQuantity = enforceQuantity;
+        this.noAutofill = noAutofill;
         this.sellPrice = sellPrice;
         this.buyPrice = buyPrice;
         this.itemStack = itemStack == null ? null : itemStack.ensureServerConversions();
@@ -112,6 +118,10 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return itemStack == null ? null : itemStack.clone();
     }
 
+    public boolean isEnforceQuantity() {
+        return enforceQuantity;
+    }
+
     public boolean shouldUpdate() {
         return shouldUpdate;
     }
@@ -138,6 +148,12 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         data.put("accessors", accessorsStrings);
 
         data.put("amount", quantity);
+        if (enforceQuantity) {
+            data.put("enforceQuantity", enforceQuantity);
+        }
+        if (noAutofill) {
+            data.put("noAutofill", noAutofill);
+        }
         data.put("buyPrice", buyPrice);
         data.put("sellPrice", sellPrice);
         data.put("itemStack", itemStack == null || itemStack.getType() == Material.AIR ? null : itemStack.serializeAsBytes());
@@ -150,6 +166,8 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         int amount = (int) map.get("amount");
         double sellPrice = (double) map.get("sellPrice");
         double buyPrice = (double) map.get("buyPrice");
+        boolean enforceQuantity = (boolean) map.getOrDefault("enforceQuantity", false);
+        boolean noAutofill = (boolean) map.getOrDefault("noAutofill", false);
         Object stackSerialized = map.get("itemStack");
         ItemStack itemStack = stackSerialized instanceof Map<?, ?> stackMap ? ItemStack.deserialize((Map<String, Object>) stackMap) : stackSerialized instanceof byte[] bytes ? ItemStack.deserializeBytes(bytes) : null;
 
@@ -157,6 +175,6 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         Set<UUID> accessors = new HashSet<>();
         accessorsString.forEach(string -> accessors.add(UUID.fromString(string)));
 
-        return new ChestShopMetaData(owner, amount, sellPrice, buyPrice, itemStack, accessors, shouldUpdate);
+        return new ChestShopMetaData(owner, amount, enforceQuantity, sellPrice, buyPrice, itemStack, noAutofill, accessors, shouldUpdate);
     }
 }

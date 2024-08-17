@@ -7,12 +7,16 @@ import com.Acrobot.ChestShop.UUIDs.NameManager;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.TileState;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -26,7 +30,7 @@ public class ChestShopSign {
     public static final byte PRICE_LINE = 2;
     public static final byte ITEM_LINE = 3;
 
-    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}$"),
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}(?: )*(?:x(?: )*\\!?|\\!(?: )*x?)?$"),
             Pattern.compile("(?i)^[\\d.bs(free) :]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
@@ -187,6 +191,11 @@ public class ChestShopSign {
                     String string = yamlConfiguration.saveToString();
                     sign.getPersistentDataContainer().set(METADATA_NAMESPACED_KEY, PersistentDataType.STRING, string);
                 }
+                SignSide backSide = sign.getSide(Side.BACK);
+                backSide.line(0, Component.empty());
+                backSide.line(1, Component.empty());
+                backSide.line(2, Component.empty());
+                backSide.line(3, Component.empty());
                 sign.update();
 
             } catch (Exception e) {
@@ -212,5 +221,19 @@ public class ChestShopSign {
 
     public static boolean isAdminshopLine(String ownerLine) {
         return ownerLine.replace(" ", "").equalsIgnoreCase(Properties.ADMIN_SHOP_NAME.replace(" ", ""));
+    }
+
+    public static void removeChestShopMetaData(Block signBlock, boolean delayUpdate) {
+        Runnable change = () -> {
+            if (signBlock.getState() instanceof TileState tileState && tileState.getPersistentDataContainer().has(METADATA_NAMESPACED_KEY)) {
+                tileState.getPersistentDataContainer().remove(METADATA_NAMESPACED_KEY);
+                tileState.update();
+            }
+        };
+        if (delayUpdate) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShop.getPlugin(), change, 1L);
+        } else {
+            change.run();
+        }
     }
 }

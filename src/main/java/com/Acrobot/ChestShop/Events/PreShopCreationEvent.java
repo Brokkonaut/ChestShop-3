@@ -26,6 +26,8 @@ public class PreShopCreationEvent extends Event {
     private UUID shopOwnerId;
 
     private int amount;
+    private boolean enforceAmount;
+    private boolean noAutofill;
 
     public PreShopCreationEvent(Player creator, Sign sign, String[] signLines, ItemStack itemStack) {
         this.creator = creator;
@@ -65,6 +67,22 @@ public class PreShopCreationEvent extends Event {
 
     public int getAmount() {
         return amount;
+    }
+
+    public boolean isEnforceAmount() {
+        return enforceAmount;
+    }
+
+    public void setEnforceAmount(boolean enforceAmount) {
+        this.enforceAmount = enforceAmount;
+    }
+
+    public boolean isNoAutofill() {
+        return noAutofill;
+    }
+
+    public void setNoAutofill(boolean noAutofill) {
+        this.noAutofill = noAutofill;
     }
 
     /**

@@ -13,9 +13,17 @@ import org.bukkit.event.Listener;
  */
 public class QuantityChecker implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOW)
     public static void onPreShopCreation(PreShopCreationEvent event) {
-        String quantity = event.getQuantityLine();
+        String quantity = event.getQuantityLine().trim();
+        if (quantity.contains("!")) {
+            quantity = quantity.replace("!", "").trim();
+            event.setEnforceAmount(true);
+        }
+        if (quantity.contains("x")) {
+            quantity = quantity.replace("x", "").trim();
+            event.setNoAutofill(true);
+        }
 
         try {
             int amount = Integer.parseInt(quantity);

@@ -23,6 +23,7 @@ import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,11 +37,12 @@ public class SignCreate implements Listener {
     public static final String AUTOFILL_CODE = "?";
     public static final String AUTOFILL_SHULKER_CONTENT_CODE = "??";
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public static void onSignChange(SignChangeEvent event) {
         Block signBlock = event.getBlock();
+        boolean wasChestShop = ChestShopSign.isChestShop(signBlock);
         if (event.getSide() == Side.BACK) {
-            if (ChestShopSign.isChestShop(signBlock)) {
+            if (wasChestShop) {
                 event.setCancelled(true);
             }
             return;
@@ -48,15 +50,24 @@ public class SignCreate implements Listener {
         String[] line = StringUtil.stripColourCodes(event.getLines());
 
         if (!BlockUtil.isSign(signBlock)) {
+            if (wasChestShop) {
+                ChestShopSign.removeChestShopMetaData(signBlock, true);
+            }
             return;
         }
 
         if (!ChestShopSign.isValidPreparedSign(line)) {
+            if (wasChestShop) {
+                ChestShopSign.removeChestShopMetaData(signBlock, true);
+            }
             return;
         }
 
         ItemStack itemStack = getItemStack(event.getLine(ChestShopSign.ITEM_LINE), (Sign) event.getBlock().getState());
         if (itemStack == null || itemStack.isEmpty()) {
+            if (wasChestShop) {
+                ChestShopSign.removeChestShopMetaData(signBlock, true);
+            }
             return;
         }
         itemStack.setAmount(1);
@@ -64,6 +75,9 @@ public class SignCreate implements Listener {
         ChestShop.callEvent(preEvent);
 
         if (preEvent.isCancelled()) {
+            if (wasChestShop) {
+                ChestShopSign.removeChestShopMetaData(signBlock, true);
+            }
             return;
         }
 
@@ -74,11 +88,7 @@ public class SignCreate implements Listener {
             side.setLine(i, preEvent.getSignLine(i));
         }
 
-        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), preEvent.getShopOwnerId(), event.getLines(), itemStack, preEvent.getAmount());
-        if (chestShopMetaData == null) {
-            ChestShopSign.saveChestShopMetaData(sign, null, true);
-            return;
-        }
+        ChestShopMetaData chestShopMetaData = createShopMetaData(event.getPlayer(), preEvent.getShopOwnerId(), event.getLines(), itemStack, preEvent.getAmount(), preEvent.isEnforceAmount(), preEvent.isNoAutofill());
 
         ShopCreatedEvent postEvent = new ShopCreatedEvent(preEvent.getPlayer(), preEvent.getSign(), uBlock.findConnectedChest(preEvent.getSign()), preEvent.getSignLines(), chestShopMetaData);
         ChestShop.callEvent(postEvent);
@@ -92,12 +102,12 @@ public class SignCreate implements Listener {
         ChestShopSign.saveChestShopMetaData(sign, chestShopMetaData, true);
     }
 
-    public static ChestShopMetaData createShopMetaData(Player creator, UUID shopOwnerId, String[] signLines, ItemStack itemStack, int quantity) {
+    public static ChestShopMetaData createShopMetaData(Player creator, UUID shopOwnerId, String[] signLines, ItemStack itemStack, int quantity, boolean enforceQuantity, boolean noAutofill) {
         String priceLine = signLines[ChestShopSign.PRICE_LINE];
         double sellPrice = PriceUtil.getSellPrice(priceLine);
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 
-        return new ChestShopMetaData(shopOwnerId, quantity, sellPrice, buyPrice, itemStack);
+        return new ChestShopMetaData(shopOwnerId, quantity, enforceQuantity, sellPrice, buyPrice, itemStack, noAutofill);
     }
 
     private static ItemStack getItemStack(String itemLine, Sign sign) {
