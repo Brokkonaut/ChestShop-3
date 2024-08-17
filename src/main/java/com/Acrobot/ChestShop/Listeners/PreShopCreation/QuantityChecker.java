@@ -22,8 +22,8 @@ public class QuantityChecker implements Listener {
             newEnforceAmount = true;
         }
         boolean newNoAutofill = false;
-        if (quantity.contains("x")) {
-            quantity = quantity.replace("x", "").trim();
+        if (quantity.contains("x") || quantity.contains("X")) {
+            quantity = quantity.replace("x", "").replace("X", "").trim();
             newNoAutofill = true;
         }
 
