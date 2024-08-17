@@ -245,10 +245,9 @@ public class ChestShop extends JavaPlugin {
     private void registerPreTransactionEvents() {
         if (Properties.ALLOW_PARTIAL_TRANSACTIONS) {
             registerEvent(new PartialTransactionModule());
-        } else {
-            registerEvent(new AmountAndPriceChecker());
         }
 
+        registerEvent(new AmountAndPriceChecker());
         registerEvent(new CreativeModeIgnorer());
         registerEvent(new ErrorMessageSender());
         registerEvent(new PermissionChecker());

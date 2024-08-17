@@ -38,7 +38,7 @@ public class PartialTransactionModule implements Listener {
         if (event.isCancelled() || event.getTransactionType() != BUY) {
             return;
         }
-        if (event.getChestShopMetaData().isEnforceQuantity()) {
+        if (event.getChestShopMetaData().isEnforceQuantity() && (event.isAdminShop() || !event.getOwner().getUniqueId().equals(event.getClient().getUniqueId()))) {
             return;
         }
 
@@ -106,7 +106,7 @@ public class PartialTransactionModule implements Listener {
         if (event.isCancelled() || event.getTransactionType() != SELL) {
             return;
         }
-        if (event.getChestShopMetaData().isEnforceQuantity()) {
+        if (event.getChestShopMetaData().isEnforceQuantity() && (event.isAdminShop() || !event.getOwner().getUniqueId().equals(event.getClient().getUniqueId()))) {
             return;
         }
 
@@ -175,6 +175,12 @@ public class PartialTransactionModule implements Listener {
     }
 
     private static int getAmountOfAffordableItems(BigDecimal walletMoney, double pricePerItem) {
-        return (int) Math.floor(walletMoney.doubleValue() / pricePerItem);
+        int amount = (int) Math.floor(walletMoney.doubleValue() / pricePerItem);
+        if (amount > 0) {
+            if (pricePerItem * amount > walletMoney.doubleValue()) {
+                amount -= 1;
+            }
+        }
+        return amount;
     }
 }

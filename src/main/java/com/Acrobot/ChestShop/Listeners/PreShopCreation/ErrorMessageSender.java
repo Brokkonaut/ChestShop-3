@@ -54,7 +54,7 @@ public class ErrorMessageSender implements Listener {
 
         if (message != null) {
             event.getPlayer().sendMessage(Messages.prefix(message));
-            event.getSign().getBlock().breakNaturally();
+            // event.getSign().getBlock().breakNaturally();
         }
     }
 }
