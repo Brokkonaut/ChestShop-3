@@ -30,7 +30,7 @@ public class ChestShopSign {
     public static final byte PRICE_LINE = 2;
     public static final byte ITEM_LINE = 3;
 
-    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}(?: )*(?:x(?: )*\\!?|\\!(?: )*x?)?$"),
+    public static final Pattern[] SHOP_SIGN_PATTERN = { Pattern.compile("^?[\\w -.]*$"), Pattern.compile("^[1-9][0-9]{0,4}(?: )*(?:(?:x|X)(?: )*\\!?|\\!(?: )*(?:x|X)?)?$"),
             Pattern.compile("(?i)^[\\d.bs(free) :]+$") };
 
     private static NamespacedKey METADATA_NAMESPACED_KEY;
