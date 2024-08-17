@@ -45,7 +45,7 @@ public class SetAmount implements CommandExecutor {
 
         String newAmountLine = String.join(" ", args);
         String[] line = sign.getLines();
-        line[1] = newAmountLine;
+        line[ChestShopSign.QUANTITY_LINE] = newAmountLine;
         if (!ChestShopSign.isValidPreparedSign(line)) {
             sender.sendMessage(Messages.INVALID_AMOUNT_LINE);
             return true;

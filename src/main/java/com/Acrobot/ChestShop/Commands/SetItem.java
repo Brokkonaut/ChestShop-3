@@ -45,7 +45,7 @@ public class SetItem implements CommandExecutor {
 
         String newItemLine = String.join(" ", args);
         String[] line = sign.getLines();
-        line[3] = newItemLine;
+        line[ChestShopSign.ITEM_LINE] = newItemLine;
         if (!ChestShopSign.isValidPreparedSign(line)) {
             sender.sendMessage(Messages.INVALID_ITEM_LINE);
             return true;

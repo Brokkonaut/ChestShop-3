@@ -212,11 +212,18 @@ public class ChestShopSign {
 
     public static boolean isValidPreparedSign(String[] lines) {
         for (int i = 0; i < 3; i++) {
-            if (!SHOP_SIGN_PATTERN[i].matcher(lines[i]).matches()) {
+            if (!isValidPreparedSignLine(i, lines[i])) {
                 return false;
             }
         }
-        return lines[PRICE_LINE].indexOf(':') == lines[PRICE_LINE].lastIndexOf(':');
+        return true;
+    }
+
+    public static boolean isValidPreparedSignLine(int i, String line) {
+        if (i != ITEM_LINE && !SHOP_SIGN_PATTERN[i].matcher(line).matches()) {
+            return false;
+        }
+        return i != PRICE_LINE || line.indexOf(':') == line.lastIndexOf(':');
     }
 
     public static boolean isAdminshopLine(String ownerLine) {
