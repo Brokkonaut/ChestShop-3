@@ -122,6 +122,10 @@ public class ChestShopMetaData implements ConfigurationSerializable {
         return enforceQuantity;
     }
 
+    public boolean isNoAutofill() {
+        return noAutofill;
+    }
+
     public boolean shouldUpdate() {
         return shouldUpdate;
     }

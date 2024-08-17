@@ -16,13 +16,15 @@ public class QuantityChecker implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public static void onPreShopCreation(PreShopCreationEvent event) {
         String quantity = event.getQuantityLine().trim();
+        boolean newEnforceAmount = false;
         if (quantity.contains("!")) {
             quantity = quantity.replace("!", "").trim();
-            event.setEnforceAmount(true);
+            newEnforceAmount = true;
         }
+        boolean newNoAutofill = false;
         if (quantity.contains("x")) {
             quantity = quantity.replace("x", "").trim();
-            event.setNoAutofill(true);
+            newNoAutofill = true;
         }
 
         try {
@@ -30,7 +32,11 @@ public class QuantityChecker implements Listener {
             if (amount <= 0 || amount > 64 * 64 * 64) {
                 event.setOutcome(CreationOutcome.INVALID_QUANTITY);
             } else {
-                event.setAmount(amount);
+                if (amount != event.getAmount() || newEnforceAmount || newNoAutofill) {
+                    event.setAmount(amount);
+                    event.setEnforceAmount(newEnforceAmount);
+                    event.setNoAutofill(newNoAutofill);
+                }
                 event.setQuantityLine(Integer.toString(amount));
             }
         } catch (NumberFormatException e) {

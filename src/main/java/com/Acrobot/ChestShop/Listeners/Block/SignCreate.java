@@ -71,7 +71,16 @@ public class SignCreate implements Listener {
             return;
         }
         itemStack.setAmount(1);
+
+        Sign sign = (Sign) signBlock.getState();
+        ChestShopMetaData oldData = wasChestShop ? ChestShopSign.getChestShopMetaData(sign) : null;
+
         PreShopCreationEvent preEvent = new PreShopCreationEvent(event.getPlayer(), (Sign) signBlock.getState(), line, itemStack);
+        if (oldData != null) {
+            preEvent.setAmount(oldData.getQuantity());
+            preEvent.setEnforceAmount(oldData.isEnforceQuantity());
+            preEvent.setNoAutofill(oldData.isNoAutofill());
+        }
         ChestShop.callEvent(preEvent);
 
         if (preEvent.isCancelled()) {
@@ -81,7 +90,6 @@ public class SignCreate implements Listener {
             return;
         }
 
-        Sign sign = (Sign) signBlock.getState();
         SignSide side = sign.getSide(event.getSide());
         for (byte i = 0; i < event.getLines().length; ++i) {
             event.setLine(i, preEvent.getSignLine(i));
