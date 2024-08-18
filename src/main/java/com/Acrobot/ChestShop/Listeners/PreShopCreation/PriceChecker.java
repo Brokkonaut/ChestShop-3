@@ -27,21 +27,26 @@ public class PriceChecker implements Listener {
             return;
         }
 
-        if (part.length > 1 && (part[0].contains("S") || part[1].contains("B"))) {
-            String temp = part[0];
-            part[0] = part[1];
-            part[1] = temp;
-        }
-
         String buyPriceString = null;
         String sellPriceString = null;
         if (part[0].contains("S")) {
             sellPriceString = part[0].replace("S", "").trim();
+            if (part.length > 1) {
+                buyPriceString = part[1].replace("B", "").trim();
+            }
         } else {
             buyPriceString = part[0].replace("B", "").trim();
             if (part.length > 1) {
                 sellPriceString = part[1].replace("S", "").trim();
             }
+        }
+
+        if (buyPriceString != null && buyPriceString.isEmpty()) {
+            buyPriceString = null;
+        }
+
+        if (sellPriceString != null && sellPriceString.isEmpty()) {
+            sellPriceString = null;
         }
 
         if (buyPriceString != null && !isPrice(buyPriceString)) {
@@ -56,7 +61,7 @@ public class PriceChecker implements Listener {
 
         if (buyPriceString != null && sellPriceString != null) {
             line = "B " + buyPriceString + " : " + sellPriceString + " S";
-            if (line.length() > 15) {
+            if (line.length() > 16) {
                 line = "B" + buyPriceString + " : " + sellPriceString + "S";
             }
         } else if (buyPriceString != null) {
@@ -68,19 +73,19 @@ public class PriceChecker implements Listener {
             return;
         }
 
-        if (line.length() > 15) {
+        if (line.length() > 16) {
             line = line.replace(" ", "");
         }
 
-        if (line.length() > 15) {
+        if (line.length() > 16) {
             event.setOutcome(INVALID_PRICE);
             return;
         }
 
-        event.setSignLine(PRICE_LINE, line);
-
         if (!PriceUtil.hasBuyPrice(line) && !PriceUtil.hasSellPrice(line)) {
             event.setOutcome(INVALID_PRICE);
         }
+
+        event.setSignLine(PRICE_LINE, line);
     }
 }
