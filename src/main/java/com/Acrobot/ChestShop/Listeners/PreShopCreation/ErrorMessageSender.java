@@ -24,8 +24,10 @@ public class ErrorMessageSender implements Listener {
                 message = Messages.INCORRECT_ITEM_ID;
                 break;
             case INVALID_PRICE:
+                message = Messages.INVALID_PRICE_LINE;
+                break;
             case INVALID_QUANTITY:
-                message = Messages.INVALID_SHOP_DETECTED;
+                message = Messages.INVALID_AMOUNT_LINE;
                 break;
             case SELL_PRICE_HIGHER_THAN_BUY_PRICE:
                 message = Messages.YOU_CANNOT_CREATE_SHOP;
@@ -47,6 +49,9 @@ public class ErrorMessageSender implements Listener {
                 break;
             case PLAYER_NOT_FOUND:
                 message = Messages.PLAYER_NOT_FOUND;
+                break;
+            case OTHER:
+                message = Messages.INVALID_SHOP_DETECTED;
                 break;
             default:
                 break;
