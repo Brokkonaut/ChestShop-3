@@ -30,33 +30,39 @@ public class PriceChecker implements Listener {
         String buyPriceString = null;
         String sellPriceString = null;
         if (part[0].contains("S")) {
-            sellPriceString = part[0].replace("S", "").trim();
+            sellPriceString = part[0].trim();
             if (part.length > 1) {
-                buyPriceString = part[1].replace("B", "").trim();
+                buyPriceString = part[1].trim();
             }
         } else {
-            buyPriceString = part[0].replace("B", "").trim();
+            buyPriceString = part[0].trim();
             if (part.length > 1) {
-                sellPriceString = part[1].replace("S", "").trim();
+                sellPriceString = part[1].trim();
             }
         }
 
-        if (buyPriceString != null && buyPriceString.isEmpty()) {
-            buyPriceString = null;
+        if (buyPriceString != null) {
+            if (buyPriceString.isEmpty()) {
+                buyPriceString = null;
+            } else {
+                buyPriceString = buyPriceString.replace("B", "").trim();
+                if (!isPrice(buyPriceString)) {
+                    event.setOutcome(INVALID_PRICE);
+                    return;
+                }
+            }
         }
 
-        if (sellPriceString != null && sellPriceString.isEmpty()) {
-            sellPriceString = null;
-        }
-
-        if (buyPriceString != null && !isPrice(buyPriceString)) {
-            event.setOutcome(INVALID_PRICE);
-            return;
-        }
-
-        if (sellPriceString != null && !isPrice(sellPriceString)) {
-            event.setOutcome(INVALID_PRICE);
-            return;
+        if (sellPriceString != null) {
+            if (sellPriceString.isEmpty()) {
+                sellPriceString = null;
+            } else {
+                sellPriceString = sellPriceString.replace("S", "").trim();
+                if (!isPrice(sellPriceString)) {
+                    event.setOutcome(INVALID_PRICE);
+                    return;
+                }
+            }
         }
 
         if (buyPriceString != null && sellPriceString != null) {
