@@ -63,6 +63,7 @@ public class Messages {
     @PrecededBySpace
     public static String AVAILABLE_ITEMS = "%amount items are available in this shop.";
     public static String AVAILABLE_SPACE = "There is free space for %amount items.";
+    public static String NO_PARTIAL_TRANSACTIONS = "This shop prohibits partial transactions.";
 
     @PrecededBySpace
     public static String RESTRICTED_SIGN_CREATED = "Sign successfully created!";

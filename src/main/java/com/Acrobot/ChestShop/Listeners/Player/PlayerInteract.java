@@ -186,6 +186,9 @@ public class PlayerInteract implements Listener {
                         int available = InventoryUtil.getAmount(item, inventory);
                         player.sendMessage("  " + Messages.AVAILABLE_ITEMS.replace("%amount", Integer.toString(available)));
                     }
+                    if (chestShopMetaData.isEnforceQuantity()) {
+                        player.sendMessage("  " + Messages.NO_PARTIAL_TRANSACTIONS);
+                    }
                 }
             }
         }
