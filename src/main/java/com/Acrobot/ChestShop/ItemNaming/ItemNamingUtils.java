@@ -80,7 +80,7 @@ public class ItemNamingUtils {
                 Entry<Enchantment, Integer> enchantmentAndLevel = enchants.entrySet().iterator().next();
                 Enchantment enchantment = enchantmentAndLevel.getKey();
                 int level = enchantmentAndLevel.getValue();
-                itemName = itemName + " " + StringUtil.capitalizeFirstLetter(EnchantmentNames.getName(enchantment)) + ((enchantment.getMaxLevel() > 1 || level != 1) ? (' ' + NumberUtil.toRoman(level)) : "");
+                itemName = itemName + " " + StringUtil.capitalizeFirstLetter(ChatColor.stripColor(EnchantmentNames.getName(enchantment))) + ((enchantment.getMaxLevel() > 1 || level != 1) ? (' ' + NumberUtil.toRoman(level)) : "");
                 extraShortener = CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER;
             } else {
                 itemName = itemName + " " + enchants.size() + " Enchantments";

@@ -34,6 +34,12 @@ public class StringUtil {
             if (ch == separator) {
                 builder.append(' ');
                 capitalizeNext = true;
+            } else if (ch == ChatColor.COLOR_CHAR && i < length - 1) {
+                builder.append(ch);
+                i++;
+                ch = string.charAt(i);
+                builder.append(ch);
+                // keep capitalizeNext unchanged
             } else if (capitalizeNext) {
                 builder.append(Character.toTitleCase(ch));
                 capitalizeNext = false;
