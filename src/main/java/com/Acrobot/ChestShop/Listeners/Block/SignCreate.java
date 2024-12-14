@@ -13,6 +13,7 @@ import com.Acrobot.ChestShop.Signs.ChestShopMetaData;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import java.util.UUID;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -123,8 +124,8 @@ public class SignCreate implements Listener {
             ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
             if (chestShopMetaData != null) {
                 ItemStack itemStack = chestShopMetaData.getItemStack();
-                String oldItemDisplayName = ItemNamingUtils.getSignItemName(itemStack);
-                if (oldItemDisplayName.equals(itemLine)) { // If thats true Sign got edited, but item stayed the same
+                String oldItemDisplayName = ChatColor.stripColor(ItemNamingUtils.getSignItemName(itemStack));
+                if (oldItemDisplayName.equals(ChatColor.stripColor(itemLine))) { // If thats true Sign got edited, but item stayed the same
                     return itemStack;
                 }
             }
