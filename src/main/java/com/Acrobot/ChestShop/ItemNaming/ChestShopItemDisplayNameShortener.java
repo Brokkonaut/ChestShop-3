@@ -10,6 +10,7 @@ public class ChestShopItemDisplayNameShortener extends PriorityItemDisplayNameSh
         addMapping(0, "Stripped", "Strip");
         addMapping(0, "Flowering", "Flower");
         addMapping(0, "Stained", "");
+        addMapping(0, "Bottle", "Bott");
 
         addMapping(5, "Yellow", "Yel");
         addMapping(5, "Blue", "Blu");

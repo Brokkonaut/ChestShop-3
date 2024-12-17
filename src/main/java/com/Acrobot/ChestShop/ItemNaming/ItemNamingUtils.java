@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
+import org.bukkit.inventory.meta.OminousBottleMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class ItemNamingUtils {
@@ -84,6 +85,10 @@ public class ItemNamingUtils {
                 extraShortener = CHEST_SHOP_ENCHANTED_BOOK_DISPLAY_NAME_SHORTENER;
             } else {
                 itemName = itemName + " " + enchants.size() + " Enchantments";
+            }
+        } else if (itemMeta instanceof OminousBottleMeta ominousBottleMeta) {
+            if (ominousBottleMeta.hasAmplifier()) {
+                itemName = itemName + " " + NumberUtil.toRoman(ominousBottleMeta.getAmplifier() + 1);
             }
         }
 
