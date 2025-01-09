@@ -6,9 +6,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
+import java.util.ArrayList;
 
 /**
  * @author Acrobot
@@ -62,15 +64,19 @@ public class InventoryUtil {
                 itemAmount += content.getAmount();
             } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
-                if (meta instanceof BlockStateMeta) {
-                    BlockStateMeta bsm = (BlockStateMeta) meta;
+                if (meta instanceof BlockStateMeta bsm) {
                     BlockState blockState = bsm.getBlockState();
-                    if (blockState instanceof ShulkerBox) {
-                        ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                    if (blockState instanceof ShulkerBox shulkerBox) {
                         for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
                             if (shulkerContent != null && item.isSimilar(shulkerContent)) {
                                 itemAmount += shulkerContent.getAmount();
                             }
+                        }
+                    }
+                } else if (meta instanceof BundleMeta bm) {
+                    for (ItemStack shulkerContent : bm.getItems()) {
+                        if (shulkerContent != null && item.isSimilar(shulkerContent)) {
+                            itemAmount += shulkerContent.getAmount();
                         }
                     }
                 }
@@ -145,17 +151,24 @@ public class InventoryUtil {
                 }
             } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
-                if (meta instanceof BlockStateMeta) {
-                    BlockStateMeta bsm = (BlockStateMeta) meta;
+                if (meta instanceof BlockStateMeta bsm) {
                     BlockState blockState = bsm.getBlockState();
-                    if (blockState instanceof ShulkerBox) {
-                        ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                    if (blockState instanceof ShulkerBox shulkerBox) {
                         for (ItemStack shulkerContent : shulkerBox.getSnapshotInventory().getStorageContents()) {
                             if (shulkerContent != null && item.isSimilar(shulkerContent)) {
                                 missingAmount -= shulkerContent.getAmount();
                                 if (missingAmount <= 0) {
                                     return true;
                                 }
+                            }
+                        }
+                    }
+                } else if (meta instanceof BundleMeta bm) {
+                    for (ItemStack shulkerContent : bm.getItems()) {
+                        if (shulkerContent != null && item.isSimilar(shulkerContent)) {
+                            missingAmount -= shulkerContent.getAmount();
+                            if (missingAmount <= 0) {
+                                return true;
                             }
                         }
                     }
@@ -517,11 +530,9 @@ public class InventoryUtil {
                 ItemStack content = contents[currentSlot];
                 if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
-                    if (meta instanceof BlockStateMeta) {
-                        BlockStateMeta bsm = (BlockStateMeta) meta;
+                    if (meta instanceof BlockStateMeta bsm) {
                         BlockState blockState = bsm.getBlockState();
-                        if (blockState instanceof ShulkerBox) {
-                            ShulkerBox shulkerBox = (ShulkerBox) blockState;
+                        if (blockState instanceof ShulkerBox shulkerBox) {
                             ItemStack[] shulkerContents = shulkerBox.getSnapshotInventory().getStorageContents();
                             int shulkerContentsLength = shulkerContents.length;
                             boolean shulkerContentChanged = false;
@@ -547,6 +558,37 @@ public class InventoryUtil {
                                 content.setItemMeta(meta);
                                 contentChanged = true;
                             }
+                        }
+                    } else if (meta instanceof BundleMeta bm) {
+                        ItemStack[] shulkerContents = bm.getItems().toArray(ItemStack[]::new);
+                        int shulkerContentsLength = shulkerContents.length;
+                        boolean shulkerContentChanged = false;
+                        for (int currentShulkerSlot = 0; currentShulkerSlot < shulkerContentsLength && left > 0; currentShulkerSlot++) {
+                            ItemStack shulkerContent = shulkerContents[currentShulkerSlot];
+                            if (shulkerContent != null && item.isSimilar(shulkerContent)) {
+                                int oldAmount = shulkerContent.getAmount();
+                                int removeHere = Math.min(left, oldAmount);
+                                left -= removeHere;
+                                if (removeHere < oldAmount) {
+                                    shulkerContent = new ItemStack(item);
+                                    shulkerContent.setAmount(oldAmount - removeHere);
+                                    shulkerContents[currentShulkerSlot] = shulkerContent;
+                                } else {
+                                    shulkerContents[currentShulkerSlot] = null;
+                                }
+                                shulkerContentChanged = true;
+                            }
+                        }
+                        if (shulkerContentChanged) {
+                            ArrayList<ItemStack> newContent = new ArrayList<>();
+                            for (ItemStack stack : shulkerContents) {
+                                if (stack != null) {
+                                    newContent.add(stack);
+                                }
+                            }
+                            bm.setItems(newContent);
+                            content.setItemMeta(meta);
+                            contentChanged = true;
                         }
                     }
                 }
