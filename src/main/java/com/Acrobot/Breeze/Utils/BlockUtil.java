@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -22,6 +23,7 @@ public class BlockUtil {
 
     private static HashSet<Material> SIGNS = new HashSet<>();
     private static HashSet<Material> SHULKER_BOXES = new HashSet<>();
+    private static HashSet<Material> BUNDLES = new HashSet<>();
     private static HashSet<Material> CONTAINERS = new HashSet<>();
     private static HashSet<Material> SIGN_EDIT_MATERIALS = new HashSet<>();
     private static HashMap<Material, DyeColor> DYE_MATERIAL_TO_COLOR = new HashMap<>();
@@ -32,23 +34,8 @@ public class BlockUtil {
             }
         }
 
-        SHULKER_BOXES.add(Material.SHULKER_BOX);
-        SHULKER_BOXES.add(Material.BLACK_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.BLUE_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.BROWN_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.CYAN_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.GRAY_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.GREEN_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.LIGHT_BLUE_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.LIGHT_GRAY_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.LIME_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.MAGENTA_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.ORANGE_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.PINK_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.PURPLE_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.RED_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.WHITE_SHULKER_BOX);
-        SHULKER_BOXES.add(Material.YELLOW_SHULKER_BOX);
+        SHULKER_BOXES.addAll(Tag.SHULKER_BOXES.getValues());
+        BUNDLES.addAll(Tag.ITEMS_BUNDLES.getValues());
 
         CONTAINERS.add(Material.CHEST);
         CONTAINERS.add(Material.TRAPPED_CHEST);
@@ -135,6 +122,28 @@ public class BlockUtil {
      */
     public static boolean isShulkerBox(Material type) {
         return SHULKER_BOXES.contains(type);
+    }
+
+    /**
+     * Checks if the material is a bundle
+     *
+     * @param type
+     *            Material to check
+     * @return Is this material a bundle?
+     */
+    public static boolean isBundle(Material type) {
+        return BUNDLES.contains(type);
+    }
+
+    /**
+     * Checks if the material is a shulker box or bundle
+     *
+     * @param type
+     *            Material to check
+     * @return Is this material a shulker box or bundle?
+     */
+    public static boolean isShulkerBoxOrBundle(Material type) {
+        return isShulkerBox(type) || isBundle(type);
     }
 
     /**

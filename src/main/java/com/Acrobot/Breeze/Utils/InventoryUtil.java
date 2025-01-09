@@ -62,7 +62,7 @@ public class InventoryUtil {
 
             if (item.isSimilar(content)) {
                 itemAmount += content.getAmount();
-            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBoxOrBundle(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta bsm) {
                     BlockState blockState = bsm.getBlockState();
@@ -149,7 +149,7 @@ public class InventoryUtil {
                 if (missingAmount <= 0) {
                     return true;
                 }
-            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+            } else if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == i) && content != null && BlockUtil.isShulkerBoxOrBundle(content.getType())) {
                 ItemMeta meta = content.getItemMeta();
                 if (meta instanceof BlockStateMeta bsm) {
                     BlockState blockState = bsm.getBlockState();
@@ -528,7 +528,7 @@ public class InventoryUtil {
         if (BlockUtil.canBeStoredInShulkerBox(item.getType())) {
             for (int currentSlot = 0; currentSlot < contentsLength && left > 0; currentSlot++) {
                 ItemStack content = contents[currentSlot];
-                if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBox(content.getType())) {
+                if ((requiredShulkerSlot == REQUIRED_SHULKER_SLOT_ANY || requiredShulkerSlot == currentSlot) && content != null && BlockUtil.isShulkerBoxOrBundle(content.getType())) {
                     ItemMeta meta = content.getItemMeta();
                     if (meta instanceof BlockStateMeta bsm) {
                         BlockState blockState = bsm.getBlockState();
