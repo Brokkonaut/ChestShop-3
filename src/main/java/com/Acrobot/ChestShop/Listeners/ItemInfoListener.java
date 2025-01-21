@@ -256,8 +256,7 @@ public class ItemInfoListener implements Listener {
             if (instrumentType == null) {
                 instrumentType = MusicInstrument.PONDER_GOAT_HORN;
             }
-            String instrument = StringUtil.capitalizeFirstLetter(instrumentType.getKey().getKey().replace("_goat_horn", ""));
-            sender.sendMessage("    " + ChatColor.GRAY + "Instrument: " + instrument);
+            sender.sendMessage(Component.text("    Instrument: ", NamedTextColor.GRAY).append(Component.translatable(instrumentType)));
         }
 
         if (meta != null && meta.hasLore() && !(meta instanceof BookMeta)) {
