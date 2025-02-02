@@ -9,6 +9,7 @@ import com.Acrobot.Breeze.Utils.FireworkEffectTypeNames;
 import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import java.util.List;
@@ -72,21 +73,27 @@ public class ItemInfoListener implements Listener {
             sender.sendMessage("    " + ChatColor.GRAY + "Name: " + meta.getDisplayName());
         }
 
-        int maxdurability = type.getMaxDurability();
-        if (maxdurability > 0 && meta instanceof Damageable) {
-            int remainingDurability = maxdurability - ((Damageable) meta).getDamage();
+        int maxdurability = 0;
+        if (item.isDataOverridden(DataComponentTypes.MAX_DAMAGE)) {
+            Integer maxDamage = item.getData(DataComponentTypes.MAX_DAMAGE);
+            if (maxDamage != null) {
+                maxdurability = maxDamage;
+            }
+        } else {
+            maxdurability = type.getMaxDurability();
+        }
+        if (maxdurability > 0 && meta instanceof Damageable damageable) {
+            int remainingDurability = maxdurability - damageable.getDamage();
             sender.sendMessage("    " + ChatColor.RED + "Durability: " + remainingDurability + "/" + maxdurability);
         }
 
-        if (meta instanceof Repairable) {
-            Repairable repairable = (Repairable) meta;
+        if (meta instanceof Repairable repairable) {
             if (repairable.hasRepairCost()) {
                 sender.sendMessage("    " + ChatColor.RED + "Additional Repair Cost: " + repairable.getRepairCost());
             }
         }
 
-        if (meta instanceof BookMeta) {
-            BookMeta book = (BookMeta) meta;
+        if (meta instanceof BookMeta book) {
             if (meta.hasDisplayName()) {
                 sender.sendMessage("    " + ChatColor.GRAY + "Title: " + meta.getDisplayName());
             } else if (book.hasTitle()) {
