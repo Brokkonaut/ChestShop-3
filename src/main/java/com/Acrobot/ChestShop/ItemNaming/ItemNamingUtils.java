@@ -6,9 +6,12 @@ import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
@@ -89,6 +92,12 @@ public class ItemNamingUtils {
         } else if (itemMeta instanceof OminousBottleMeta ominousBottleMeta) {
             if (ominousBottleMeta.hasAmplifier()) {
                 itemName = itemName + " " + NumberUtil.toRoman(ominousBottleMeta.getAmplifier() + 1);
+            }
+        }
+        if (itemStack.isDataOverridden(DataComponentTypes.ITEM_NAME)) {
+            Component customItemName = itemStack.getData(DataComponentTypes.ITEM_NAME);
+            if (customItemName != null) {
+                itemName = StringUtil.capitalizeFirstLetter(PlainTextComponentSerializer.plainText().serialize(customItemName));
             }
         }
 
