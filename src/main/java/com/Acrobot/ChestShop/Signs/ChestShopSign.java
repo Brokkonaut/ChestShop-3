@@ -4,10 +4,13 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.ItemNaming.ItemNamingUtils;
 import com.Acrobot.ChestShop.UUIDs.NameManager;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -138,8 +141,8 @@ public class ChestShopSign {
         UUID owner = chestShopMetaData.getOwner();
         String fullOwnerName = NameManager.getFullNameFor(owner);
 
-        sign.setLine(NAME_LINE, fullOwnerName);
-        sign.setLine(ITEM_LINE, ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack()));
+        sign.getSide(Side.FRONT).line(NAME_LINE, Component.text(fullOwnerName));
+        sign.getSide(Side.FRONT).line(ITEM_LINE, LegacyComponentSerializer.legacySection().deserialize(ItemNamingUtils.getSignItemName(chestShopMetaData.getItemStack())));
         sign.update();
         return true;
     }
@@ -210,20 +213,30 @@ public class ChestShopSign {
         }
     }
 
-    public static boolean isValidPreparedSign(String[] lines) {
+    public static boolean isValidPreparedSign(List<Component> line) {
         for (int i = 0; i < 3; i++) {
-            if (!isValidPreparedSignLine(i, lines[i])) {
+            if (!isValidPreparedSignLine(i, line.get(i))) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean isValidPreparedSignLine(int i, String line) {
-        if (i != ITEM_LINE && !SHOP_SIGN_PATTERN[i].matcher(line).matches()) {
+    public static boolean isValidPreparedSignLine(int i, Component lineComponent) {
+        if (i == ITEM_LINE) {
+            return true;
+        }
+        if (lineComponent.hasStyling() || !lineComponent.children().isEmpty()) {
             return false;
         }
-        return i != PRICE_LINE || line.indexOf(':') == line.lastIndexOf(':');
+        String line = PlainTextComponentSerializer.plainText().serialize(lineComponent);
+        if (!SHOP_SIGN_PATTERN[i].matcher(line).matches()) {
+            return false;
+        }
+        if (i == PRICE_LINE && line.indexOf(':') != line.lastIndexOf(':')) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isAdminshopLine(String ownerLine) {

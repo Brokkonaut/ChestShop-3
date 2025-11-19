@@ -6,17 +6,22 @@ import static com.Acrobot.ChestShop.Permission.ADMIN;
 import com.Acrobot.Breeze.Utils.BlockUtil;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import java.util.List;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import com.Acrobot.ChestShop.Permission;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Acrobot
@@ -40,7 +45,7 @@ public class RestrictedSign implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public static void onSignChange(SignChangeEvent event) {
-        String[] lines = event.getLines();
+        List<Component> lines = event.lines();
         Player player = event.getPlayer();
 
         if (isRestricted(lines)) {
@@ -115,20 +120,20 @@ public class RestrictedSign implements Listener {
 
     public static boolean isRestrictedShop(Sign sign) {
         Block blockUp = sign.getBlock().getRelative(BlockFace.UP);
-        return BlockUtil.isSign(blockUp) && isRestricted(((Sign) blockUp.getState()).getLines());
+        return BlockUtil.isSign(blockUp) && isRestricted(((Sign) blockUp.getState()).getSide(Side.FRONT).lines());
     }
 
-    public static boolean isRestricted(String[] lines) {
-        return lines[0].equalsIgnoreCase("[restricted]");
+    public static boolean isRestricted(@NotNull List<Component> list) {
+        return LegacyComponentSerializer.legacySection().serialize(list.get(0)).equalsIgnoreCase("[restricted]");
     }
 
     public static boolean isRestricted(Sign sign) {
-        return isRestricted(sign.getLines());
+        return isRestricted(sign.getSide(Side.FRONT).lines());
     }
 
     public static boolean canAccess(Sign sign, Player player) {
         Block blockUp = sign.getBlock().getRelative(BlockFace.UP);
-        return !BlockUtil.isSign(blockUp) || hasPermission(player, ((Sign) blockUp.getState()).getLines());
+        return !BlockUtil.isSign(blockUp) || hasPermission(player, ((Sign) blockUp.getState()).getSide(Side.FRONT).lines());
 
     }
 
@@ -146,13 +151,13 @@ public class RestrictedSign implements Listener {
         return BlockUtil.isSign(down) ? (Sign) down.getState() : null;
     }
 
-    public static boolean hasPermission(Player p, String[] lines) {
+    public static boolean hasPermission(Player p, @NotNull List<Component> lines) {
         if (Permission.has(p, ADMIN)) {
             return true;
         }
 
-        for (String line : lines) {
-            if (p.hasPermission(Permission.GROUP.toString() + line)) {
+        for (Component line : lines) {
+            if (p.hasPermission(Permission.GROUP.toString() + LegacyComponentSerializer.legacySection().serialize(line))) {
                 return true;
             }
         }

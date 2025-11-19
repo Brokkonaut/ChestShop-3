@@ -6,8 +6,12 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import java.util.ArrayList;
+import java.util.List;
+import net.kyori.adventure.text.Component;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,14 +48,14 @@ public class SetAmount implements CommandExecutor {
         }
 
         String newAmountLine = String.join(" ", args);
-        String[] line = sign.getLines();
-        line[ChestShopSign.QUANTITY_LINE] = newAmountLine;
+        List<Component> line = new ArrayList<>(sign.getSide(Side.FRONT).lines());
+        line.set(ChestShopSign.QUANTITY_LINE, Component.text(newAmountLine));
         if (!ChestShopSign.isValidPreparedSign(line)) {
             sender.sendMessage(Messages.INVALID_AMOUNT_LINE);
             return true;
         }
 
-        SignChangeEvent event = new SignChangeEvent(signBlock, player, line);
+        SignChangeEvent event = new SignChangeEvent(signBlock, player, line, Side.FRONT);
         ChestShop.getPlugin().getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             sender.sendMessage(Messages.SHOP_UPDATE_FAILED);

@@ -13,8 +13,12 @@ import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
 import com.google.common.collect.Lists;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,17 +35,26 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * @author Acrobot
  */
 public class SignBreak implements Listener {
-    private static final BlockFace[] SIGN_CONNECTION_FACES = { BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP };
-    private static final String METADATA_NAME = "shop_destroyer";
+    private final BlockFace[] SIGN_CONNECTION_FACES = { BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP };
+    private final HashMap<Location, UUID> signBreakers = new HashMap<>();
+
+    public SignBreak() {
+        ChestShop.getPlugin().getServer().getScheduler().runTaskTimer(ChestShop.getPlugin(), this::cleanup, 20, 20);
+    }
+
+    public void cleanup() {
+        if (!signBreakers.isEmpty()) {
+            signBreakers.clear();
+        }
+    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public static void onSign(BlockPhysicsEvent event) {
+    public void onSign(BlockPhysicsEvent event) {
         Block block = event.getBlock();
 
         if (!BlockUtil.isSign(block)) {
@@ -52,30 +65,34 @@ public class SignBreak implements Listener {
         Block attachedBlock = BlockUtil.getAttachedBlock(sign);
 
         if (attachedBlock.getType() == Material.AIR && ChestShopSign.isChestShop(sign)) {
-            if (!block.hasMetadata(METADATA_NAME)) {
+            UUID breaker = signBreakers.remove(block.getLocation());
+            if (breaker == null) {
                 return;
             }
-
-            sendShopDestroyedEvent(sign, (Player) block.getMetadata(METADATA_NAME).get(0).value());
+            Player player = Bukkit.getPlayer(breaker);
+            if (player == null) {
+                return;
+            }
+            sendShopDestroyedEvent(sign, player);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
-    public static void onSignBreak(BlockBreakEvent event) {
+    public void onSignBreak(BlockBreakEvent event) {
         if (!canBlockBeBroken(event.getBlock(), event.getPlayer())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public static void onBrokenSign(BlockBreakEvent event) {
+    public void onBrokenSign(BlockBreakEvent event) {
         if (ChestShopSign.isChestShop(event.getBlock())) {
             sendShopDestroyedEvent((Sign) event.getBlock().getState(), event.getPlayer());
         }
     }
 
     @EventHandler(ignoreCancelled = true)
-    public static void onBlockPistonExtend(BlockPistonExtendEvent event) {
+    public void onBlockPistonExtend(BlockPistonExtendEvent event) {
         for (Block block : event.getBlocks()) {
             if (!canBlockBeBroken(block, null)) {
                 event.setCancelled(true);
@@ -85,7 +102,7 @@ public class SignBreak implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public static void onBlockPistonRetract(BlockPistonRetractEvent event) {
+    public void onBlockPistonRetract(BlockPistonRetractEvent event) {
         for (Block block : event.getBlocks()) {
             if (!canBlockBeBroken(block, null)) {
                 event.setCancelled(true);
@@ -95,7 +112,7 @@ public class SignBreak implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public static void onExplosion(EntityExplodeEvent event) {
+    public void onExplosion(EntityExplodeEvent event) {
         if (event.blockList() == null || !Properties.USE_BUILT_IN_PROTECTION) {
             return;
         }
@@ -109,13 +126,13 @@ public class SignBreak implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public static void onIgnite(BlockBurnEvent event) {
+    public void onIgnite(BlockBurnEvent event) {
         if (!canBlockBeBroken(event.getBlock(), null)) {
             event.setCancelled(true);
         }
     }
 
-    public static boolean canBlockBeBroken(Block block, Player breaker) {
+    public boolean canBlockBeBroken(Block block, Player breaker) {
         List<Sign> attachedSigns = getAttachedSigns(block);
         List<Sign> brokenBlocks = new LinkedList<Sign>();
 
@@ -139,21 +156,21 @@ public class SignBreak implements Listener {
         }
 
         for (Sign sign : brokenBlocks) {
-            sign.setMetadata(METADATA_NAME, new FixedMetadataValue(ChestShop.getPlugin(), breaker));
+            signBreakers.put(sign.getLocation(), breaker.getUniqueId());
         }
 
         return true;
     }
 
-    private static boolean canDestroyShop(Player player, Sign sign) {
+    private boolean canDestroyShop(Player player, Sign sign) {
         return player != null && (hasShopBreakingPermission(player) || ChestShopSign.isOwner(player, sign));
     }
 
-    private static boolean hasShopBreakingPermission(Player player) {
+    private boolean hasShopBreakingPermission(Player player) {
         return Permission.has(player, ADMIN) || Permission.has(player, MOD);
     }
 
-    private static void sendShopDestroyedEvent(Sign sign, Player player) {
+    private void sendShopDestroyedEvent(Sign sign, Player player) {
         Container connectedChest = null;
 
         ChestShopMetaData chestShopMetaData = ChestShopSign.getChestShopMetaData(sign);
@@ -165,7 +182,7 @@ public class SignBreak implements Listener {
         ChestShop.callEvent(event);
     }
 
-    private static List<Sign> getAttachedSigns(Block block) {
+    private List<Sign> getAttachedSigns(Block block) {
         if (block == null) {
             return Lists.newArrayList();
         }

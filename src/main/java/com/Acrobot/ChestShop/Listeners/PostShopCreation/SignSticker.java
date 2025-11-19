@@ -5,12 +5,14 @@ import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Events.ShopCreatedEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import com.Acrobot.ChestShop.Utils.uBlock;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -79,7 +81,7 @@ public class SignSticker implements Listener {
         Sign sign = (Sign) signBlock.getState();
 
         for (int i = 0; i < lines.length; ++i) {
-            sign.setLine(i, lines[i]);
+            sign.getSide(Side.FRONT).line(i, LegacyComponentSerializer.legacySection().deserialize(lines[i]));
         }
 
         sign.update(true);
