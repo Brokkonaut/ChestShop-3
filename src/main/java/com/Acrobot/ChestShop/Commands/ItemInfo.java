@@ -58,20 +58,14 @@ public class ItemInfo implements CommandExecutor {
             // so we can do the player a favor and translate the item name to their Language.
             tc.addExtra(new TranslatableComponent(item.translationKey()));
             if (item.getType() == Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE) {
-                // "item.minecraft.netherite_upgrade_smithing_template": "Smithing Template",
-                // "upgrade.minecraft.netherite_upgrade": "Netherite Upgrade"
                 tc.addExtra(" ");
-                tc.addExtra(new TranslatableComponent("upgrade.minecraft.netherite_upgrade"));
+                tc.addExtra(new TranslatableComponent("item.minecraft.smithing_template"));
             } else if (typeName.endsWith("_SMITHING_TEMPLATE")) {
-                // "item.minecraft.bolt_armor_trim_smithing_template": "Smithing Template",
-                // "trim_pattern.minecraft.bolt": "Bolt Armor Trim",
-                String key = item.getType().getItemTranslationKey();
-                key = key.replace("item.minecraft.", "").replace("_armor_trim_smithing_template", "");
                 tc.addExtra(" ");
-                tc.addExtra(new TranslatableComponent("trim_pattern.minecraft." + key));
-            } else if (typeName.startsWith("MUSIC_DISC_") || typeName.endsWith("_BANNER_PATTERN")) {
+                tc.addExtra(new TranslatableComponent("item.minecraft.smithing_template"));
+            } else if (typeName.startsWith("MUSIC_DISC_")) {
                 tc.addExtra(" ");
-                tc.addExtra(new TranslatableComponent(item.getType().translationKey() + ".desc"));
+                tc.addExtra(new TranslatableComponent(item.getType().translationKey().replace("item.minecraft.music_disc_", "jukebox_song.minecraft.")));
             }
         } else {
             tc.addExtra(new TextComponent(fullName));
