@@ -7,6 +7,8 @@ import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationItemDisplayNameEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,7 +18,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -69,7 +70,7 @@ public class ItemNamingUtils {
             if (instrumentType == null) {
                 instrumentType = MusicInstrument.PONDER_GOAT_HORN;
             }
-            NamespacedKey instrumentKey = Registry.INSTRUMENT.getKey(instrumentType);
+            NamespacedKey instrumentKey = RegistryAccess.registryAccess().getRegistry(RegistryKey.INSTRUMENT).getKey(instrumentType);
             String instrument = instrumentKey == null ? "(unknown instrument)" : StringUtil.capitalizeFirstLetter(instrumentKey.getKey().replace("_goat_horn", ""));
             itemName = itemName + " " + instrument;
         } else if (itemMeta instanceof PotionMeta potionMeta) {

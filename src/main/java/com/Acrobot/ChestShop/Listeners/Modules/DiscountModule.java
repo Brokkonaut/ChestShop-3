@@ -5,6 +5,7 @@ import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Containers.AdminInventory;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Permission;
+import org.bukkit.block.sign.Side;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,9 @@ import org.bukkit.event.Listener;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import static com.Acrobot.ChestShop.Events.TransactionEvent.TransactionType.BUY;
 import static com.Acrobot.ChestShop.Signs.ChestShopSign.PRICE_LINE;
@@ -28,8 +31,8 @@ public class DiscountModule implements Listener {
     public DiscountModule() {
         config = YamlConfiguration.loadConfiguration(ChestShop.loadFile("discounts.yml"));
 
-        config.options().header("This file is for discount management. You are able to do that:\n" + "group1: 75\n" + "That means that the person with ChestShop.discount.group1 permission will pay only 75% of the price. \n"
-                + "For example, if the price is 100 dollars, the player pays only 75 dollars.\n" + "(Only works in buy-only Admin Shops!)");
+        config.options().setHeader(List.of("This file is for discount management. You are able to do that:", "group1: 75", "That means that the person with ChestShop.discount.group1 permission will pay only 75% of the price. ",
+                "For example, if the price is 100 dollars, the player pays only 75 dollars.", "(Only works in buy-only Admin Shops!)"));
 
         try {
             config.save(ChestShop.loadFile("discounts.yml"));
@@ -48,7 +51,7 @@ public class DiscountModule implements Listener {
 
         Player client = event.getClient();
 
-        if (!PriceUtil.hasBuyPrice(event.getSign().getLine(PRICE_LINE))) {
+        if (!PriceUtil.hasBuyPrice(LegacyComponentSerializer.legacySection().serialize(event.getSign().getSide(Side.FRONT).line(PRICE_LINE)))) {
             return;
         }
 

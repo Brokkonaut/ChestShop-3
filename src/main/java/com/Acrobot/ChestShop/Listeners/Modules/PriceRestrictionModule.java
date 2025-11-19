@@ -9,6 +9,7 @@ import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent.CreationOutcome;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +27,7 @@ public class PriceRestrictionModule implements Listener {
 
         configuration = YamlConfiguration.loadConfiguration(file);
 
-        configuration.options().header("In this file you can configure maximum and minimum prices for items (when creating a shop).");
+        configuration.options().setHeader(List.of("In this file you can configure maximum and minimum prices for items (when creating a shop)."));
 
         if (!file.exists()) {
             configuration.addDefault("max.buy_price.itemID", 5.53);

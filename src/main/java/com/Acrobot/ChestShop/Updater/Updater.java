@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -176,8 +177,8 @@ public class Updater {
         final File updaterFile = new File(pluginFile, "Updater");
         final File updaterConfigFile = new File(updaterFile, "config.yml");
 
-        this.config.options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n' + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below." + '\n'
-                + "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration.");
+        this.config.options().setHeader(List.of("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n' + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below.",
+                "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration."));
         this.config.addDefault("api-key", "PUT_API_KEY_HERE");
         this.config.addDefault("disable", false);
 
@@ -471,7 +472,7 @@ public class Updater {
      */
     private boolean versionCheck(String title) {
         if (this.type != UpdateType.NO_VERSION_CHECK) {
-            final String localVersion = this.plugin.getDescription().getVersion();
+            final String localVersion = this.plugin.getPluginMeta().getVersion();
             if (title.split(delimiter).length == 2) {
                 final String remoteVersion = title.split(delimiter)[1].split(" ")[0]; // Get the newest file's version number
 

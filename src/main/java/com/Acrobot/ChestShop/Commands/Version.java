@@ -4,8 +4,9 @@ import com.Acrobot.Breeze.Configuration.Configuration;
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
 import com.Acrobot.ChestShop.Configuration.Properties;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import com.Acrobot.ChestShop.Permission;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,11 +26,11 @@ public class Version implements CommandExecutor {
             Configuration.pairFileAndClass(ChestShop.loadFile("config.yml"), Properties.class);
             Configuration.pairFileAndClass(ChestShop.loadFile("local.yml"), Messages.class);
 
-            sender.sendMessage(ChatColor.DARK_GREEN + "The config was reloaded.");
+            sender.sendMessage(Component.text("The config was reloaded.", NamedTextColor.DARK_GREEN));
             return true;
         }
 
-        sender.sendMessage(ChatColor.GRAY + ChestShop.getPluginName() + "'s version is: " + ChatColor.GREEN + ChestShop.getVersion());
+        sender.sendMessage(Component.text(ChestShop.getPluginName() + "'s version is: ", NamedTextColor.GRAY).append(Component.text(ChestShop.getVersion(), NamedTextColor.GREEN)));
         return true;
     }
 }
