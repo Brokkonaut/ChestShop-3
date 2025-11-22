@@ -10,6 +10,7 @@ import com.Acrobot.Breeze.Utils.PotionNames;
 import com.Acrobot.Breeze.Utils.StringUtil;
 import com.Acrobot.ChestShop.Events.ItemInfoEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.BlockItemDataProperties;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.block.DecoratedPot;
 import org.bukkit.block.DecoratedPot.Side;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -283,6 +285,16 @@ public class ItemInfoListener implements Listener {
         if (meta instanceof OminousBottleMeta ominousBottleMeta) {
             int amplifier = (ominousBottleMeta.hasAmplifier() ? ominousBottleMeta.getAmplifier() : 0) + 1;
             sender.sendMessage("    " + ChatColor.GRAY + "Bad Omen" + ((amplifier > 1) ? (' ' + toRoman(amplifier)) : ""));
+        }
+
+        if (item.isDataOverridden(DataComponentTypes.BLOCK_DATA) && item.getType().isBlock()) {
+            BlockItemDataProperties dataProperties = item.getData(DataComponentTypes.BLOCK_DATA);
+            BlockData blockData = dataProperties.createBlockData(item.getType().asBlockType());
+            if (blockData instanceof org.bukkit.block.data.type.CopperGolemStatue statue) {
+                Component c = Component.text("    ").color(NamedTextColor.GRAY);
+                c = c.append(Component.text("Pose: " + StringUtil.capitalizeFirstLetter(statue.getCopperGolemPose().name(), '_')));
+                sender.sendMessage(c);
+            }
         }
     }
 
