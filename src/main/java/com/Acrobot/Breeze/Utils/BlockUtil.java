@@ -41,6 +41,10 @@ public class BlockUtil {
         CONTAINERS.add(Material.TRAPPED_CHEST);
         CONTAINERS.add(Material.BARREL);
         CONTAINERS.addAll(SHULKER_BOXES);
+        CONTAINERS.addAll(Tag.COPPER_CHESTS.getValues());
+        CONTAINERS.add(Material.DROPPER);
+        CONTAINERS.add(Material.DISPENSER);
+        CONTAINERS.add(Material.HOPPER);
 
         SIGN_EDIT_MATERIALS.add(Material.HONEYCOMB);
         SIGN_EDIT_MATERIALS.add(Material.INK_SAC);
