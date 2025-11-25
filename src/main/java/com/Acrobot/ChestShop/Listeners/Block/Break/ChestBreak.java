@@ -5,6 +5,8 @@ import com.Acrobot.ChestShop.Configuration.Properties;
 import com.Acrobot.ChestShop.Listeners.Player.PlayerInteract;
 import com.Acrobot.ChestShop.Plugins.ChestShop;
 import com.Acrobot.ChestShop.Utils.uBlock;
+import java.util.Iterator;
+import org.bukkit.ExplosionResult;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,13 +27,15 @@ public class ChestBreak implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public static void onExplosion(EntityExplodeEvent event) {
-        if (event.blockList() == null || !Properties.USE_BUILT_IN_PROTECTION) {
+        if (event.blockList() == null || !Properties.USE_BUILT_IN_PROTECTION || event.getExplosionResult() == ExplosionResult.KEEP || event.getExplosionResult() == ExplosionResult.TRIGGER_BLOCK) {
             return;
         }
 
-        for (Block block : event.blockList()) {
+        Iterator<Block> it = event.blockList().iterator();
+        while (it.hasNext()) {
+            Block block = it.next();
             if (!canChestBeBroken(block, null)) {
-                event.setCancelled(true);
+                it.remove();
                 return;
             }
         }

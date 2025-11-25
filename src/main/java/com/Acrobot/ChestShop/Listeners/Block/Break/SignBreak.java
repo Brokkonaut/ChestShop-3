@@ -14,10 +14,12 @@ import com.Acrobot.ChestShop.Utils.uBlock;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.ExplosionResult;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -113,13 +115,15 @@ public class SignBreak implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onExplosion(EntityExplodeEvent event) {
-        if (event.blockList() == null || !Properties.USE_BUILT_IN_PROTECTION) {
+        if (event.blockList() == null || !Properties.USE_BUILT_IN_PROTECTION || event.getExplosionResult() == ExplosionResult.KEEP || event.getExplosionResult() == ExplosionResult.TRIGGER_BLOCK) {
             return;
         }
 
-        for (Block block : event.blockList()) {
+        Iterator<Block> it = event.blockList().iterator();
+        while (it.hasNext()) {
+            Block block = it.next();
             if (!canBlockBeBroken(block, null)) {
-                event.setCancelled(true);
+                it.remove();
                 return;
             }
         }
