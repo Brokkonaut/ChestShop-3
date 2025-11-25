@@ -178,11 +178,11 @@ public class PlayerInteract implements Listener {
 
                     player.sendMessage(Messages.prefix(Messages.SHOP_INFO));
                     Inventory inventory = chest.getInventory();
-                    if (chestShopMetaData.doesSell()) {
+                    if (chestShopMetaData.doesSell() || chestShopMetaData.canAccess(player)) {
                         int free = InventoryUtil.getFreeSpace(item, inventory);
                         player.sendMessage("  " + Messages.AVAILABLE_SPACE.replace("%amount", Integer.toString(free)));
                     }
-                    if (chestShopMetaData.doesBuy()) {
+                    if (chestShopMetaData.doesBuy() || chestShopMetaData.canAccess(player)) {
                         int available = InventoryUtil.getAmount(item, inventory);
                         player.sendMessage("  " + Messages.AVAILABLE_ITEMS.replace("%amount", Integer.toString(available)));
                     }
