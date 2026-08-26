@@ -197,11 +197,21 @@ public class ItemInfoListener implements Listener {
 
         if (meta instanceof TropicalFishBucketMeta) {
             TropicalFishBucketMeta tropicalFishBucketMeta = (TropicalFishBucketMeta) meta;
-            if (tropicalFishBucketMeta.hasVariant()) {
-                String pattern = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPattern()), '_');
-                String basecolor = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getBodyColor()), '_');
-                String patterncolor = capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPatternColor()), '_');
-                sender.sendMessage("    " + ChatColor.GRAY + "Variant: " + pattern + " " + basecolor + "/" + patterncolor);
+            boolean hasPattern = tropicalFishBucketMeta.hasPattern();
+            boolean hasBodyColor = tropicalFishBucketMeta.hasBodyColor();
+            boolean hasPatternColor = tropicalFishBucketMeta.hasPatternColor();
+            if (hasPattern || hasBodyColor || hasPatternColor) {
+                String message = "Variant:";
+                if (hasPattern) {
+                    message = message + " " + capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPattern()), '_');
+                }
+                if (hasBodyColor) {
+                    message = message + " " + capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getBodyColor()), '_');
+                }
+                if (hasPatternColor) {
+                    message = message + (hasBodyColor ? "/" : " ") + capitalizeFirstLetter(Objects.toString(tropicalFishBucketMeta.getPatternColor()), '_');
+                }
+                sender.sendMessage("    " + ChatColor.GRAY + message);
             }
         }
 
