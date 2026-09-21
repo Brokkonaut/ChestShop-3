@@ -70,7 +70,7 @@ public class SignCreate implements Listener {
         ItemStack itemStack = getItemStack(event.line(ChestShopSign.ITEM_LINE), (Sign) event.getBlock().getState());
         if (itemStack == null || itemStack.isEmpty()) {
             if (wasChestShop) {
-                ChestShopSign.removeChestShopMetaData(signBlock, true);
+                event.setCancelled(true);
             }
             return;
         }
@@ -125,6 +125,15 @@ public class SignCreate implements Listener {
         double buyPrice = PriceUtil.getBuyPrice(priceLine);
 
         return new ChestShopMetaData(shopOwnerId, quantity, enforceQuantity, sellPrice, buyPrice, itemStack, noAutofill);
+    }
+
+    public static boolean isValidItemLine(Component lineComponent, Sign sign) {
+        if (lineComponent == null || sign == null) {
+            return false;
+        }
+
+        ItemStack itemStack = getItemStack(lineComponent, sign);
+        return itemStack != null && !itemStack.isEmpty();
     }
 
     private static ItemStack getItemStack(Component lineComponent, Sign sign) {

@@ -4,6 +4,7 @@ import static com.Acrobot.ChestShop.Permission.ADMIN;
 
 import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Configuration.Messages;
+import com.Acrobot.ChestShop.Listeners.Block.SignCreate;
 import com.Acrobot.ChestShop.Permission;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import java.util.ArrayList;
@@ -58,7 +59,11 @@ public class SetItem implements CommandExecutor {
         SignChangeEvent event = new SignChangeEvent(signBlock, player, line, Side.FRONT);
         ChestShop.getPlugin().getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
-            sender.sendMessage(Messages.SHOP_UPDATE_FAILED);
+            if (!SignCreate.isValidItemLine(event.line(ChestShopSign.ITEM_LINE), sign)) {
+                sender.sendMessage(Messages.INVALID_ITEM_LINE);
+            } else {
+                sender.sendMessage(Messages.SHOP_UPDATE_FAILED);
+            }
             return true;
         }
         return true;
